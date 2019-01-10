@@ -14,7 +14,7 @@ function isPushSupported () {
   return 'serviceWorker' in navigator && 'PushManager' in window
 }
 
-function getOrCreateServiceWorker () {
+export function getOrCreateServiceWorker () {
   return runtime.register()
     .catch((err) => console.error('Unable to get or create a service worker.', err))
 }

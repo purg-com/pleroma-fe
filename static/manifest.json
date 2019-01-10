@@ -1,0 +1,25 @@
+{
+    "short_name": "Pleroma",
+    "name": "Pleroma Frontend",
+    "icons": [
+	{
+            "src": "/static/logo.png",
+            "type": "image/png",
+            "sizes": "38x50"
+        },
+	{
+	    "src": "/static/home-icon.png",
+	    "type": "image/png",
+	    "sizes": "192x192"
+	},
+	{
+	    "src": "/static/splash-icon.png",
+	    "type": "image/png",
+	    "sizes": "512x512"
+	}
+    ],
+    "start_url": "/main/all",
+    "background_color": "#121a24",
+    "theme_color": "#121a24",
+    "display": "standalone"
+}
