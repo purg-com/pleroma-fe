@@ -1,5 +1,4 @@
 /* eslint-env serviceworker */
-/* global fetch */
 
 import localForage from 'localforage'
 
@@ -39,9 +38,5 @@ self.addEventListener('notificationclick', (event) => {
 })
 
 self.addEventListener('fetch', (event) => {
-  event.respondWith(fetch(event.request, {
-    headers: {
-      'Content-Security-Policy': 'connect-src *;'
-    }
-  }))
+  return
 })
