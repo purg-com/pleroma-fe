@@ -3,11 +3,6 @@
     "name": "Pleroma Frontend",
     "icons": [
 	{
-            "src": "/static/logo.png",
-            "type": "image/png",
-            "sizes": "38x50"
-        },
-	{
 	    "src": "/static/home-icon.png",
 	    "type": "image/png",
 	    "sizes": "192x192"
@@ -18,7 +13,7 @@
 	    "sizes": "512x512"
 	}
     ],
-    "start_url": "/main/all",
+    "start_url": "/",
     "background_color": "#121a24",
     "theme_color": "#121a24",
     "display": "standalone"
