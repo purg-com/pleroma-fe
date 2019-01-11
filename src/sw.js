@@ -37,6 +37,4 @@ self.addEventListener('notificationclick', (event) => {
   }))
 })
 
-self.addEventListener('fetch', (event) => {
-  return
-})
+self.addEventListener('fetch', _ => _)
