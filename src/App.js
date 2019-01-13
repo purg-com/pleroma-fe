@@ -8,6 +8,7 @@ import WhoToFollowPanel from './components/who_to_follow_panel/who_to_follow_pan
 import ChatPanel from './components/chat_panel/chat_panel.vue'
 import SideDrawer from './components/side_drawer/side_drawer.vue'
 import { unseenNotificationsFromStore } from './services/notification_utils/notification_utils'
+import { getOrCreateServiceWorker } from './services/push/push'
 
 export default {
   name: 'app',
@@ -36,6 +37,7 @@ export default {
   created () {
     // Load the locale from the storage
     this.$i18n.locale = this.$store.state.config.interfaceLanguage
+    getOrCreateServiceWorker()
   },
   computed: {
     currentUser () { return this.$store.state.users.currentUser },

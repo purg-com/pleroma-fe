@@ -36,3 +36,5 @@ self.addEventListener('notificationclick', (event) => {
     if (clients.openWindow) return clients.openWindow('/')
   }))
 })
+
+self.addEventListener('fetch', _ => _)
