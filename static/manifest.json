@@ -3,12 +3,12 @@
     "name": "Pleroma Frontend",
     "icons": [
 	{
-	    "src": "/static/home-icon.png",
+	    "src": "/static/icons/home-icon.png",
 	    "type": "image/png",
 	    "sizes": "192x192"
 	},
 	{
-	    "src": "/static/splash-icon.png",
+	    "src": "/static/icons/splash-icon.png",
 	    "type": "image/png",
 	    "sizes": "512x512"
 	}
