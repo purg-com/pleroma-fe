@@ -15,8 +15,10 @@ function isPushSupported () {
 }
 
 export function getOrCreateServiceWorker () {
-  return runtime.register()
-    .catch((err) => console.error('Unable to get or create a service worker.', err))
+  if (isPushSupported()) {
+    return runtime.register()
+      .catch((err) => console.error('Unable to get or create a service worker.', err))
+  }
 }
 
 function subscribePush (registration, isEnabled, vapidPublicKey) {
