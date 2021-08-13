@@ -82,6 +82,35 @@ const showPushNotification = async (event) => {
   return Promise.resolve()
 }
 
+const shouldCache = process.env.NODE_ENV === 'production'
+const cacheKey = 'pleroma-fe'
+const cacheFiles = self.serviceWorkerOption.assets
+
+self.addEventListener('install', async (event) => {
+  if (shouldCache) {
+    event.waitUntil((async () => {
+      const cache = await caches.open(cacheKey)
+      await cache.addAll(cacheFiles)
+    })())
+  }
+})
+
+self.addEventListener('activate', async (event) => {
+  if (shouldCache) {
+    event.waitUntil((async () => {
+      const cache = await caches.open(cacheKey)
+      const keys = await cache.keys()
+      await Promise.all(
+        keys.filter(request => {
+          const url = new URL(request.url)
+          const shouldKeep = cacheFiles.includes(url.pathname)
+          return !shouldKeep
+        }).map(k => cache.delete(k))
+      )
+    })())
+  }
+})
+
 self.addEventListener('push', async (event) => {
   if (event.data) {
     // Supposedly, we HAVE to return a promise inside waitUntil otherwise it will
@@ -140,4 +169,16 @@ self.addEventListener('notificationclick', (event) => {
   }))
 })
 
-self.addEventListener('fetch', _ => _)
+self.addEventListener('fetch', async (event) => {
+  if (shouldCache) {
+    event.respondWith((async () => {
+      const r = await caches.match(event.request)
+      console.log(`[Service Worker] Fetching resource: ${event.request.url}`)
+      if (r) {
+        return r
+      }
+      const response = await fetch(event.request)
+      return response
+    })())
+  }
+})
