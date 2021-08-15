@@ -85,6 +85,16 @@ const showPushNotification = async (event) => {
 const shouldCache = process.env.NODE_ENV === 'production'
 const cacheKey = 'pleroma-fe'
 const cacheFiles = self.serviceWorkerOption.assets
+const emojiCacheKey = 'pleroma-fe-emoji'
+const isEmoji = req => {
+  console.log('req.method=', req.method)
+  if (req.method !== 'GET') {
+    return false
+  }
+  const url = new URL(req.url)
+  console.log('pathname=', url.pathname)
+  return url.pathname.startsWith('/emoji/')
+}
 
 self.addEventListener('install', async (event) => {
   if (shouldCache) {
@@ -177,7 +187,13 @@ self.addEventListener('fetch', async (event) => {
       if (r) {
         return r
       }
+
       const response = await fetch(event.request)
+      if (response.ok && isEmoji(event.request)) {
+        console.log(`[Service Worker] Caching emoji ${event.request.url}`)
+        const cache = await caches.open(emojiCacheKey)
+        await cache.put(event.request.clone(), response.clone())
+      }
       return response
     })())
   }
