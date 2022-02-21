@@ -14,6 +14,7 @@ import EditStatusModal from './components/edit_status_modal/edit_status_modal.vu
 import PostStatusModal from './components/post_status_modal/post_status_modal.vue'
 import StatusHistoryModal from './components/status_history_modal/status_history_modal.vue'
 import GlobalNoticeList from './components/global_notice_list/global_notice_list.vue'
+import { getOrCreateServiceWorker } from './services/push/push'
 import { windowWidth, windowHeight } from './services/window_utils/window_utils'
 import { mapGetters } from 'vuex'
 import { defineAsyncComponent } from 'vue'
@@ -49,6 +50,7 @@ export default {
     const val = this.$store.getters.mergedConfig.interfaceLanguage
     this.$store.dispatch('setOption', { name: 'interfaceLanguage', value: val })
     window.addEventListener('resize', this.updateMobileState)
+    getOrCreateServiceWorker()
   },
   unmounted () {
     window.removeEventListener('resize', this.updateMobileState)

@@ -146,3 +146,5 @@ export function unregisterPushNotifications (token) {
     ]).catch((e) => console.warn(`Failed to disable Web Push Notifications: ${e.message}`))
   }
 }
+
+export { getOrCreateServiceWorker }
