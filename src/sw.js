@@ -87,12 +87,11 @@ const cacheKey = 'pleroma-fe'
 const cacheFiles = self.serviceWorkerOption.assets
 const emojiCacheKey = 'pleroma-fe-emoji'
 const isEmoji = req => {
-  console.log('req.method=', req.method)
   if (req.method !== 'GET') {
     return false
   }
   const url = new URL(req.url)
-  console.log('pathname=', url.pathname)
+
   return url.pathname.startsWith('/emoji/')
 }
 
@@ -180,14 +179,12 @@ self.addEventListener('notificationclick', (event) => {
 })
 
 self.addEventListener('fetch', (event) => {
-  console.log(`[Service Worker] Got: ${event.request.url}`)
-  console.debug(event.request)
   // Do not mess up with remote things
   const isSameOrigin = (new URL(event.request.url)).origin === self.location.origin
   if (shouldCache && event.request.method === 'GET' && isSameOrigin) {
     event.respondWith((async () => {
       const r = await caches.match(event.request)
-      console.log(`[Service Worker] Fetching resource: ${event.request.url}`)
+
       if (r) {
         return r
       }
@@ -195,13 +192,11 @@ self.addEventListener('fetch', (event) => {
       try {
         const response = await fetch(event.request)
         if (response.ok && isEmoji(event.request)) {
-          console.log(`[Service Worker] Caching emoji ${event.request.url}`)
           const cache = await caches.open(emojiCacheKey)
           await cache.put(event.request.clone(), response.clone())
         }
         return response
       } catch (e) {
-        console.log('error:', e)
         throw e
       }
     })())
