@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { WSConnectionStatus } from '../../services/api/api.service.js'
 import { mapGetters, mapState } from 'vuex'
+import { mapState as mapPiniaState } from 'pinia'
 import ChatMessage from '../chat_message/chat_message.vue'
 import PostStatusForm from '../post_status_form/post_status_form.vue'
 import ChatTitle from '../chat_title/chat_title.vue'
@@ -13,6 +14,7 @@ import {
   faChevronLeft
 } from '@fortawesome/free-solid-svg-icons'
 import { buildFakeMessage } from '../../services/chat_utils/chat_utils.js'
+import { useInterfaceStore } from '../../stores/interface.js'
 
 library.add(
   faChevronDown,
@@ -90,10 +92,12 @@ const Chat = {
       'findOpenedChatByRecipientId',
       'mergedConfig'
     ]),
+    ...mapPiniaState(useInterfaceStore, {
+      mobileLayout: store => store.layoutType === 'mobile'
+    }),
     ...mapState({
       backendInteractor: state => state.api.backendInteractor,
       mastoUserSocketStatus: state => state.api.mastoUserSocketStatus,
-      mobileLayout: state => state.interface.layoutType === 'mobile',
       currentUser: state => state.users.currentUser
     })
   },

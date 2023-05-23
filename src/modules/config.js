@@ -2,6 +2,8 @@ import Cookies from 'js-cookie'
 import { setPreset, applyTheme, applyConfig } from '../services/style_setter/style_setter.js'
 import messages from '../i18n/messages'
 import localeService from '../services/locale/locale.service.js'
+import { useI18nStore } from '../stores/i18n.js'
+import { useInterfaceStore } from '../stores/interface.js'
 
 const BACKEND_LANGUAGE_COOKIE_NAME = 'userLanguage'
 
@@ -194,7 +196,7 @@ const config = {
           applyTheme(value)
           break
         case 'interfaceLanguage':
-          messages.setLanguage(this.getters.i18n, value)
+          messages.setLanguage(useI18nStore().i18n, value)
           dispatch('loadUnicodeEmojiData', value)
           Cookies.set(
             BACKEND_LANGUAGE_COOKIE_NAME,
@@ -202,7 +204,7 @@ const config = {
           )
           break
         case 'thirdColumnMode':
-          dispatch('setLayoutWidth', undefined)
+          useInterfaceStore().setLayoutWidth(undefined)
           break
       }
     }

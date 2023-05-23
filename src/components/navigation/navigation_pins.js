@@ -1,4 +1,5 @@
 import { mapState } from 'vuex'
+import { mapState as mapPiniaState } from 'pinia'
 import { TIMELINES, ROOT_ITEMS, routeTo } from 'src/components/navigation/navigation.js'
 import { getListEntries, filterNavigation } from 'src/components/navigation/filter.js'
 
@@ -14,6 +15,7 @@ import {
   faStream,
   faList
 } from '@fortawesome/free-solid-svg-icons'
+import { useListsStore } from '../../stores/lists'
 
 library.add(
   faUsers,
@@ -38,8 +40,10 @@ const NavPanel = {
     getters () {
       return this.$store.getters
     },
+    ...mapPiniaState(useListsStore, {
+      lists: getListEntries
+    }),
     ...mapState({
-      lists: getListEntries,
       currentUser: state => state.users.currentUser,
       followRequestCount: state => state.api.followRequests.length,
       privateMode: state => state.instance.private,

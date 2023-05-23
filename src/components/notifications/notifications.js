@@ -1,5 +1,6 @@
 import { computed } from 'vue'
 import { mapGetters } from 'vuex'
+import { mapState } from 'pinia'
 import Notification from '../notification/notification.vue'
 import NotificationFilters from './notification_filters.vue'
 import notificationsFetcher from '../../services/notifications_fetcher/notifications_fetcher.service.js'
@@ -11,6 +12,8 @@ import {
 import FaviconService from '../../services/favicon_service/favicon_service.js'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCircleNotch, faArrowUp, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { useInterfaceStore } from '../../stores/interface'
+import { useAnnouncementsStore } from '../../stores/announcements'
 
 library.add(
   faCircleNotch,
@@ -75,11 +78,11 @@ const Notifications = {
       return this.$store.state.statuses.notifications.loading
     },
     noHeading () {
-      const { layoutType } = this.$store.state.interface
+      const { layoutType } = useInterfaceStore()
       return this.minimalMode || layoutType === 'mobile'
     },
     teleportTarget () {
-      const { layoutType } = this.$store.state.interface
+      const { layoutType } = useInterfaceStore()
       const map = {
         wide: '#notifs-column',
         mobile: '#mobile-notifications'
@@ -87,14 +90,15 @@ const Notifications = {
       return map[layoutType] || '#notifs-sidebar'
     },
     popoversZLayer () {
-      const { layoutType } = this.$store.state.interface
+      const { layoutType } = useInterfaceStore()
       return layoutType === 'mobile' ? 'navbar' : null
     },
     notificationsToDisplay () {
       return this.filteredNotifications.slice(0, this.unseenCount + this.seenToDisplayCount)
     },
     noSticky () { return this.$store.getters.mergedConfig.disableStickyHeaders },
-    ...mapGetters(['unreadChatCount', 'unreadAnnouncementCount'])
+    ...mapState(useAnnouncementsStore, ['unreadAnnouncementCount']),
+    ...mapGetters(['unreadChatCount'])
   },
   mounted () {
     this.scrollerRef = this.$refs.root.closest('.column.-scrollable')
@@ -114,10 +118,10 @@ const Notifications = {
     unseenCountTitle (count) {
       if (count > 0) {
         FaviconService.drawFaviconBadge()
-        this.$store.dispatch('setPageTitle', `(${count})`)
+        useInterfaceStore().setPageTitle(`(${count})`)
       } else {
         FaviconService.clearFaviconBadge()
-        this.$store.dispatch('setPageTitle', '')
+        useInterfaceStore().setPageTitle('')
       }
     },
     teleportTarget () {

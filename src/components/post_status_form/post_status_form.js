@@ -11,7 +11,8 @@ import { findOffset } from '../../services/offset_finder/offset_finder.service.j
 import { propsToNative } from '../../services/attributes_helper/attributes_helper.service.js'
 import { reject, map, uniqBy, debounce } from 'lodash'
 import suggestor from '../emoji_input/suggestor.js'
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters } from 'vuex'
+import { mapState } from 'pinia'
 import Checkbox from '../checkbox/checkbox.vue'
 import Select from '../select/select.vue'
 
@@ -24,6 +25,7 @@ import {
   faTimes,
   faCircleNotch
 } from '@fortawesome/free-solid-svg-icons'
+import { useInterfaceStore } from '../../stores/interface.js'
 
 library.add(
   faSmileBeam,
@@ -266,8 +268,8 @@ const PostStatusForm = {
       return typeof this.statusId !== 'undefined' && this.statusId.trim() !== ''
     },
     ...mapGetters(['mergedConfig']),
-    ...mapState({
-      mobileLayout: state => state.interface.mobileLayout
+    ...mapState(useInterfaceStore, {
+      mobileLayout: store => store.mobileLayout
     })
   },
   watch: {
@@ -629,7 +631,7 @@ const PostStatusForm = {
       this.idempotencyKey = Date.now().toString()
     },
     openProfileTab () {
-      this.$store.dispatch('openSettingsModalTab', 'profile')
+      useInterfaceStore().openSettingsModalTab('profile')
     },
     propsToNative (props) {
       return propsToNative(props)

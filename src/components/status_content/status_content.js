@@ -13,6 +13,7 @@ import {
   faLink,
   faPollH
 } from '@fortawesome/free-solid-svg-icons'
+import { useMediaViewerStore } from '../../stores/media_viewer'
 
 library.add(
   faCircleNotch,
@@ -123,7 +124,7 @@ const StatusContent = {
     },
     setMedia () {
       const attachments = this.attachmentSize === 'hide' ? this.status.attachments : this.galleryAttachments
-      return () => this.$store.dispatch('setMedia', attachments)
+      return () => useMediaViewerStore().setMedia(attachments)
     }
   }
 }

@@ -25,6 +25,7 @@ import {
   faExpandAlt,
   faCompressAlt
 } from '@fortawesome/free-solid-svg-icons'
+import { useInterfaceStore } from '../../stores/interface'
 
 library.add(
   faCheck,
@@ -43,7 +44,7 @@ const Notification = {
   data () {
     return {
       statusExpanded: false,
-      betterShadow: this.$store.state.interface.browserSupport.cssFilter,
+      betterShadow: useInterfaceStore().browserSupport.cssFilter,
       unmuted: false,
       showingApproveConfirmDialog: false,
       showingDenyConfirmDialog: false

@@ -1,6 +1,7 @@
 import { mapState } from 'vuex'
 import Announcement from '../announcement/announcement.vue'
 import AnnouncementEditor from '../announcement_editor/announcement_editor.vue'
+import { useAnnouncementsStore } from '../../stores/announcements'
 
 const AnnouncementsPage = {
   components: {
@@ -20,14 +21,14 @@ const AnnouncementsPage = {
     }
   },
   mounted () {
-    this.$store.dispatch('fetchAnnouncements')
+    useAnnouncementsStore().fetchAnnouncements()
   },
   computed: {
     ...mapState({
       currentUser: state => state.users.currentUser
     }),
     announcements () {
-      return this.$store.state.announcements.announcements
+      return useAnnouncementsStore().announcements
     },
     canPostAnnouncement () {
       return this.currentUser && this.currentUser.privileges.includes('announcements_manage_announcements')
@@ -36,7 +37,7 @@ const AnnouncementsPage = {
   methods: {
     postAnnouncement () {
       this.posting = true
-      this.$store.dispatch('postAnnouncement', this.newAnnouncement)
+      useAnnouncementsStore().postAnnouncement(this.newAnnouncement)
         .then(() => {
           this.newAnnouncement.content = ''
           this.startsAt = undefined

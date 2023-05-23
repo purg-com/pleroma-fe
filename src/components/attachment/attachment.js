@@ -18,6 +18,7 @@ import {
   faPencilAlt,
   faAlignRight
 } from '@fortawesome/free-solid-svg-icons'
+import { useMediaViewerStore } from '../../stores/media_viewer'
 
 library.add(
   faFile,
@@ -147,14 +148,14 @@ const Attachment = {
     openModal (event) {
       if (this.useModal) {
         this.$emit('setMedia')
-        this.$store.dispatch('setCurrentMedia', this.attachment)
+        useMediaViewerStore().setCurrentMedia(this.attachment)
       } else if (this.type === 'unknown') {
         window.open(this.attachment.url)
       }
     },
     openModalForce (event) {
       this.$emit('setMedia')
-      this.$store.dispatch('setCurrentMedia', this.attachment)
+      useMediaViewerStore().setCurrentMedia(this.attachment)
     },
     onEdit (event) {
       this.edit && this.edit(this.attachment, event)

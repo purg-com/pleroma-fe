@@ -1,4 +1,5 @@
 import { mapState, mapGetters } from 'vuex'
+import { mapState as mapPiniaState } from 'pinia'
 import Popover from '../popover/popover.vue'
 import Attachment from '../attachment/attachment.vue'
 import UserAvatar from '../user_avatar/user_avatar.vue'
@@ -12,6 +13,7 @@ import {
   faTimes,
   faEllipsisH
 } from '@fortawesome/free-solid-svg-icons'
+import { useInterfaceStore } from '../../stores/interface'
 
 library.add(
   faTimes,
@@ -65,8 +67,10 @@ const ChatMessage = {
     hasAttachment () {
       return this.message.attachments.length > 0
     },
+    ...mapPiniaState(useInterfaceStore, {
+      betterShadow: store => store.browserSupport.cssFilter
+    }),
     ...mapState({
-      betterShadow: state => state.interface.browserSupport.cssFilter,
       currentUser: state => state.users.currentUser,
       restrictedNicknames: state => state.instance.restrictedNicknames
     }),

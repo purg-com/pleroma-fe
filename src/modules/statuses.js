@@ -18,6 +18,7 @@ import {
   maybeShowNotification
 } from '../services/notification_utils/notification_utils.js'
 import apiService from '../services/api/api.service.js'
+import { useReportsStore } from '../stores/reports.js'
 
 const emptyTl = (userId = 0) => ({
   statuses: [],
@@ -341,7 +342,7 @@ const addNewNotifications = (state, { dispatch, notifications, older, visibleNot
     }
 
     if (notification.type === 'pleroma:report') {
-      dispatch('addReport', notification.report)
+      useReportsStore().addReport(notification.report)
     }
 
     if (notification.type === 'pleroma:emoji_reaction') {

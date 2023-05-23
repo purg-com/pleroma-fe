@@ -1,6 +1,7 @@
 import merge from 'lodash.merge'
 import localforage from 'localforage'
 import { each, get, set, cloneDeep } from 'lodash'
+import { useInterfaceStore } from '../stores/interface'
 
 let loaded = false
 
@@ -76,12 +77,12 @@ export default function createPersistedState ({
               .then(success => {
                 if (typeof success !== 'undefined') {
                   if (mutation.type === 'setOption' || mutation.type === 'setCurrentUser') {
-                    store.dispatch('settingsSaved', { success })
+                    useInterfaceStore().settingsSaved({ success })
                   }
                 }
               }, error => {
                 if (mutation.type === 'setOption' || mutation.type === 'setCurrentUser') {
-                  store.dispatch('settingsSaved', { error })
+                  useInterfaceStore().settingsSaved({ error })
                 }
               })
           }

@@ -1,3 +1,4 @@
+import { useListsStore } from '../../stores/lists'
 import Timeline from '../timeline/timeline.vue'
 const ListsTimeline = {
   data () {
@@ -17,14 +18,14 @@ const ListsTimeline = {
         this.listId = route.params.id
         this.$store.dispatch('stopFetchingTimeline', 'list')
         this.$store.commit('clearTimeline', { timeline: 'list' })
-        this.$store.dispatch('fetchList', { listId: this.listId })
+        useListsStore().fetchList({ listId: this.listId })
         this.$store.dispatch('startFetchingTimeline', { timeline: 'list', listId: this.listId })
       }
     }
   },
   created () {
     this.listId = this.$route.params.id
-    this.$store.dispatch('fetchList', { listId: this.listId })
+    useListsStore().fetchList({ listId: this.listId })
     this.$store.dispatch('startFetchingTimeline', { timeline: 'list', listId: this.listId })
   },
   unmounted () {

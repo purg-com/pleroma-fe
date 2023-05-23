@@ -2,6 +2,7 @@ import PostStatusForm from '../post_status_form/post_status_form.vue'
 import Modal from '../modal/modal.vue'
 import statusPosterService from '../../services/status_poster/status_poster.service.js'
 import get from 'lodash/get'
+import { useEditStatusStore } from '../../stores/editStatus'
 
 const EditStatusModal = {
   components: {
@@ -18,13 +19,13 @@ const EditStatusModal = {
       return !!this.$store.state.users.currentUser
     },
     modalActivated () {
-      return this.$store.state.editStatus.modalActivated
+      return useEditStatusStore().modalActivated
     },
     isFormVisible () {
       return this.isLoggedIn && !this.resettingForm && this.modalActivated
     },
     params () {
-      return this.$store.state.editStatus.params || {}
+      return useEditStatusStore().params || {}
     }
   },
   watch: {
@@ -46,7 +47,7 @@ const EditStatusModal = {
     doEditStatus ({ status, spoilerText, sensitive, media, contentType, poll }) {
       const params = {
         store: this.$store,
-        statusId: this.$store.state.editStatus.params.statusId,
+        statusId: useEditStatusStore().params.statusId,
         status,
         spoilerText,
         sensitive,
@@ -67,7 +68,7 @@ const EditStatusModal = {
         })
     },
     closeModal () {
-      this.$store.dispatch('closeEditStatusModal')
+      useEditStatusStore().closeEditStatusModal()
     }
   }
 }

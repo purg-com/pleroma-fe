@@ -3,6 +3,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faPen
 } from '@fortawesome/free-solid-svg-icons'
+import { usePostStatusStore } from '../../stores/postStatus'
 
 library.add(
   faPen
@@ -71,7 +72,7 @@ const MobilePostStatusButton = {
       window.removeEventListener('scroll', this.handleScrollEnd)
     },
     openPostForm () {
-      this.$store.dispatch('openPostStatusModal')
+      usePostStatusStore().openPostStatusModal()
     },
     handleOSK () {
       // This is a big hack: we're guessing from changed window sizes if the

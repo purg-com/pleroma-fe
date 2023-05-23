@@ -1,3 +1,4 @@
+import { useReportsStore } from '../../stores/reports'
 import Select from '../select/select.vue'
 import StatusContent from '../status_content/status_content.vue'
 import Timeago from '../timeago/timeago.vue'
@@ -14,7 +15,7 @@ const Report = {
   },
   computed: {
     report () {
-      return this.$store.state.reports.reports[this.reportId] || {}
+      return useReportsStore().reports[this.reportId] || {}
     },
     state: {
       get: function () { return this.report.state },
@@ -26,7 +27,7 @@ const Report = {
       return generateProfileLink(user.id, user.screen_name, this.$store.state.instance.restrictedNicknames)
     },
     setReportState (state) {
-      return this.$store.dispatch('setReportState', { id: this.report.id, state })
+      return useReportsStore().setReportState({ id: this.report.id, state })
     }
   }
 }

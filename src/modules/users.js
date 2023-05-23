@@ -3,6 +3,7 @@ import { windowWidth, windowHeight } from '../services/window_utils/window_utils
 import oauthApi from '../services/new_api/oauth.js'
 import { compact, map, each, mergeWith, last, concat, uniq, isArray } from 'lodash'
 import { registerPushNotifications, unregisterPushNotifications } from '../services/push/push.js'
+import { useInterfaceStore } from '../stores/interface.js'
 
 // TODO: Unify with mergeOrAdd in statuses.js
 export const mergeOrAdd = (arr, obj, item) => {
@@ -568,9 +569,9 @@ const users = {
           store.commit('clearNotifications')
           store.commit('resetStatuses')
           store.dispatch('resetChats')
-          store.dispatch('setLastTimeline', 'public-timeline')
-          store.dispatch('setLayoutWidth', windowWidth())
-          store.dispatch('setLayoutHeight', windowHeight())
+          useInterfaceStore().setLastTimeline('public-timeline')
+          useInterfaceStore().setLayoutWidth(windowWidth())
+          useInterfaceStore().setLayoutHeight(windowHeight())
           store.commit('clearServerSideStorage')
         })
     },
@@ -594,7 +595,7 @@ const users = {
               store.dispatch('fetchEmoji')
 
               getNotificationPermission()
-                .then(permission => commit('setNotificationPermission', permission))
+                .then(permission => useInterfaceStore().setNotificationPermission(permission))
 
               // Set our new backend interactor
               commit('setBackendInteractor', backendInteractorService(accessToken))
@@ -640,8 +641,8 @@ const users = {
               // Get user mutes
               store.dispatch('fetchMutes')
 
-              store.dispatch('setLayoutWidth', windowWidth())
-              store.dispatch('setLayoutHeight', windowHeight())
+              useInterfaceStore().setLayoutWidth(windowWidth())
+              useInterfaceStore().setLayoutHeight(windowHeight())
 
               // Fetch our friends
               store.rootState.api.backendInteractor.fetchFriends({ id: user.id })

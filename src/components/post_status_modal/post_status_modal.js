@@ -1,6 +1,7 @@
 import PostStatusForm from '../post_status_form/post_status_form.vue'
 import Modal from '../modal/modal.vue'
 import get from 'lodash/get'
+import { usePostStatusStore } from '../../stores/postStatus'
 
 const PostStatusModal = {
   components: {
@@ -17,13 +18,13 @@ const PostStatusModal = {
       return !!this.$store.state.users.currentUser
     },
     modalActivated () {
-      return this.$store.state.postStatus.modalActivated
+      return usePostStatusStore().modalActivated
     },
     isFormVisible () {
       return this.isLoggedIn && !this.resettingForm && this.modalActivated
     },
     params () {
-      return this.$store.state.postStatus.params || {}
+      return usePostStatusStore().params || {}
     }
   },
   watch: {
@@ -43,7 +44,7 @@ const PostStatusModal = {
   },
   methods: {
     closeModal () {
-      this.$store.dispatch('closePostStatusModal')
+      usePostStatusStore().closePostStatusModal()
     }
   }
 }

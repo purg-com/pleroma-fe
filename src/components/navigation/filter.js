@@ -11,7 +11,7 @@ export const filterNavigation = (list = [], { hasChats, hasAnnouncements, isFede
   })
 }
 
-export const getListEntries = state => state.lists.allLists.map(list => ({
+export const getListEntries = store => store.allLists.map(list => ({
   name: 'list-' + list.id,
   routeObject: { name: 'lists-timeline', params: { id: list.id } },
   labelRaw: list.title,

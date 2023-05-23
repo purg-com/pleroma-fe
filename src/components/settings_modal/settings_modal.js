@@ -19,6 +19,7 @@ import {
 import {
   faWindowMinimize
 } from '@fortawesome/free-regular-svg-icons'
+import { useInterfaceStore } from '../../stores/interface'
 
 const PLEROMAFE_SETTINGS_MAJOR_VERSION = 1
 const PLEROMAFE_SETTINGS_MINOR_VERSION = 0
@@ -64,10 +65,10 @@ const SettingsModal = {
   },
   methods: {
     closeModal () {
-      this.$store.dispatch('closeSettingsModal')
+      useInterfaceStore().closeSettingsModal()
     },
     peekModal () {
-      this.$store.dispatch('togglePeekSettingsModal')
+      useInterfaceStore().togglePeekSettingsModal()
     },
     importValidator (data) {
       if (!Array.isArray(data._pleroma_settings_version)) {
@@ -99,7 +100,7 @@ const SettingsModal = {
       }
 
       if (minor > PLEROMAFE_SETTINGS_MINOR_VERSION) {
-        this.$store.dispatch('pushGlobalNotice', {
+        useInterfaceStore().pushGlobalNotice({
           level: 'warning',
           messageKey: 'settings.file_export_import.errors.file_slightly_new'
         })
@@ -109,9 +110,9 @@ const SettingsModal = {
     },
     onImportFailure (result) {
       if (result.error) {
-        this.$store.dispatch('pushGlobalNotice', { messageKey: 'settings.invalid_settings_imported', level: 'error' })
+        useInterfaceStore().pushGlobalNotice({ messageKey: 'settings.invalid_settings_imported', level: 'error' })
       } else {
-        this.$store.dispatch('pushGlobalNotice', { ...result.validationResult, level: 'error' })
+        useInterfaceStore().pushGlobalNotice({ ...result.validationResult, level: 'error' })
       }
     },
     onImport (data) {
@@ -151,16 +152,16 @@ const SettingsModal = {
   },
   computed: {
     currentSaveStateNotice () {
-      return this.$store.state.interface.settings.currentSaveStateNotice
+      return useInterfaceStore().settings.currentSaveStateNotice
     },
     modalActivated () {
-      return this.$store.state.interface.settingsModalState !== 'hidden'
+      return useInterfaceStore().settingsModalState !== 'hidden'
     },
     modalOpenedOnce () {
-      return this.$store.state.interface.settingsModalLoaded
+      return useInterfaceStore().settingsModalLoaded
     },
     modalPeeked () {
-      return this.$store.state.interface.settingsModalState === 'minimized'
+      return useInterfaceStore().settingsModalState === 'minimized'
     },
     expertLevel: {
       get () {

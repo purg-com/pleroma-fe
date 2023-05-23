@@ -3,6 +3,8 @@ import { routeTo } from 'src/components/navigation/navigation.js'
 import OptionalRouterLink from 'src/components/optional_router_link/optional_router_link.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faThumbtack } from '@fortawesome/free-solid-svg-icons'
+import { mapStores } from 'pinia'
+import { useAnnouncementsStore } from '../../stores/announcements'
 
 library.add(faThumbtack)
 
@@ -31,6 +33,7 @@ const NavigationEntry = {
     getters () {
       return this.$store.getters
     },
+    ...mapStores(useAnnouncementsStore),
     ...mapState({
       currentUser: state => state.users.currentUser,
       pinnedItems: state => new Set(state.serverSideStorage.prefsStorage.collections.pinnedNavItems)

@@ -8,6 +8,8 @@ import { filterNavigation } from 'src/components/navigation/filter.js'
 import {
   faChevronDown
 } from '@fortawesome/free-solid-svg-icons'
+import { useInterfaceStore } from '../../stores/interface'
+import { useListsStore } from '../../stores/lists'
 
 library.add(faChevronDown)
 
@@ -36,7 +38,7 @@ const TimelineMenu = {
   },
   created () {
     if (timelineNames()[this.$route.name]) {
-      this.$store.dispatch('setLastTimeline', this.$route.name)
+      useInterfaceStore().setLastTimeline(this.$route.name)
     }
   },
   computed: {
@@ -86,7 +88,7 @@ const TimelineMenu = {
         return '#' + this.$route.params.tag
       }
       if (route === 'lists-timeline') {
-        return this.$store.getters.findListTitle(this.$route.params.id)
+        return useListsStore().findListTitle(this.$route.params.id)
       }
       const i18nkey = timelineNames()[this.$route.name]
       return i18nkey ? this.$t(i18nkey) : route

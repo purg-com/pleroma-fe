@@ -38,6 +38,7 @@ import Checkbox from 'src/components/checkbox/checkbox.vue'
 import Select from 'src/components/select/select.vue'
 
 import Preview from './preview.vue'
+import { useInterfaceStore } from '../../../../stores/interface'
 
 // List of color values used in v1
 const v1OnlyNames = [
@@ -548,7 +549,7 @@ export default {
       this.loadTheme(parsed, 'file', forceSource)
     },
     onImportFailure (result) {
-      this.$store.dispatch('pushGlobalNotice', { messageKey: 'settings.invalid_theme_imported', level: 'error' })
+      useInterfaceStore().pushGlobalNotice({ messageKey: 'settings.invalid_theme_imported', level: 'error' })
     },
     importValidator (parsed) {
       const version = parsed._pleroma_theme_version

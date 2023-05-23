@@ -16,6 +16,9 @@ import {
   faBookmark as faBookmarkReg,
   faFlag
 } from '@fortawesome/free-regular-svg-icons'
+import { useEditStatusStore } from '../../stores/editStatus'
+import { useStatusHistoryStore } from '../../stores/statusHistory'
+import { useReportsStore } from '../../stores/reports'
 
 library.add(
   faEllipsisH,
@@ -103,11 +106,11 @@ const ExtraButtons = {
         .catch(err => this.$emit('onError', err.error.error))
     },
     reportStatus () {
-      this.$store.dispatch('openUserReportingModal', { userId: this.status.user.id, statusIds: [this.status.id] })
+      useReportsStore().openUserReportingModal({ userId: this.status.user.id, statusIds: [this.status.id] })
     },
     editStatus () {
       this.$store.dispatch('fetchStatusSource', { id: this.status.id })
-        .then(data => this.$store.dispatch('openEditStatusModal', {
+        .then(data => useEditStatusStore().openEditStatusModal({
           statusId: this.status.id,
           subject: data.spoiler_text,
           statusText: data.text,
@@ -122,7 +125,7 @@ const ExtraButtons = {
       const originalStatus = { ...this.status }
       const stripFieldsList = ['attachments', 'created_at', 'emojis', 'text', 'raw_html', 'nsfw', 'poll', 'summary', 'summary_raw_html']
       stripFieldsList.forEach(p => delete originalStatus[p])
-      this.$store.dispatch('openStatusHistoryModal', originalStatus)
+      useStatusHistoryStore().openStatusHistoryModal(originalStatus)
     }
   },
   computed: {

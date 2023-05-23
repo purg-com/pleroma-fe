@@ -2,6 +2,7 @@ import { mapState } from 'vuex'
 import AnnouncementEditor from '../announcement_editor/announcement_editor.vue'
 import RichContent from '../rich_content/rich_content.jsx'
 import localeService from '../../services/locale/locale.service.js'
+import { useAnnouncementsStore } from '../../stores/announcements'
 
 const Announcement = {
   components: {
@@ -67,11 +68,11 @@ const Announcement = {
   methods: {
     markAsRead () {
       if (!this.isRead) {
-        return this.$store.dispatch('markAnnouncementAsRead', this.announcement.id)
+        return useAnnouncementsStore().markAnnouncementAsRead(this.announcement.id)
       }
     },
     deleteAnnouncement () {
-      return this.$store.dispatch('deleteAnnouncement', this.announcement.id)
+      return useAnnouncementsStore().deleteAnnouncement(this.announcement.id)
     },
     formatTimeOrDate (time, locale) {
       const d = new Date(time)
@@ -85,7 +86,7 @@ const Announcement = {
       this.editing = true
     },
     submitEdit () {
-      this.$store.dispatch('editAnnouncement', {
+      useAnnouncementsStore().editAnnouncement({
         id: this.announcement.id,
         ...this.editedAnnouncement
       })

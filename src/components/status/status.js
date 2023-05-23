@@ -20,6 +20,7 @@ import generateProfileLink from 'src/services/user_profile_link_generator/user_p
 import { highlightClass, highlightStyle } from '../../services/user_highlighter/user_highlighter.js'
 import { muteWordHits } from '../../services/status_parser/status_parser.js'
 import { unescape, uniqBy } from 'lodash'
+import { useInterfaceStore } from '../../stores/interface'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
@@ -379,7 +380,7 @@ const Status = {
       return this.$store.state.users.currentUser
     },
     betterShadow () {
-      return this.$store.state.interface.browserSupport.cssFilter
+      return useInterfaceStore().browserSupport.cssFilter
     },
     mergedConfig () {
       return this.$store.getters.mergedConfig

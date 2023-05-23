@@ -12,6 +12,7 @@ import RichContent from 'src/components/rich_content/rich_content.jsx'
 import ConfirmModal from '../confirm_modal/confirm_modal.vue'
 import generateProfileLink from 'src/services/user_profile_link_generator/user_profile_link_generator'
 import { mapGetters } from 'vuex'
+import { usePostStatusStore } from '../../stores/postStatus'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faBell,
@@ -22,6 +23,8 @@ import {
   faTimes,
   faExpandAlt
 } from '@fortawesome/free-solid-svg-icons'
+import { useMediaViewerStore } from '../../stores/media_viewer'
+import { useInterfaceStore } from '../../stores/interface'
 
 library.add(
   faRss,
@@ -48,7 +51,7 @@ export default {
   data () {
     return {
       followRequestInProgress: false,
-      betterShadow: this.$store.state.interface.browserSupport.cssFilter,
+      betterShadow: useInterfaceStore().browserSupport.cssFilter,
       showingConfirmMute: false,
       muteExpiryAmount: 0,
       muteExpiryUnit: 'minutes'
@@ -214,18 +217,18 @@ export default {
       )
     },
     openProfileTab () {
-      this.$store.dispatch('openSettingsModalTab', 'profile')
+      useInterfaceStore().openSettingsModalTab('profile')
     },
     zoomAvatar () {
       const attachment = {
         url: this.user.profile_image_url_original,
         mimetype: 'image'
       }
-      this.$store.dispatch('setMedia', [attachment])
-      this.$store.dispatch('setCurrentMedia', attachment)
+      useMediaViewerStore().setMedia([attachment])
+      useMediaViewerStore().setCurrentMedia(attachment)
     },
     mentionUser () {
-      this.$store.dispatch('openPostStatusModal', { replyTo: true, repliedUser: this.user })
+      usePostStatusStore().openPostStatusModal({ replyTo: true, repliedUser: this.user })
     },
     onAvatarClickHandler (e) {
       if (this.onAvatarClick) {

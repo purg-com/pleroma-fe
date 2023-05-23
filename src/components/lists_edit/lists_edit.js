@@ -1,4 +1,5 @@
 import { mapState, mapGetters } from 'vuex'
+import { mapState as mapPiniaState } from 'pinia'
 import BasicUserCard from '../basic_user_card/basic_user_card.vue'
 import ListsUserSearch from '../lists_user_search/lists_user_search.vue'
 import PanelLoading from 'src/components/panel_loading/panel_loading.vue'
@@ -9,6 +10,8 @@ import {
   faSearch,
   faChevronLeft
 } from '@fortawesome/free-solid-svg-icons'
+import { useInterfaceStore } from '../../stores/interface'
+import { useListsStore } from '../../stores/lists'
 
 library.add(
   faSearch,
@@ -37,12 +40,12 @@ const ListsNew = {
   },
   created () {
     if (!this.id) return
-    this.$store.dispatch('fetchList', { listId: this.id })
+    useListsStore().fetchList({ listId: this.id })
       .then(() => {
         this.title = this.findListTitle(this.id)
         this.titleDraft = this.title
       })
-    this.$store.dispatch('fetchListAccounts', { listId: this.id })
+    useListsStore().fetchListAccounts({ listId: this.id })
       .then(() => {
         this.membersUserIds = this.findListAccounts(this.id)
         this.membersUserIds.forEach(userId => {
@@ -64,7 +67,8 @@ const ListsNew = {
     ...mapState({
       currentUser: state => state.users.currentUser
     }),
-    ...mapGetters(['findUser', 'findListTitle', 'findListAccounts'])
+    ...mapPiniaState(useListsStore, ['findListTitle', 'findListAccounts']),
+    ...mapGetters(['findUser'])
   },
   methods: {
     onInput () {
@@ -95,10 +99,10 @@ const ListsNew = {
       return this.addedUserIds.has(user.id)
     },
     addUser (user) {
-      this.$store.dispatch('addListAccount', { accountId: user.id, listId: this.id })
+      useListsStore().addListAccount({ accountId: user.id, listId: this.id })
     },
     removeUser (userId) {
-      this.$store.dispatch('removeListAccount', { accountId: userId, listId: this.id })
+      useListsStore().removeListAccount({ accountId: userId, listId: this.id })
     },
     onSearchLoading (results) {
       this.searchLoading = true
@@ -111,24 +115,23 @@ const ListsNew = {
       this.searchUserIds = results
     },
     updateListTitle () {
-      this.$store.dispatch('setList', { listId: this.id, title: this.titleDraft })
+      useListsStore().setList({ listId: this.id, title: this.titleDraft })
         .then(() => {
           this.title = this.findListTitle(this.id)
         })
     },
     createList () {
-      this.$store.dispatch('createList', { title: this.titleDraft })
+      useListsStore().createList({ title: this.titleDraft })
         .then((list) => {
-          return this
-            .$store
-            .dispatch('setListAccounts', { listId: list.id, accountIds: [...this.addedUserIds] })
+          return useListsStore()
+            .setListAccounts({ listId: list.id, accountIds: [...this.addedUserIds] })
             .then(() => list.id)
         })
         .then((listId) => {
           this.$router.push({ name: 'lists-timeline', params: { id: listId } })
         })
         .catch((e) => {
-          this.$store.dispatch('pushGlobalNotice', {
+          useInterfaceStore().pushGlobalNotice({
             messageKey: 'lists.error',
             messageArgs: [e.message],
             level: 'error'
@@ -136,7 +139,7 @@ const ListsNew = {
         })
     },
     deleteList () {
-      this.$store.dispatch('deleteList', { listId: this.id })
+      useListsStore().deleteList({ listId: this.id })
       this.$router.push({ name: 'lists' })
     }
   }

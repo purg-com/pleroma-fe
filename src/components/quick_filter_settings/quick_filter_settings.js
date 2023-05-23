@@ -2,6 +2,7 @@ import Popover from '../popover/popover.vue'
 import { mapGetters } from 'vuex'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faFilter, faFont, faWrench } from '@fortawesome/free-solid-svg-icons'
+import { useInterfaceStore } from '../../stores/interface'
 
 library.add(
   faFilter,
@@ -22,7 +23,7 @@ const QuickFilterSettings = {
       this.$store.dispatch('queueFlushAll')
     },
     openTab (tab) {
-      this.$store.dispatch('openSettingsModalTab', tab)
+      useInterfaceStore().openSettingsModalTab(tab)
     }
   },
   computed: {

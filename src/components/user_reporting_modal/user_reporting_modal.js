@@ -3,6 +3,7 @@ import List from '../list/list.vue'
 import Checkbox from '../checkbox/checkbox.vue'
 import Modal from '../modal/modal.vue'
 import UserLink from '../user_link/user_link.vue'
+import { useReportsStore } from '../../stores/reports'
 
 const UserReportingModal = {
   components: {
@@ -23,7 +24,7 @@ const UserReportingModal = {
   },
   computed: {
     reportModal () {
-      return this.$store.state.reports.reportModal
+      return useReportsStore().reportModal
     },
     isLoggedIn () {
       return !!this.$store.state.users.currentUser
@@ -63,7 +64,7 @@ const UserReportingModal = {
       this.error = false
     },
     closeModal () {
-      this.$store.dispatch('closeUserReportingModal')
+      useReportsStore().closeUserReportingModal()
     },
     reportUser () {
       this.processing = true

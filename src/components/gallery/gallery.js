@@ -1,3 +1,4 @@
+import { useMediaViewerStore } from '../../stores/media_viewer'
 import Attachment from '../attachment/attachment.vue'
 import { sumBy, set } from 'lodash'
 
@@ -107,11 +108,11 @@ const Gallery = {
       this.hidingLong = event
     },
     openGallery () {
-      this.$store.dispatch('setMedia', this.attachments)
-      this.$store.dispatch('setCurrentMedia', this.attachments[0])
+      useMediaViewerStore().setMedia(this.attachments)
+      useMediaViewerStore().setCurrentMedia(this.attachments[0])
     },
     onMedia () {
-      this.$store.dispatch('setMedia', this.attachments)
+      useMediaViewerStore().setMedia(this.attachments)
     }
   }
 }

@@ -1,3 +1,4 @@
+import { useInterfaceStore } from '../../stores/interface.js'
 import apiService from '../api/api.service.js'
 import { promiseInterval } from '../promise_interval/promise_interval.js'
 
@@ -70,7 +71,7 @@ const fetchNotifications = ({ store, args, older }) => {
       return notifications
     })
     .catch((error) => {
-      store.dispatch('pushGlobalNotice', {
+      useInterfaceStore().pushGlobalNotice({
         level: 'error',
         messageKey: 'notifications.error',
         messageArgs: [error.message],

@@ -1,9 +1,10 @@
 // eslint-disable-next-line no-unused
 import { h, Fragment } from 'vue'
-import { mapState } from 'vuex'
+import { mapState } from 'pinia'
 import { FontAwesomeIcon as FAIcon } from '@fortawesome/vue-fontawesome'
 
 import './tab_switcher.scss'
+import { useInterfaceStore } from '../../stores/interface'
 
 const findFirstUsable = (slots) => slots.findIndex(_ => _.props)
 
@@ -64,8 +65,8 @@ export default {
     settingsModalVisible () {
       return this.settingsModalState === 'visible'
     },
-    ...mapState({
-      settingsModalState: state => state.interface.settingsModalState
+    ...mapState(useInterfaceStore, {
+      settingsModalState: store => store.settingsModalState
     })
   },
   beforeUpdate () {

@@ -2,6 +2,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faTimes
 } from '@fortawesome/free-solid-svg-icons'
+import { useInterfaceStore } from '../../stores/interface'
 
 library.add(
   faTimes
@@ -10,12 +11,12 @@ library.add(
 const GlobalNoticeList = {
   computed: {
     notices () {
-      return this.$store.state.interface.globalNotices
+      return useInterfaceStore().globalNotices
     }
   },
   methods: {
     closeNotice (notice) {
-      this.$store.dispatch('removeGlobalNotice', notice)
+      useInterfaceStore().removeGlobalNotice(notice)
     }
   }
 }

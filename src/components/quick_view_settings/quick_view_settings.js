@@ -2,6 +2,7 @@ import Popover from '../popover/popover.vue'
 import { mapGetters } from 'vuex'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faList, faFolderTree, faBars, faWrench } from '@fortawesome/free-solid-svg-icons'
+import { useInterfaceStore } from '../../stores/interface'
 
 library.add(
   faList,
@@ -22,7 +23,7 @@ const QuickViewSettings = {
       this.$store.dispatch('setOption', { name: 'conversationDisplay', value: visibility })
     },
     openTab (tab) {
-      this.$store.dispatch('openSettingsModalTab', tab)
+      useInterfaceStore().openSettingsModalTab(tab)
     }
   },
   computed: {

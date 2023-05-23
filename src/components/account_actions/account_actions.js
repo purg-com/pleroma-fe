@@ -7,6 +7,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faEllipsisV
 } from '@fortawesome/free-solid-svg-icons'
+import { useReportsStore } from '../../stores/reports'
 
 library.add(
   faEllipsisV
@@ -73,7 +74,7 @@ const AccountActions = {
       this.hideConfirmRemoveUserFromFollowers()
     },
     reportUser () {
-      this.$store.dispatch('openUserReportingModal', { userId: this.user.id })
+      useReportsStore().openUserReportingModal({ userId: this.user.id })
     },
     openChat () {
       this.$router.push({

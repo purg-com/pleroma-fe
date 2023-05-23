@@ -1,3 +1,4 @@
+import { useListsStore } from '../../stores/lists'
 import ListsCard from '../lists_card/lists_card.vue'
 
 const Lists = {
@@ -11,7 +12,7 @@ const Lists = {
   },
   computed: {
     lists () {
-      return this.$store.state.lists.allLists
+      return useListsStore().allLists
     }
   },
   methods: {

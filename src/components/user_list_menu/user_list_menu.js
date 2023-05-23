@@ -1,9 +1,10 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
-import { mapState } from 'vuex'
+import { mapState } from 'pinia'
 
 import DialogModal from '../dialog_modal/dialog_modal.vue'
 import Popover from '../popover/popover.vue'
+import { useListsStore } from '../../stores/lists'
 
 library.add(faChevronRight)
 
@@ -22,8 +23,8 @@ const UserListMenu = {
     this.$store.dispatch('fetchUserInLists', this.user.id)
   },
   computed: {
-    ...mapState({
-      allLists: state => state.lists.allLists
+    ...mapState(useListsStore, {
+      allLists: store => store.allLists
     }),
     inListsSet () {
       return new Set(this.user.inLists.map(x => x.id))
@@ -39,12 +40,12 @@ const UserListMenu = {
   methods: {
     toggleList (listId) {
       if (this.inListsSet.has(listId)) {
-        this.$store.dispatch('removeListAccount', { accountId: this.user.id, listId }).then((response) => {
+        useListsStore().removeListAccount({ accountId: this.user.id, listId }).then((response) => {
           if (!response.ok) { return }
           this.$store.dispatch('fetchUserInLists', this.user.id)
         })
       } else {
-        this.$store.dispatch('addListAccount', { accountId: this.user.id, listId }).then((response) => {
+        useListsStore().addListAccount({ accountId: this.user.id, listId }).then((response) => {
           if (!response.ok) { return }
           this.$store.dispatch('fetchUserInLists', this.user.id)
         })

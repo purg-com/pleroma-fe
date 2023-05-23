@@ -4,6 +4,7 @@ import {
   faBullhorn,
   faTimes
 } from '@fortawesome/free-solid-svg-icons'
+import { useShoutStore } from '../../stores/shout'
 
 library.add(
   faBullhorn,
@@ -21,12 +22,12 @@ const shoutPanel = {
   },
   computed: {
     messages () {
-      return this.$store.state.shout.messages
+      return useShoutStore().messages
     }
   },
   methods: {
     submit (message) {
-      this.$store.state.shout.channel.push('new_msg', { text: message }, 10000)
+      useShoutStore().channel.push('new_msg', { text: message }, 10000)
       this.currentMessage = ''
     },
     togglePanel () {

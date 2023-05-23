@@ -1,6 +1,7 @@
 import { filter, sortBy, includes } from 'lodash'
 import { muteWordHits } from '../status_parser/status_parser.js'
 import { showDesktopNotification } from '../desktop_notification_utils/desktop_notification_utils.js'
+import { useI18nStore } from '../../stores/i18n.js'
 
 export const notificationsFromStore = store => store.state.statuses.notifications.data
 
@@ -59,7 +60,7 @@ export const maybeShowNotification = (store, notification) => {
   if (!visibleTypes(store).includes(notification.type)) return
   if (notification.type === 'mention' && isMutedNotification(store, notification)) return
 
-  const notificationObject = prepareNotificationObject(notification, store.rootGetters.i18n)
+  const notificationObject = prepareNotificationObject(notification, useI18nStore().i18n)
   showDesktopNotification(rootState, notificationObject)
 }
 

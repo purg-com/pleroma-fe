@@ -13,6 +13,7 @@ import {
   faCircleNotch,
   faTimes
 } from '@fortawesome/free-solid-svg-icons'
+import { useMediaViewerStore } from '../../stores/media_viewer'
 
 library.add(
   faChevronLeft,
@@ -44,16 +45,16 @@ const MediaModal = {
   },
   computed: {
     showing () {
-      return this.$store.state.mediaViewer.activated
+      return useMediaViewerStore().activated
     },
     media () {
-      return this.$store.state.mediaViewer.media
+      return useMediaViewerStore().media
     },
     description () {
       return this.currentMedia.description
     },
     currentIndex () {
-      return this.$store.state.mediaViewer.currentIndex
+      return useMediaViewerStore().currentIndex
     },
     currentMedia () {
       return this.media[this.currentIndex]
@@ -79,7 +80,7 @@ const MediaModal = {
       // to be processed on the content below the overlay
       const transitionTime = 100 // ms
       setTimeout(() => {
-        this.$store.dispatch('closeMediaViewer')
+        useMediaViewerStore().closeMediaViewer()
       }, transitionTime)
     },
     hideIfNotSwiped (event) {
@@ -98,7 +99,7 @@ const MediaModal = {
         if (this.getType(newMedia) === 'image') {
           this.loading = true
         }
-        this.$store.dispatch('setCurrentMedia', newMedia)
+        useMediaViewerStore().setCurrentMedia(newMedia)
       }
     },
     goNext () {
@@ -108,7 +109,7 @@ const MediaModal = {
         if (this.getType(newMedia) === 'image') {
           this.loading = true
         }
-        this.$store.dispatch('setCurrentMedia', newMedia)
+        useMediaViewerStore().setCurrentMedia(newMedia)
       }
     },
     onImageLoaded () {

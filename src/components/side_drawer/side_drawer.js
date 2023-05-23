@@ -1,4 +1,5 @@
 import { mapState, mapGetters } from 'vuex'
+import { mapState as mapPiniaState } from 'pinia'
 import UserCard from '../user_card/user_card.vue'
 import { unseenNotificationsFromStore } from '../../services/notification_utils/notification_utils'
 import GestureService from '../../services/gesture_service/gesture_service'
@@ -19,6 +20,9 @@ import {
   faCompass,
   faList
 } from '@fortawesome/free-solid-svg-icons'
+import { useShoutStore } from '../../stores/shout'
+import { useInterfaceStore } from '../../stores/interface'
+import { useAnnouncementsStore } from '../../stores/announcements'
 
 library.add(
   faSignInAlt,
@@ -54,7 +58,7 @@ const SideDrawer = {
     currentUser () {
       return this.$store.state.users.currentUser
     },
-    shout () { return this.$store.state.shout.joined },
+    shout () { return useShoutStore().joined },
     unseenNotifications () {
       return unseenNotificationsFromStore(this.$store)
     },
@@ -84,8 +88,8 @@ const SideDrawer = {
     },
     timelinesRoute () {
       let name
-      if (this.$store.state.interface.lastTimeline) {
-        name = this.$store.state.interface.lastTimeline
+      if (useInterfaceStore().lastTimeline) {
+        name = useInterfaceStore().lastTimeline
       }
       name = this.currentUser ? 'friends' : 'public-timeline'
       if (USERNAME_ROUTES.has(name)) {
@@ -94,11 +98,14 @@ const SideDrawer = {
         return { name }
       }
     },
-    ...mapState({
-      pleromaChatMessagesAvailable: state => state.instance.pleromaChatMessagesAvailable,
-      supportsAnnouncements: state => state.announcements.supportsAnnouncements
+    ...mapPiniaState(useAnnouncementsStore, {
+      supportsAnnouncements: store => store.supportsAnnouncements,
+      unreadAnnouncementCount: 'unreadAnnouncementCount'
     }),
-    ...mapGetters(['unreadChatCount', 'unreadAnnouncementCount'])
+    ...mapState({
+      pleromaChatMessagesAvailable: state => state.instance.pleromaChatMessagesAvailable
+    }),
+    ...mapGetters(['unreadChatCount'])
   },
   methods: {
     toggleDrawer () {
@@ -115,7 +122,7 @@ const SideDrawer = {
       GestureService.updateSwipe(e, this.closeGesture)
     },
     openSettingsModal () {
-      this.$store.dispatch('openSettingsModal')
+      useInterfaceStore().openSettingsModal()
     }
   }
 }

@@ -1,6 +1,7 @@
 import { get } from 'lodash'
 import Modal from '../modal/modal.vue'
 import Status from '../status/status.vue'
+import { useStatusHistoryStore } from '../../stores/statusHistory'
 
 const StatusHistoryModal = {
   components: {
@@ -14,10 +15,10 @@ const StatusHistoryModal = {
   },
   computed: {
     modalActivated () {
-      return this.$store.state.statusHistory.modalActivated
+      return useStatusHistoryStore().modalActivated
     },
     params () {
-      return this.$store.state.statusHistory.params
+      return useStatusHistoryStore().params
     },
     statusId () {
       return this.params.id
@@ -52,7 +53,7 @@ const StatusHistoryModal = {
         })
     },
     closeModal () {
-      this.$store.dispatch('closeStatusHistoryModal')
+      useStatusHistoryStore().closeStatusHistoryModal()
     }
   }
 }

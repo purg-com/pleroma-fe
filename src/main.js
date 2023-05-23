@@ -1,30 +1,21 @@
 import { createStore } from 'vuex'
+import { createPinia } from 'pinia'
 
 import 'custom-event-polyfill'
 import './lib/event_target_polyfill.js'
 
-import interfaceModule from './modules/interface.js'
 import instanceModule from './modules/instance.js'
 import statusesModule from './modules/statuses.js'
-import listsModule from './modules/lists.js'
 import usersModule from './modules/users.js'
 import apiModule from './modules/api.js'
 import configModule from './modules/config.js'
 import serverSideConfigModule from './modules/serverSideConfig.js'
 import serverSideStorageModule from './modules/serverSideStorage.js'
-import shoutModule from './modules/shout.js'
 import oauthModule from './modules/oauth.js'
 import authFlowModule from './modules/auth_flow.js'
-import mediaViewerModule from './modules/media_viewer.js'
 import oauthTokensModule from './modules/oauth_tokens.js'
-import reportsModule from './modules/reports.js'
-import pollsModule from './modules/polls.js'
-import postStatusModule from './modules/postStatus.js'
-import editStatusModule from './modules/editStatus.js'
-import statusHistoryModule from './modules/statusHistory.js'
 
 import chatsModule from './modules/chats.js'
-import announcementsModule from './modules/announcements.js'
 
 import { createI18n } from 'vue-i18n'
 
@@ -58,6 +49,7 @@ const persistedStateOptions = {
 (async () => {
   let storageError = false
   const plugins = [pushNotifications]
+  const pinia = createPinia()
   try {
     const persistedState = await createPersistedState(persistedStateOptions)
     plugins.push(persistedState)
@@ -65,44 +57,32 @@ const persistedStateOptions = {
     console.error(e)
     storageError = true
   }
-  const store = createStore({
+
+  // Temporarily storing as a global variable while we migrate to Pinia
+  window.vuex = createStore({
     modules: {
-      i18n: {
-        getters: {
-          i18n: () => i18n.global
-        }
-      },
-      interface: interfaceModule,
       instance: instanceModule,
       // TODO refactor users/statuses modules, they depend on each other
       users: usersModule,
       statuses: statusesModule,
-      lists: listsModule,
       api: apiModule,
       config: configModule,
       serverSideConfig: serverSideConfigModule,
       serverSideStorage: serverSideStorageModule,
-      shout: shoutModule,
       oauth: oauthModule,
       authFlow: authFlowModule,
-      mediaViewer: mediaViewerModule,
       oauthTokens: oauthTokensModule,
-      reports: reportsModule,
-      polls: pollsModule,
-      postStatus: postStatusModule,
-      editStatus: editStatusModule,
-      statusHistory: statusHistoryModule,
-      chats: chatsModule,
-      announcements: announcementsModule
+      chats: chatsModule
     },
     plugins,
     strict: false // Socket modifies itself, let's ignore this for now.
     // strict: process.env.NODE_ENV !== 'production'
   })
-  if (storageError) {
-    store.dispatch('pushGlobalNotice', { messageKey: 'errors.storage_unavailable', level: 'error' })
-  }
-  afterStoreSetup({ store, i18n })
+
+  const store = window.vuex
+
+  // Temporarily passing pinia and vuex stores along with storageError result until migration is fully complete.
+  afterStoreSetup({ pinia, store, storageError, i18n })
 })()
 
 // These are inlined by webpack's DefinePlugin
