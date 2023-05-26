@@ -94,6 +94,15 @@ const isEmoji = req => {
 
   return url.pathname.startsWith('/emoji/')
 }
+const isNotMedia = req => {
+  console.log('req.method=', req.method)
+  if (req.method !== 'GET') {
+    return false
+  }
+  const url = new URL(req.url)
+  console.log('pathname=', url.pathname)
+  return !url.pathname.startsWith('/media/')
+}
 
 self.addEventListener('install', async (event) => {
   if (shouldCache) {
@@ -181,7 +190,7 @@ self.addEventListener('notificationclick', (event) => {
 self.addEventListener('fetch', (event) => {
   // Do not mess up with remote things
   const isSameOrigin = (new URL(event.request.url)).origin === self.location.origin
-  if (shouldCache && event.request.method === 'GET' && isSameOrigin) {
+  if (shouldCache && event.request.method === 'GET' && isSameOrigin && isNotMedia(event.request)) {
     event.respondWith((async () => {
       const r = await caches.match(event.request)
 
