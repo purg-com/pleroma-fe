@@ -190,17 +190,22 @@ self.addEventListener('notificationclick', (event) => {
 self.addEventListener('fetch', (event) => {
   // Do not mess up with remote things
   const isSameOrigin = (new URL(event.request.url)).origin === self.location.origin
+  const isEmojiSuccessful = (resp) => {
+    const type = resp.headers.get('Content-Type')
+    // Backend will revert to index.html if the file does not exist, so text/html for emojis is a failure
+    return type && !type.includes('text/html')
+  }
   if (shouldCache && event.request.method === 'GET' && isSameOrigin && isNotMedia(event.request)) {
     event.respondWith((async () => {
       const r = await caches.match(event.request)
 
-      if (r) {
+      if (r && (isEmojiSuccessful(r) || !isEmoji(event.request))) {
         return r
       }
 
       try {
         const response = await fetch(event.request)
-        if (response.ok && isEmoji(event.request)) {
+        if (response.ok && isEmojiSuccessful(response) && isEmoji(event.request)) {
           const cache = await caches.open(emojiCacheKey)
           await cache.put(event.request.clone(), response.clone())
         }
