@@ -1050,7 +1050,7 @@
     "repeat_confirm": "Do you really want to repeat this status?",
     "repeat_confirm_title": "Repeat confirmation",
     "repeat_confirm_accept_button": "Repeat",
-    "repeat_confirm_cancel_button": "Do not repeat",
+    "repeat_confirm_cancel_button": "Cancel",
     "delete": "Delete status",
     "delete_error": "Error deleting status: {0}",
     "edit": "Edit status",

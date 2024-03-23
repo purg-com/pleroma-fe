@@ -79,7 +79,7 @@
     border-top: 1px solid $fallback--border;
     border-top: 1px solid var(--border, $fallback--border);
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
 
     button {
       width: auto;
