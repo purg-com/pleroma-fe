@@ -14,7 +14,7 @@ import EditStatusModal from './components/edit_status_modal/edit_status_modal.vu
 import PostStatusModal from './components/post_status_modal/post_status_modal.vue'
 import StatusHistoryModal from './components/status_history_modal/status_history_modal.vue'
 import GlobalNoticeList from './components/global_notice_list/global_notice_list.vue'
-import { getOrCreateServiceWorker } from './services/push/push'
+import { getOrCreateServiceWorker } from './services/sw/sw'
 import { windowWidth, windowHeight } from './services/window_utils/window_utils'
 import { mapGetters } from 'vuex'
 import { defineAsyncComponent } from 'vue'
