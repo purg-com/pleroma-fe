@@ -93,13 +93,15 @@ const isEmoji = req => {
   return url.pathname.startsWith('/emoji/')
 }
 const isNotMedia = req => {
-  console.log('req.method=', req.method)
   if (req.method !== 'GET') {
     return false
   }
   const url = new URL(req.url)
-  console.log('pathname=', url.pathname)
   return !url.pathname.startsWith('/media/')
+}
+const isAsset = req => {
+  const url = new URL(req.url)
+  return cacheFiles.includes(url.pathname)
 }
 
 const isSuccessful = (resp) => {
@@ -213,17 +215,23 @@ self.addEventListener('fetch', (event) => {
   // Do not mess up with remote things
   const isSameOrigin = (new URL(event.request.url)).origin === self.location.origin
   if (shouldCache && event.request.method === 'GET' && isSameOrigin && isNotMedia(event.request)) {
+    console.debug('[Service worker] fetch:', event.request.url)
     event.respondWith((async () => {
       const r = await caches.match(event.request)
+      const isEmojiReq = isEmoji(event.request)
 
-      if (r && (isSuccessful(r) || !isEmoji(event.request))) {
+      if (r && isSuccessful(r)) {
+        console.debug('[Service worker] already cached:', event.request.url)
         return r
       }
 
       try {
         const response = await fetch(event.request)
-        if (response.ok && isSuccessful(response) && isEmoji(event.request)) {
-          const cache = await caches.open(emojiCacheKey)
+        if (response.ok &&
+            isSuccessful(response) &&
+            (isEmojiReq || isAsset(event.request))) {
+          console.debug(`[Service worker] caching ${isEmojiReq ? 'emoji' : 'asset'}:`, event.request.url)
+          const cache = await caches.open(isEmojiReq ? emojiCacheKey : cacheKey)
           await cache.put(event.request.clone(), response.clone())
         }
         return response
