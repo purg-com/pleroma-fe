@@ -934,7 +934,10 @@
     "reset_value": "Reset",
     "reset_value_tooltip": "Reset draft",
     "hard_reset_value": "Hard reset",
-    "hard_reset_value_tooltip": "Remove setting from storage, forcing use of default value"
+    "hard_reset_value_tooltip": "Remove setting from storage, forcing use of default value",
+    "cache": "Cache",
+    "clear_asset_cache": "Clear asset cache",
+    "clear_emoji_cache": "Clear emoji cache"
   },
   "admin_dash": {
     "window_title": "Administration",

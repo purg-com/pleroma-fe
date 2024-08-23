@@ -8,6 +8,7 @@ import InterfaceLanguageSwitcher from 'src/components/interface_language_switche
 
 import SharedComputedObject from '../helpers/shared_computed_object.js'
 import ProfileSettingIndicator from '../helpers/profile_setting_indicator.vue'
+import { clearCache, cacheKey, emojiCacheKey } from 'src/services/sw/sw.js'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faGlobe
@@ -86,6 +87,21 @@ const GeneralTab = {
   methods: {
     changeDefaultScope (value) {
       this.$store.dispatch('setProfileOption', { name: 'defaultScope', value })
+    },
+    clearCache (key) {
+      clearCache(key)
+        .then((v) => {
+          this.$store.dispatch('settingsSaved', { success: true })
+        })
+        .catch(error => {
+          this.$store.dispatch('settingsSaved', { error })
+        })
+    },
+    clearAssetCache () {
+      this.clearCache(cacheKey)
+    },
+    clearEmojiCache () {
+      this.clearCache(emojiCacheKey)
     }
   }
 }

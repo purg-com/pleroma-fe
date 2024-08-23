@@ -147,4 +147,10 @@ export function unregisterPushNotifications (token) {
   }
 }
 
+export const shouldCache = process.env.NODE_ENV === 'production'
+export const cacheKey = 'pleroma-fe'
+export const emojiCacheKey = 'pleroma-fe-emoji'
+
+export const clearCache = (key) => caches.delete(key)
+
 export { getOrCreateServiceWorker }

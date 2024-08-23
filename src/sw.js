@@ -3,6 +3,7 @@
 import localForage from 'localforage'
 import { parseNotification } from './services/entity_normalizer/entity_normalizer.service.js'
 import { prepareNotificationObject } from './services/notification_utils/notification_utils.js'
+import { shouldCache, cacheKey, emojiCacheKey } from './services/sw/sw.js'
 import { createI18n } from 'vue-i18n'
 import messages from './i18n/service_worker_messages.js'
 
@@ -82,10 +83,7 @@ const showPushNotification = async (event) => {
   return Promise.resolve()
 }
 
-const shouldCache = process.env.NODE_ENV === 'production'
-const cacheKey = 'pleroma-fe'
 const cacheFiles = self.serviceWorkerOption.assets
-const emojiCacheKey = 'pleroma-fe-emoji'
 const isEmoji = req => {
   if (req.method !== 'GET') {
     return false

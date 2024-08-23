@@ -455,6 +455,29 @@
         </li>
       </ul>
     </div>
+    <div
+      class="setting-item"
+    >
+      <h2>{{ $t('settings.cache') }}</h2>
+      <ul class="setting-list">
+        <li>
+          <button
+            class="btn button-default"
+            @click="clearAssetCache"
+          >
+            {{ $t('settings.clear_asset_cache') }}
+          </button>
+        </li>
+        <li>
+          <button
+            class="btn button-default"
+            @click="clearEmojiCache"
+          >
+            {{ $t('settings.clear_emoji_cache') }}
+          </button>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
