@@ -102,11 +102,35 @@ const isNotMedia = req => {
   return !url.pathname.startsWith('/media/')
 }
 
+const isSuccessful = (resp) => {
+  if (!resp.ok) {
+    return false
+  }
+  if ((new URL(resp.url)).pathname === '/index.html') {
+    // For index.html itself, there is no fallback possible.
+    return true
+  }
+  const type = resp.headers.get('Content-Type')
+  // Backend will revert to index.html if the file does not exist, so text/html for emojis and assets is a failure
+  return type && !type.includes('text/html')
+}
+
 self.addEventListener('install', async (event) => {
   if (shouldCache) {
     event.waitUntil((async () => {
       const cache = await caches.open(cacheKey)
-      await cache.addAll(cacheFiles)
+      await Promise.allSettled(cacheFiles.map(async (route) => {
+        // https://developer.mozilla.org/en-US/docs/Web/API/Cache/add
+        // originally we used addAll() but it will raise a problem in one edge case:
+        // when the file for the route is not found, backend will return index.html with code 200
+        // but it's wrong, and it's cached, so we end up with a bad cache.
+        // this can happen when you refresh when you are in the process of upgrading
+        // the frontend.
+        const resp = await fetch(route)
+        if (isSuccessful(resp)) {
+          await cache.put(route, resp)
+        }
+      }))
     })())
   }
 })
@@ -188,22 +212,17 @@ self.addEventListener('notificationclick', (event) => {
 self.addEventListener('fetch', (event) => {
   // Do not mess up with remote things
   const isSameOrigin = (new URL(event.request.url)).origin === self.location.origin
-  const isEmojiSuccessful = (resp) => {
-    const type = resp.headers.get('Content-Type')
-    // Backend will revert to index.html if the file does not exist, so text/html for emojis is a failure
-    return type && !type.includes('text/html')
-  }
   if (shouldCache && event.request.method === 'GET' && isSameOrigin && isNotMedia(event.request)) {
     event.respondWith((async () => {
       const r = await caches.match(event.request)
 
-      if (r && (isEmojiSuccessful(r) || !isEmoji(event.request))) {
+      if (r && (isSuccessful(r) || !isEmoji(event.request))) {
         return r
       }
 
       try {
         const response = await fetch(event.request)
-        if (response.ok && isEmojiSuccessful(response) && isEmoji(event.request)) {
+        if (response.ok && isSuccessful(response) && isEmoji(event.request)) {
           const cache = await caches.open(emojiCacheKey)
           await cache.put(event.request.clone(), response.clone())
         }
