@@ -120,8 +120,12 @@ const isSuccessful = (resp) => {
 self.addEventListener('install', async (event) => {
   if (shouldCache) {
     event.waitUntil((async () => {
+      // Do not preload i18n and emoji annotations to speed up loading
+      const shouldPreload = (route) => {
+        return !route.startsWith('/static/js/i18n/') && !route.startsWith('/static/js/emoji-annotations/')
+      }
       const cache = await caches.open(cacheKey)
-      await Promise.allSettled(cacheFiles.map(async (route) => {
+      await Promise.allSettled(cacheFiles.filter(shouldPreload).map(async (route) => {
         // https://developer.mozilla.org/en-US/docs/Web/API/Cache/add
         // originally we used addAll() but it will raise a problem in one edge case:
         // when the file for the route is not found, backend will return index.html with code 200
