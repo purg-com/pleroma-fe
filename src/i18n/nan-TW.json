@@ -235,7 +235,7 @@
   "emoji": {
     "stickers": "貼圖",
     "emoji": "繪文字",
-    "keep_open": "Hōo 揀選仔開 leh",
+    "keep_open": "Hōo 揀選器開 leh",
     "search_emoji": "Tshuē 繪文字",
     "add_emoji": "插繪文字",
     "custom": "定製 ê 繪文字",
@@ -988,7 +988,7 @@
     "repeat_confirm_accept_button": "轉送",
     "repeat_confirm_title": "轉送ê確認",
     "repeat_confirm": "Lí kám真ê beh轉送tsit ê狀態？",
-    "delete": "Thâi掉身份",
+    "delete": "Thâi掉狀態",
     "delete_error": "Thâi狀態ê時出tshê：{0}",
     "mentions": "提起",
     "move_down": "Kā附件suá kàu正pîng",
