@@ -119,7 +119,7 @@
     "search": "Recherche",
     "administration": "Administration",
     "chats": "Chats",
-    "bookmarks": "Marques-Pages",
+    "bookmarks": "Marque-pages",
     "timelines": "Flux",
     "home_timeline": "Flux personnel",
     "edit_nav_mobile": "Personnaliser la barre de navigation",
@@ -132,7 +132,9 @@
     "search_close": "Fermer la barre de recherche",
     "announcements": "Annonces",
     "mobile_notifications_mark_as_seen": "Marquer tout comme vu",
-    "quotes": "Citations"
+    "quotes": "Citations",
+    "all_bookmarks": "Tous les marque-pages",
+    "bookmark_folders": "Dossiers des marque-pages"
   },
   "notifications": {
     "broken_favorite": "Message inconnu, recherche en cours…",
@@ -154,7 +156,8 @@
     "configuration_tip_settings": "les préférences",
     "unread_follow_requests": "{num} nouvelle demande de suivi | {num} nouvelles demandes de suivi",
     "configuration_tip": "Vous pouvez personnaliser ce qui est affiché ici dans {theSettings}. {dismiss}",
-    "configuration_tip_dismiss": "Ne plus montrer"
+    "configuration_tip_dismiss": "Ne plus montrer",
+    "subscribed_status": "posté"
   },
   "interactions": {
     "favs_repeats": "Partages et favoris",
@@ -162,7 +165,8 @@
     "load_older": "Chargez d'anciennes interactions",
     "moves": "Migrations de comptes",
     "emoji_reactions": "Émoticônes de réaction",
-    "reports": "Rapports"
+    "reports": "Rapports",
+    "statuses": "Abonnements"
   },
   "post_status": {
     "new_status": "Poster un nouveau statut",
@@ -345,8 +349,8 @@
     "notification_visibility_mentions": "Mentionnés",
     "notification_visibility_repeats": "Partages",
     "no_rich_text_description": "Ne formatez pas le texte",
-    "no_blocks": "Aucun bloqués",
-    "no_mutes": "Aucun masqués",
+    "no_blocks": "Aucun bloqué",
+    "no_mutes": "Aucun masqué",
     "hide_follows_description": "Ne pas afficher à qui je suis abonné",
     "hide_followers_description": "Ne pas afficher qui est abonné à moi",
     "show_admin_badge": "Afficher le badge d'Admin sur mon profil",
@@ -549,7 +553,43 @@
         "header_faint": "Tout va bien",
         "checkbox": "J'ai survolé les conditions d'utilisation",
         "link": "un petit lien sympa"
-      }
+      },
+      "themes2_outdated": "L'éditeur pour les thèmes V2 est en train d'être supprimé et sera remplacé par un nouvel éditeur qui tirera parti du nouveau moteur pour les thèmes V3. Il devrait toujours fonctionner, mais l'expérience pourrait être dégradée et incohérente.",
+      "appearance_tab_note": "Dans cet onglet, les changements n'affectent pas le thème utilisé, donc le thème exporté sera différent de ce que vous voyez à l'écran.",
+      "themes3": {
+        "define": "Écraser",
+        "hacks": {
+          "underlay_override_mode_none": "Valeurs par défaut du thème",
+          "underlay_overrides": "Changer le fond",
+          "underlay_override_mode_opaque": "Remplacer par une couleur uniforme",
+          "force_interface_roundness": "Écraser les arrondis de l'interface",
+          "underlay_override_mode_transparent": "Retirer complètement (peut casser certains thèmes)",
+          "forced_roundness_mode_disabled": "Utiliser les valeurs par défaut du thème",
+          "forced_roundness_mode_sharp": "Forcer les bords carrés",
+          "forced_roundness_mode_round": "Forcer les bords ronds",
+          "forced_roundness_mode_nonsharp": "Forcer les bords \"pas-vraiment-carrés\" (1 px d'arrondi)"
+        },
+        "font": {
+          "builtin": {
+            "serif": "Serif",
+            "sans-serif": "Sans-serif",
+            "monospace": "Monospace",
+            "inherit": "Inchangé"
+          },
+          "group-builtin": "Polices par défaut du navigateur",
+          "local-unavailable2": "Entrer manuellement une police spécifique",
+          "lookup_local_fonts": "Charger la liste des polices installées sur cet ordinateur",
+          "enter_manually": "Entrer le nom d'une famille de police manuellement",
+          "entry": "Entrer {fontFamily}",
+          "select": "Choisir une police",
+          "local-unavailable1": "Listes des polices indisponibles installées localement",
+          "font_list_unavailable": "Impossible de trouver la police locale : {error}",
+          "group-local": "Polices installées localement"
+        }
+      },
+      "interface_font_user_override": "Écraser le thème ou les polices utilisées",
+      "custom_theme_used": "(Thème personnalisé)",
+      "update_preview": "Mise à jour de l'aperçu"
     },
     "version": {
       "title": "Version",
@@ -763,7 +803,35 @@
     "enable_web_push_always_show_tip": "Certains navigateurs (Chromium, Chrome) exigent que les messages push donnent toujours lieu à une notification, sinon le message générique \"Le site web a été mis à jour en arrière-plan\" s'affiche ; activez cette option pour empêcher l'affichage de cette notification, car Chrome semble masquer les notifications push si l'onglet est au centre de l'attention. Cela peut entraîner l'affichage de notifications en double sur d'autres navigateurs.",
     "user_popover_avatar_overlay": "Afficher la fenêtre contextuelle sur l'avatar de l'utilisateur",
     "notification_visibility_in_column": "Afficher la colonne / le tiroir de notifications",
-    "notification_show_extra": "Afficher les extras dans la colonne de notifications"
+    "notification_show_extra": "Afficher les extras dans la colonne de notifications",
+    "units": {
+      "time": {
+        "m": "minutes",
+        "s": "secondes",
+        "h": "heures",
+        "d": "jours"
+      }
+    },
+    "force_theme_recompilation_debug": "Désactiver le cache du thème, forcer la recompilation à chaque démarrage (DEBUG)",
+    "absolute_time_format": "Utiliser le format UTC",
+    "absolute_time_format_min_age": "À n'utiliser que pour les périodes plus anciennes que cette durée",
+    "notification_visibility_statuses": "Abonnements",
+    "mute_sensitive_posts": "Masquer les postes sensibles",
+    "appearance": "Apparence",
+    "confirm_new_setting": "Confirmer le nouveau réglage ?",
+    "confirm_new_question": "Est-ce que tout est ok ? Le réglage sera rétabli dans dix secondes.",
+    "revert": "Rétablir",
+    "confirm": "Confirmer",
+    "text_size": "Taille du texte et de l'interface",
+    "text_size_tip": "Utiliser {0} pour des valeurs absolues, {1} mettra l'échelle du texte à la valeur par défaut du navigateur.",
+    "text_size_tip2": "Les valeurs différentes de {0} pourraient casser les thèmes ou d'autres trucs",
+    "emoji_size": "Taille des émojis",
+    "navbar_size": "Taille de la barre supérieure",
+    "panel_header_size": "Taille du panneau d'en-tête",
+    "visual_tweaks": "Ajustements visuels mineurs",
+    "theme_debug": "Montrer ce que le moteur de thème de l'arrière-plan bricole lorsqu'il travaille avec la transparence (DEBUG)",
+    "scale_and_layout": "Taille et disposition de l'interface",
+    "hide_scrobbles_after": "Masquer les scrobbles plus vieux que"
   },
   "timeline": {
     "collapse": "Fermer",
@@ -1054,7 +1122,9 @@
     "vote": "Voter",
     "expired": "Sondage terminé il y a {0}",
     "people_voted_count": "{count} voteur | {count} voteurs",
-    "votes_count": "{count} vote | {count} votes"
+    "votes_count": "{count} vote | {count} votes",
+    "non_anonymous": "Sondage public",
+    "non_anonymous_title": "Certaines instances pourraient afficher ce pour quoi vous avez voté"
   },
   "emoji": {
     "emoji": "Émoji",
