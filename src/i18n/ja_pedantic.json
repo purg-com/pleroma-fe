@@ -130,7 +130,9 @@
     "edit_finish": "完了",
     "mobile_notifications": "通知を開く (未読あり)",
     "mobile_notifications_close": "通知を閉じる",
-    "announcements": "お知らせ"
+    "announcements": "お知らせ",
+    "all_bookmarks": "全てのブックマーク",
+    "bookmark_folders": "ブックマークフォルダ"
   },
   "notifications": {
     "broken_favorite": "ステータスが見つかりません。探しています…",
@@ -152,7 +154,8 @@
     "unread_follow_requests": "フォローリクエストが{num}件来ています | フォローリクエストが{num}件来ています",
     "configuration_tip": "ここに表示する通知の種類は{theSettings}にて変更することができます。 {dismiss}",
     "submitted_report": "通報が送信されました",
-    "configuration_tip_settings": "設定"
+    "configuration_tip_settings": "設定",
+    "subscribed_status": "投稿しました"
   },
   "polls": {
     "add_poll": "投票を追加",
@@ -192,7 +195,8 @@
     "load_older": "古い通知を読み込む",
     "moves": "ユーザーの引っ越し",
     "emoji_reactions": "絵文字リアクション",
-    "reports": "通報"
+    "reports": "通報",
+    "statuses": "購読"
   },
   "post_status": {
     "new_status": "投稿する",
@@ -556,7 +560,8 @@
           "buttonPressedHover": "ボタン (ホバー、かつ、押されているとき)",
           "input": "入力欄"
         },
-        "hintV3": "影の場合は、 {0} 表記を使って他の色スロットを使うこともできます。"
+        "hintV3": "影の場合は、 {0} 表記を使って他の色スロットを使うこともできます。",
+        "offset": "影のオフセット"
       },
       "fonts": {
         "_tab_label": "フォント",
@@ -851,7 +856,9 @@
     "emoji_size": "絵文字のサイズ",
     "navbar_size": "トップバーのサイズ",
     "panel_header_size": "パネルヘッダーのサイズ",
-    "notification_visibility_statuses": "購読"
+    "notification_visibility_statuses": "購読",
+    "text_size_tip": "絶対的な値には{0}を使用してください。{1}はブラウザのデフォルトのフォントサイズを基準にスケールされます。",
+    "visual_tweaks": "細かい外観の変更"
   },
   "time": {
     "day": "{0}日",
@@ -992,7 +999,8 @@
     "sensitive_muted": "閲覧注意な投稿のためミュートされています",
     "load_error": "投稿の読み込みに失敗しました: {error}",
     "loading": "読み込み中…",
-    "quotes": "引用"
+    "quotes": "引用",
+    "bot_muted": "BOTによる投稿のためミュートされています"
   },
   "user_card": {
     "approve": "承認",
@@ -1093,7 +1101,8 @@
     "remove_follower_confirm_accept_button": "解除する",
     "mute_confirm_title": "ミュートの確認",
     "deactivated": "無効化済み",
-    "group": "グループ"
+    "group": "グループ",
+    "mute_duration_prompt": "ミュート期間 (0で無期限):"
   },
   "user_profile": {
     "timeline_title": "ユーザータイムライン",
@@ -1354,7 +1363,8 @@
       "files": "ファイル",
       "delete_title": "削除しますか？",
       "metadata_changed": "変更されたメタデータ",
-      "emoji_changed": "保存されていない変更点があります。ハイライトされた絵文字を確認してください"
+      "emoji_changed": "保存されていない変更点があります。ハイライトされた絵文字を確認してください",
+      "importFS": "ファイルシステムから絵文字をインポート"
     }
   },
   "lists": {
@@ -1418,5 +1428,20 @@
     "start_time_prompt": "開始日時: ",
     "end_time_prompt": "終了日時: ",
     "all_day_prompt": "終日"
+  },
+  "splash": {
+    "loading": "読み込み中…",
+    "theme": "テーマを適用中です。お待ちください…",
+    "instance": "インスタンス情報を取得中…",
+    "settings": "設定を適用中…",
+    "fun_2": "ゆっくりしていってね！",
+    "error": "問題が発生しました",
+    "fun_3": "( ˘ω˘)ｽﾔｧ…"
+  },
+  "bookmark_folders": {
+    "emoji": "絵文字",
+    "update_folder": "変更を保存",
+    "really_delete": "本当にフォルダを削除しますか？",
+    "name": "フォルダ名"
   }
 }
