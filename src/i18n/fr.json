@@ -58,7 +58,7 @@
     "yes": "Oui",
     "no": "Non",
     "unpin": "Dégrafer l'élément",
-    "scroll_to_top": "Défiler au début",
+    "scroll_to_top": "Défiler vers le haut",
     "pin": "Agrafer l'élément",
     "generic_error_message": "Une erreur est apparue : {0}",
     "never_show_again": "Ne plus afficher"
@@ -110,7 +110,7 @@
     "mentions": "Mentions",
     "interactions": "Interactions",
     "dms": "Messages directs",
-    "public_tl": "Flux publique",
+    "public_tl": "Flux public",
     "timeline": "Flux personnel",
     "twkn": "Réseau connu",
     "user_search": "Recherche de comptes",
@@ -119,7 +119,7 @@
     "search": "Recherche",
     "administration": "Administration",
     "chats": "Chats",
-    "bookmarks": "Marque-pages",
+    "bookmarks": "Marque-Pages",
     "timelines": "Flux",
     "home_timeline": "Flux personnel",
     "edit_nav_mobile": "Personnaliser la barre de navigation",
@@ -127,7 +127,7 @@
     "lists": "Listes",
     "edit_pinned": "Éditer les éléments agrafés",
     "edit_finish": "Édition terminée",
-    "mobile_sidebar": "(Dés)activer le panneau latéral",
+    "mobile_sidebar": "Basculer la barre latérale",
     "mobile_notifications_close": "Fermer les notifications",
     "search_close": "Fermer la barre de recherche",
     "announcements": "Annonces",
@@ -192,7 +192,7 @@
     "scope": {
       "direct": "Direct - N'envoyer qu'aux personnes mentionnées",
       "private": "Abonné·e·s uniquement - Seul·e·s vos abonné·e·s verront vos status",
-      "public": "Publique - Afficher dans les flux publics",
+      "public": "Public - Afficher dans les flux publics",
       "unlisted": "Non-Listé - Ne pas afficher dans les flux publics"
     },
     "media_description_error": "Échec de téléversement du media, essayez encore",
@@ -405,7 +405,7 @@
       "true": "oui"
     },
     "notifications": "Notifications",
-    "notification_mutes": "Pour stopper la récéption de notifications d'un utilisateur particulier, utilisez un masquage.",
+    "notification_mutes": "Pour stopper la réception de notifications d’un utilisateur particulier, utilisez la fonction « masquer ».",
     "notification_blocks": "Bloquer un utilisateur stoppe toute notification et se désabonne de lui.",
     "enable_web_push_notifications": "Activer les notifications de push web",
     "style": {
@@ -509,7 +509,8 @@
           "drop_shadow_syntax": "{0} ne supporte pas le paramètre {1} et mot-clé {2}.",
           "avatar_inset": "Veuillez noter que combiner à la fois les ombres internes et non-internes sur les avatars peut fournir des résultats inattendus avec la transparence des avatars.",
           "spread_zero": "Les ombres avec une dispersion > 0 apparaitrons comme si ils étaient à zéro",
-          "inset_classic": "L'ombre interne utilisera toujours {0}"
+          "inset_classic": "L'ombre interne utilisera toujours {0}",
+          "avatar_inset_short": "Séparer l'ombre incrustée"
         },
         "components": {
           "panel": "Panneau",
@@ -524,7 +525,10 @@
           "buttonPressedHover": "Bouton (cliqué+survol)",
           "input": "Champ de saisie"
         },
-        "hintV3": "Pour les ombres vous pouvez aussi utiliser la notation {0} pour utiliser un autre emplacement de couleur."
+        "hintV3": "Pour les ombres vous pouvez aussi utiliser la notation {0} pour utiliser un autre emplacement de couleur.",
+        "name": "Nom",
+        "offset": "Décalage d'ombre",
+        "light_grid": "Utiliser un damier clair"
       },
       "fonts": {
         "_tab_label": "Polices",
@@ -533,7 +537,8 @@
           "interface": "Interface",
           "input": "Champs de saisie",
           "post": "Post text",
-          "postCode": "Texte à taille fixe dans un article (texte enrichi)"
+          "postCode": "Texte à taille fixe dans un article (texte enrichi)",
+          "monospace": "Texte à espacement fixe"
         },
         "family": "Nom de la police",
         "size": "Taille (en px)",
@@ -555,7 +560,7 @@
         "link": "un petit lien sympa"
       },
       "themes2_outdated": "L'éditeur pour les thèmes V2 est en train d'être supprimé et sera remplacé par un nouvel éditeur qui tirera parti du nouveau moteur pour les thèmes V3. Il devrait toujours fonctionner, mais l'expérience pourrait être dégradée et incohérente.",
-      "appearance_tab_note": "Dans cet onglet, les changements n'affectent pas le thème utilisé, donc le thème exporté sera différent de ce que vous voyez à l'écran.",
+      "appearance_tab_note": "Dans cet onglet, les changements n'affectent pas le thème utilisé, donc le thème exporté sera différent de ce que vous voyez à l'écran",
       "themes3": {
         "define": "Écraser",
         "hacks": {
@@ -616,7 +621,7 @@
     "useStreamingApi": "Recevoir les messages et notifications en temps réel",
     "notification_setting_filters": "Filtres",
     "notification_setting_privacy_option": "Masquer l'expéditeur et le contenu des notifications push",
-    "notification_setting_privacy": "Intimité",
+    "notification_setting_privacy": "Vie privée",
     "hide_followers_count_description": "Masquer le nombre d'abonnés",
     "accent": "Accent",
     "chatMessageRadius": "Message de chat",
@@ -627,7 +632,7 @@
     "mute_import": "Import des masquages",
     "mute_export_button": "Exporter vos masquages dans un fichier CSV",
     "mute_export": "Export des masquages",
-    "notification_setting_hide_notification_contents": "Cacher l'expéditeur et le contenu des notifications push",
+    "notification_setting_hide_notification_contents": "Masquer l’expéditeur et le contenu des notifications « push »",
     "notification_setting_block_from_strangers": "Bloquer les notifications des utilisateur⋅ice⋅s que vous ne suivez pas",
     "virtual_scrolling": "Optimiser le rendu des flux",
     "reset_background_confirm": "Voulez-vraiment réinitialiser l'arrière-plan ?",
@@ -739,7 +744,7 @@
     "mention_link_show_avatar_quick": "Afficher l'avatar de l'utilisateur à côté des mentions",
     "navbar_column_stretch": "Élargir la barre de navigation à la taille des colonnes",
     "column_sizes": "Taille des colonnes",
-    "column_sizes_sidebar": "Panneau latéral",
+    "column_sizes_sidebar": "Barre latérale",
     "column_sizes_content": "Contenu",
     "column_sizes_notifs": "Notifications",
     "conversation_display_linear_quick": "Vue linéaire",
@@ -778,7 +783,7 @@
     "hard_reset_value": "Remise à zéro",
     "hide_actor_type_indication": "Cacher le type (robots, groupes, etc.) dans les status",
     "notification_extra_follow_requests": "Afficher les nouvelles demandes de suivi",
-    "user_popover_avatar_action": "Action du clic sur l'avatar",
+    "user_popover_avatar_action": "Action lors du clic sur la fenêtre Avatar",
     "user_popover_avatar_action_close": "Fermer la fenêtre contextuelle",
     "notification_setting_ignore_inactionable_seen": "Ignorer les status de lecture des notifications non actionnables (favoris, répétitions, etc)",
     "notification_setting_ignore_inactionable_seen_tip": "Ceci ne marquera pas ces notifications comme lues, et vous recevrez encore les notifications de bureau si vous le décidez",
@@ -800,8 +805,8 @@
     "notification_extra_chats": "Afficher les discussions non lues",
     "notification_extra_announcements": "Afficher les annonces non lues",
     "notification_extra_tip": "Afficher les astuces de personnalisation pour les notifications extras",
-    "enable_web_push_always_show_tip": "Certains navigateurs (Chromium, Chrome) exigent que les messages push donnent toujours lieu à une notification, sinon le message générique \"Le site web a été mis à jour en arrière-plan\" s'affiche ; activez cette option pour empêcher l'affichage de cette notification, car Chrome semble masquer les notifications push si l'onglet est au centre de l'attention. Cela peut entraîner l'affichage de notifications en double sur d'autres navigateurs.",
-    "user_popover_avatar_overlay": "Afficher la fenêtre contextuelle sur l'avatar de l'utilisateur",
+    "enable_web_push_always_show_tip": "Certains navigateurs (Chromium, Chrome) exigent que les messages push donnent toujours lieu à une notification, sinon le message générique « Le site web a été mis à jour en arrière-plan » s’affiche : activez cette option pour empêcher l’affichage de cette notification, car Chrome semble masquer les notifications push si l’onglet est au centre de l’attention. Ceci peut entraîner l’affichage de notifications en double sur d’autres navigateurs.",
+    "user_popover_avatar_overlay": "Afficher la fiche de l’utilisateur au survol de l’avatar",
     "notification_visibility_in_column": "Afficher la colonne / le tiroir de notifications",
     "notification_show_extra": "Afficher les extras dans la colonne de notifications",
     "units": {
@@ -918,7 +923,12 @@
     "delete_confirm_cancel_button": "Conserver",
     "repeat_confirm_title": "Confirmer reposte",
     "repeat_confirm_accept_button": "Reposter",
-    "delete_confirm_accept_button": "Supprimer"
+    "delete_confirm_accept_button": "Supprimer",
+    "sensitive_muted": "Silencer le contenu sensible",
+    "quotes": "Citations",
+    "load_error": "Impossible de charger la publication : {error}",
+    "loading": "En cours de chargement…",
+    "bot_muted": "Silencer le contenu de robots"
   },
   "user_card": {
     "approve": "Accepter",
@@ -997,9 +1007,9 @@
     "unfollow_confirm": "Voulez-vous vraiment arrêter de suivre {user} ?",
     "unfollow_confirm_accept_button": "Ne plus suivre",
     "birthday": "Né(e) le {birthday}",
-    "edit_note": "Éditer note",
+    "edit_note": "Modifier la note",
     "edit_note_apply": "Appliquer",
-    "edit_note_cancel": "Abandonner",
+    "edit_note_cancel": "Annuler",
     "note": "Note",
     "group": "Groupe",
     "unfollow_confirm_title": "Confirmer l'arrêt de suivi",
@@ -1011,7 +1021,7 @@
     "remove_follower_confirm_cancel_button": "Conserver",
     "mute_duration_prompt": "Mettre cet utilisateur en sourdine pour (0 pour une durée indéterminée) :",
     "remove_follower_confirm_title": "Confirmation de suppression d'utilisateur",
-    "note_blank": "(Aucun)",
+    "note_blank": "(vide)",
     "mute_confirm": "Voulez-vous vraiment mettre {user} en sourdine ?",
     "mute_confirm_accept_button": "Mettre en sourdine",
     "mute_confirm_cancel_button": "Ne pas mettre en sourdine",
@@ -1051,8 +1061,8 @@
     "reject_follow_request": "Rejeter la demande de suivit",
     "bookmark": "Favori",
     "autocomplete_available": "{number} résultat est disponible. Utilisez les touches haut et bas pour naviguer à l'intérieur. | {number} résultats sont disponibles. Utilisez les touches haut et bas pour naviguer à l'intérieur.",
-    "toggle_expand": "Développer ou réduire la notification pour afficher le message dans son intégralité",
-    "toggle_mute": "Développer ou réduire la notification pour révéler le contenu en sourdine"
+    "toggle_expand": "Étendre ou réduire la notification pour montrer les messages en entier",
+    "toggle_mute": "Étendre ou réduire les notifications pour révéler le contenu masqué"
   },
   "upload": {
     "error": {
@@ -1081,11 +1091,11 @@
       "simple": {
         "simple_policies": "Politiques par instances",
         "accept": "Acceptées",
-        "accept_desc": "Cette instance accepte les messages seulement depuis ces instances :",
+        "accept_desc": "Cette instance accepte les messages seulement depuis les instances suivantes :",
         "reject": "Rejetées",
         "reject_desc": "Cette instance n'acceptera pas de message de ces instances :",
         "quarantine": "Quarantaine",
-        "quarantine_desc": "Cette instance enverra seulement des messages publics à ces instances :",
+        "quarantine_desc": "Cette instance enverra uniquement des messages publics aux instances suivantes :",
         "ftl_removal_desc": "Cette instance supprime les instance suivantes du flux fédéré :",
         "media_removal": "Suppression des pièce-jointes",
         "media_removal_desc": "Cette instance supprime le contenu multimédia des instances suivantes :",
@@ -1142,7 +1152,7 @@
       "flags": "Drapeaux",
       "food-and-drink": "Nourriture & boissons",
       "objects": "Objets",
-      "people-and-body": "Personnes & Corps",
+      "people-and-body": "Humain·e·s & Corps",
       "smileys-and-emotion": "Emoticônes",
       "symbols": "Symboles",
       "travel-and-places": "Voyages & lieux"
@@ -1246,7 +1256,7 @@
     "empty_chat_list_placeholder": "Vous n'avez pas encore de discussions. Démarrez-en une nouvelle !",
     "error_sending_message": "Quelque chose s'est mal passé pendant l'envoi du message.",
     "error_loading_chat": "Quelque chose s'est mal passé au chargement de la discussion.",
-    "delete_confirm": "Voulez-vous vraiment effacer ce message ?",
+    "delete_confirm": "Souhaitez-vous vraiment effacer ce message ?",
     "more": "Plus",
     "empty_message_error": "Impossible d'envoyer un message vide",
     "new": "Nouvelle discussion",
@@ -1283,7 +1293,7 @@
     "art_by": "Œuvre par {linkToArtist}",
     "big_update_content": "Nous n'avons pas fait de nouvelle version depuis un moment, les choses peuvent vous paraitre différentes de vos habitudes.",
     "update_bugs": "Veuillez rapporter les problèmes sur {pleromaGitlab}, comme beaucoup de changements on été fait, même si nous testons entièrement et utilisons la version de dévelopement nous-même, nous avons pu en louper. Les retours et suggestions sont bienvenues sur ce que vous avez pu rencontrer, ou sur comment améliorer Pleroma (BE) et Pleroma-FE.",
-    "big_update_title": "Soyez indulgent avec nous"
+    "big_update_title": "Soyez patients avec nous"
   },
   "unicode_domain_indicator": {
     "tooltip": "Ce domaine contient des caractères non ascii."
@@ -1292,8 +1302,8 @@
     "reporter": "Rapporteur·euse :",
     "reported_user": "Compte rapporté :",
     "reported_statuses": "Status rapportés :",
-    "notes": "Notes :",
-    "state": "Status :",
+    "notes": "Notes :",
+    "state": "Statu :",
     "state_open": "Ouvert",
     "state_closed": "Fermé",
     "state_resolved": "Résolut"
@@ -1302,9 +1312,9 @@
     "page_header": "Annonces",
     "title": "Annonce",
     "mark_as_read_action": "Marquer comme lu",
-    "post_form_header": "Faire une annonce",
-    "post_placeholder": "Écrivez le contenu de l'annonce ici...",
-    "post_action": "Envoyer",
+    "post_form_header": "Envoyer l'annonce",
+    "post_placeholder": "Rédiger ici le contenu de l'annonce...",
+    "post_action": "Publier",
     "post_error": "Erreur : {error}",
     "close_error": "Fermer",
     "delete_action": "Supprimer",
@@ -1324,7 +1334,7 @@
       "success_installing_frontend": "Installation réussie de l'interface {version}",
       "failure_installing_frontend": "Échec de l'installation de l'interface {version} : {reason}",
       "default_frontend_unavail": "Les paramètres de l'interface ne sont pas disponibles, ils doivent être configurés dans la base de données",
-      "build_url": "Construction URL",
+      "build_url": "URL de référence",
       "reinstall": "Réinstaller",
       "repository": "Lien du dépôt",
       "versions": "Versions disponibles",
@@ -1411,7 +1421,7 @@
       "revert": "Revenir en arrière",
       "add_file": "Ajouter un fichier",
       "adding_new": "Ajouter un nouvel émoji",
-      "shortcode": "Shortcode",
+      "shortcode": "Code court",
       "filename": "Nom du fichier",
       "new_filename": "Nom de fichier, laisser blanc pour inférer",
       "delete_confirm": "Êtes-vous sûr de vouloir supprimer {0} ?",
@@ -1425,7 +1435,8 @@
       "delete_title": "Supprimer ?",
       "metadata_changed": "Métadonnées différentes de celles sauvegardées",
       "emoji_changed": "Modifications du fichier émoji non sauvegardées, vérifier l'émoji surligné",
-      "replace_warning": "Vous allez REMPLACER le pack local qui porte ce nom"
+      "replace_warning": "Vous allez REMPLACER le pack local qui porte ce nom",
+      "new_shortcode": "Shortcode, laissez vide pour déduire"
     },
     "window_title": "Administration",
     "nodb": {
@@ -1450,5 +1461,30 @@
     "old_ui_link": "L'ancien espace d'administration est disponible ici",
     "reset_all": "Tout réinitialiser",
     "commit_all": "Tout sauvegarder"
+  },
+  "splash": {
+    "settings": "Application des paramètres…",
+    "almost": "Réticulation des splines…",
+    "fun_2": "Allez-y doucement !",
+    "fun_3": "Suya…",
+    "fun_4": "Ma machine Pleroma est à pleine puissance !",
+    "loading": "En cours de chargement…",
+    "theme": "Application du thème, veuillez patienter chaleureusement…",
+    "instance": "Récupération des infos de l'instance…",
+    "fun_1": "Buvez plus d'eau",
+    "error": "Quelque chose s'est mal passé"
+  },
+  "bookmark_folders": {
+    "select_folder": "Sélectionnez le dossier des favoris",
+    "create": "Créer le dossier",
+    "emoji": "Emoji",
+    "name": "Nom du dossier",
+    "new": "Nouveau dossier",
+    "delete": "Supprimer le dossier",
+    "update_folder": "Enregistrer les changements",
+    "really_delete": "Voulez-vous vraiment supprimer le dossier ?",
+    "error": "Erreur lors de la manipulation des dossiers de favoris : {0}",
+    "creating_folder": "Création du dossier des favoris",
+    "editing_folder": "Édition du dossier {folderName}"
   }
 }
