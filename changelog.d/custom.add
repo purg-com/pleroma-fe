@@ -1,0 +1,1 @@
+Added support for fetching /{resource}.custom.ext to allow adding instance-specific themes without altering sourcetree

@@ -56,43 +56,74 @@ export const getAllPossibleCombinations = (array) => {
  *
  * @returns {String} CSS selector (or path)
  */
-export const genericRuleToSelector = components => (rule, ignoreOutOfTreeSelector, isParent) => {
+export const genericRuleToSelector = components => (rule, ignoreOutOfTreeSelector, liteMode, children) => {
+  const isParent = !!children
   if (!rule && !isParent) return null
   const component = components[rule.component]
-  const { states = {}, variants = {}, selector, outOfTreeSelector } = component
+  const { states = {}, variants = {}, outOfTreeSelector } = component
 
-  const applicableStates = ((rule.state || []).filter(x => x !== 'normal')).map(state => states[state])
+  const expand = (array = [], subArray = []) => {
+    if (array.length === 0) return subArray.map(x => [x])
+    if (subArray.length === 0) return array.map(x => [x])
+    return array.map(a => {
+      return subArray.map(b => [a, b])
+    }).flat()
+  }
+
+  let componentSelectors = Array.isArray(component.selector) ? component.selector : [component.selector]
+  if (ignoreOutOfTreeSelector || liteMode) componentSelectors = [componentSelectors[0]]
+  componentSelectors = componentSelectors.map(selector => {
+    if (selector === ':root') {
+      return ''
+    } else if (isParent) {
+      return selector
+    } else {
+      if (outOfTreeSelector && !ignoreOutOfTreeSelector) return outOfTreeSelector
+      return selector
+    }
+  })
 
   const applicableVariantName = (rule.variant || 'normal')
-  let applicableVariant = ''
+  let variantSelectors = null
   if (applicableVariantName !== 'normal') {
-    applicableVariant = variants[applicableVariantName]
+    variantSelectors = variants[applicableVariantName]
   } else {
-    applicableVariant = variants?.normal ?? ''
+    variantSelectors = variants?.normal ?? ''
   }
+  variantSelectors = Array.isArray(variantSelectors) ? variantSelectors : [variantSelectors]
+  if (ignoreOutOfTreeSelector || liteMode) variantSelectors = [variantSelectors[0]]
 
-  let realSelector
-  if (selector === ':root') {
-    realSelector = ''
-  } else if (isParent) {
-    realSelector = selector
-  } else {
-    if (outOfTreeSelector && !ignoreOutOfTreeSelector) realSelector = outOfTreeSelector
-    else realSelector = selector
-  }
+  const applicableStates = (rule.state || []).filter(x => x !== 'normal')
+  // const applicableStates = (rule.state || [])
+  const statesSelectors = applicableStates.map(state => {
+    const selector = states[state] || ''
+    let arraySelector = Array.isArray(selector) ? selector : [selector]
+    if (ignoreOutOfTreeSelector || liteMode) arraySelector = [arraySelector[0]]
+    arraySelector
+      .sort((a, b) => {
+        if (a.startsWith(':')) return 1
+        if (/^[a-z]/.exec(a)) return -1
+        else return 0
+      })
+      .join('')
+    return arraySelector
+  })
 
-  const selectors = [realSelector, applicableVariant, ...applicableStates]
-    .sort((a, b) => {
-      if (a.startsWith(':')) return 1
-      if (/^[a-z]/.exec(a)) return -1
-      else return 0
-    })
-    .join('')
+  const statesSelectorsFlat = statesSelectors.reduce((acc, s) => {
+    return expand(acc, s).map(st => st.join(''))
+  }, [])
+
+  const componentVariant = expand(componentSelectors, variantSelectors).map(cv => cv.join(''))
+  const componentVariantStates = expand(componentVariant, statesSelectorsFlat).map(cvs => cvs.join(''))
+  const selectors = expand(componentVariantStates, children).map(cvsc => cvsc.join(' '))
+  /*
+  */
 
   if (rule.parent) {
-    return (genericRuleToSelector(components)(rule.parent, ignoreOutOfTreeSelector, true) + ' ' + selectors).trim()
+    return genericRuleToSelector(components)(rule.parent, ignoreOutOfTreeSelector, liteMode, selectors)
   }
-  return selectors.trim()
+
+  return selectors.join(', ').trim()
 }
 
 /**

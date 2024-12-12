@@ -9,9 +9,9 @@ export default {
     // However, cascading still works, so resulting state will be result of merging of all relevant states/variants
     // normal: '' // normal state is implicitly added, it is always included
     toggled: '.toggled',
-    pressed: ':active',
+    focused: ':focus-visible',
+    pressed: ':focus:active',
     hover: ':hover:not(:disabled)',
-    focused: ':focus-within',
     disabled: ':disabled'
   },
   // Variants are mutually exclusive, each component implicitly has "normal" variant, and all other variants inherit from it.
@@ -21,6 +21,9 @@ export default {
     danger: '.danger'
     // Overall the compuation difficulty is N*((1/6)M^3+M) where M is number of distinct states and N is number of variants.
     // This (currently) is further multipled by number of places where component can exist.
+  },
+  editor: {
+    aspect: '2 / 1'
   },
   // This lists all other components that can possibly exist within one. Recursion is currently not supported (and probably won't be supported ever).
   validInnerComponents: [
@@ -32,10 +35,11 @@ export default {
     {
       component: 'Root',
       directives: {
-        '--defaultButtonHoverGlow': 'shadow | 0 0 4 --text',
-        '--defaultButtonShadow': 'shadow | 0 0 2 #000000',
-        '--defaultButtonBevel': 'shadow | $borderSide(#FFFFFF, top, 0.2), $borderSide(#000000, bottom, 0.2)',
-        '--pressedButtonBevel': 'shadow | $borderSide(#FFFFFF, bottom, 0.2), $borderSide(#000000, top, 0.2)'
+        '--buttonDefaultHoverGlow': 'shadow | 0 0 4 --text / 0.5',
+        '--buttonDefaultFocusGlow': 'shadow | 0 0 4 4 --link / 0.5',
+        '--buttonDefaultShadow': 'shadow | 0 0 2 #000000',
+        '--buttonDefaultBevel': 'shadow | $borderSide(#FFFFFF top 0.2 2), $borderSide(#000000 bottom 0.2 2)',
+        '--buttonPressedBevel': 'shadow | $borderSide(#FFFFFF bottom 0.2 2), $borderSide(#000000 top 0.2 2)'
       }
     },
     {
@@ -43,47 +47,60 @@ export default {
       // like within it
       directives: {
         background: '--fg',
-        shadow: ['--defaultButtonShadow', '--defaultButtonBevel'],
+        shadow: ['--buttonDefaultShadow', '--buttonDefaultBevel'],
         roundness: 3
       }
     },
     {
       state: ['hover'],
       directives: {
-        shadow: ['--defaultButtonHoverGlow', '--defaultButtonBevel']
+        shadow: ['--buttonDefaultHoverGlow', '--buttonDefaultBevel']
+      }
+    },
+    {
+      state: ['focused'],
+      directives: {
+        shadow: ['--buttonDefaultFocusGlow', '--buttonDefaultBevel']
       }
     },
     {
       state: ['pressed'],
       directives: {
-        shadow: ['--defaultButtonShadow', '--pressedButtonBevel']
+        shadow: ['--buttonDefaultShadow', '--buttonPressedBevel']
       }
     },
     {
-      state: ['hover', 'pressed'],
+      state: ['pressed', 'hover'],
       directives: {
-        shadow: ['--defaultButtonHoverGlow', '--pressedButtonBevel']
+        shadow: ['--buttonPressedBevel', '--buttonDefaultHoverGlow']
       }
     },
     {
       state: ['toggled'],
       directives: {
         background: '--inheritedBackground,-14.2',
-        shadow: ['--defaultButtonShadow', '--pressedButtonBevel']
+        shadow: ['--buttonDefaultShadow', '--buttonPressedBevel']
       }
     },
     {
       state: ['toggled', 'hover'],
       directives: {
         background: '--inheritedBackground,-14.2',
-        shadow: ['--defaultButtonHoverGlow', '--pressedButtonBevel']
+        shadow: ['--buttonDefaultHoverGlow', '--buttonPressedBevel']
+      }
+    },
+    {
+      state: ['toggled', 'disabled'],
+      directives: {
+        background: '$blend(--inheritedBackground 0.25 --parent)',
+        shadow: ['--buttonPressedBevel']
       }
     },
     {
       state: ['disabled'],
       directives: {
-        background: '$blend(--inheritedBackground, 0.25, --parent)',
-        shadow: ['--defaultButtonBevel']
+        background: '$blend(--inheritedBackground 0.25 --parent)',
+        shadow: ['--buttonDefaultBevel']
       }
     },
     {

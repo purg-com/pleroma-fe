@@ -2,15 +2,23 @@ import utf8 from 'utf8'
 
 export const newExporter = ({
   filename = 'data',
+  mime = 'application/json',
+  extension = '.json',
   getExportedObject
 }) => ({
   exportData () {
-    const stringified = utf8.encode(JSON.stringify(getExportedObject(), null, 2)) // Pretty-print and indent with 2 spaces
+    let stringified
+    if (mime === 'application/json') {
+      stringified = utf8.encode(JSON.stringify(getExportedObject(), null, 2)) // Pretty-print and indent with 2 spaces
+    } else {
+      stringified = utf8.encode(getExportedObject()) // Pretty-print and indent with 2 spaces
+    }
 
     // Create an invisible link with a data url and simulate a click
     const e = document.createElement('a')
-    e.setAttribute('download', `${filename}.json`)
-    e.setAttribute('href', 'data:application/json;base64,' + window.btoa(stringified))
+    const realFilename = typeof filename === 'function' ? filename() : filename
+    e.setAttribute('download', `${realFilename}.${extension}`)
+    e.setAttribute('href', `data:${mime};base64, ${window.btoa(stringified)}`)
     e.style.display = 'none'
 
     document.body.appendChild(e)
@@ -20,6 +28,8 @@ export const newExporter = ({
 })
 
 export const newImporter = ({
+  accept = '.json',
+  parser = (string) => JSON.parse(string),
   onImport,
   onImportFailure,
   validator = () => true
@@ -27,18 +37,19 @@ export const newImporter = ({
   importData () {
     const filePicker = document.createElement('input')
     filePicker.setAttribute('type', 'file')
-    filePicker.setAttribute('accept', '.json')
+    filePicker.setAttribute('accept', accept)
 
     filePicker.addEventListener('change', event => {
       if (event.target.files[0]) {
+        const filename = event.target.files[0].name
         // eslint-disable-next-line no-undef
         const reader = new FileReader()
         reader.onload = ({ target }) => {
           try {
-            const parsed = JSON.parse(target.result)
-            const validationResult = validator(parsed)
+            const parsed = parser(target.result, filename)
+            const validationResult = validator(parsed, filename)
             if (validationResult === true) {
-              onImport(parsed)
+              onImport(parsed, filename)
             } else {
               onImportFailure({ validationResult })
             }

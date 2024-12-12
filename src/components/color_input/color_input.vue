@@ -11,11 +11,11 @@
       {{ label }}
     </label>
     <Checkbox
-      v-if="typeof fallback !== 'undefined' && showOptionalTickbox"
+      v-if="typeof fallback !== 'undefined' && showOptionalCheckbox && !hideOptionalCheckbox"
       :model-value="present"
       :disabled="disabled"
       class="opt"
-      @update:modelValue="update(typeof modelValue === 'undefined' ? fallback : undefined)"
+      @update:modelValue="updateValue(typeof modelValue === 'undefined' ? fallback : undefined)"
     />
     <div
       class="input color-input-field"
@@ -112,10 +112,16 @@ export default {
       default: false
     },
     // Show "optional" tickbox, for when value might become mandatory
-    showOptionalTickbox: {
+    showOptionalCheckbox: {
       required: false,
       type: Boolean,
       default: true
+    },
+    // Force "optional" tickbox to hide
+    hideOptionalCheckbox: {
+      required: false,
+      type: Boolean,
+      default: false
     }
   },
   emits: ['update:modelValue'],
@@ -130,7 +136,7 @@ export default {
       return this.modelValue === 'transparent'
     },
     computedColor () {
-      return this.modelValue && this.modelValue.startsWith('--')
+      return this.modelValue && (this.modelValue.startsWith('--') || this.modelValue.startsWith('$'))
     }
   },
   methods: {

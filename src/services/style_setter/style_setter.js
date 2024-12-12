@@ -1,8 +1,9 @@
-import { hex2rgb } from '../color_convert/color_convert.js'
 import { init, getEngineChecksum } from '../theme_data/theme_data_3.service.js'
 import { getCssRules } from '../theme_data/css_utils.js'
 import { defaultState } from '../../modules/config.js'
 import { chunk } from 'lodash'
+import pako from 'pako'
+import localforage from 'localforage'
 
 // On platforms where this is not supported, it will return undefined
 // Otherwise it will return an array
@@ -52,29 +53,12 @@ export const generateTheme = (inputRuleset, callbacks, debug) => {
 
   const themes3 = init({
     inputRuleset,
-    // Assuming that "worst case scenario background" is panel background since it's the most likely one
-    ultimateBackgroundColor: inputRuleset[0].directives['--bg'].split('|')[1].trim(),
     debug
   })
 
   getCssRules(themes3.eager, debug).forEach(rule => {
     // Hacks to support multiple selectors on same component
-    if (rule.match(/::-webkit-scrollbar-button/)) {
-      const parts = rule.split(/[{}]/g)
-      const newRule = [
-        parts[0],
-        ', ',
-        parts[0].replace(/button/, 'thumb'),
-        ', ',
-        parts[0].replace(/scrollbar-button/, 'resizer'),
-        ' {',
-        parts[1],
-        '}'
-      ].join('')
-      onNewRule(newRule, false)
-    } else {
-      onNewRule(rule, false)
-    }
+    onNewRule(rule, false)
   })
   onEagerFinished()
 
@@ -88,22 +72,7 @@ export const generateTheme = (inputRuleset, callbacks, debug) => {
     const chunk = chunks[counter]
     Promise.all(chunk.map(x => x())).then(result => {
       getCssRules(result.filter(x => x), debug).forEach(rule => {
-        if (rule.match(/\.modal-view/)) {
-          const parts = rule.split(/[{}]/g)
-          const newRule = [
-            parts[0],
-            ', ',
-            parts[0].replace(/\.modal-view/, '#modal'),
-            ', ',
-            parts[0].replace(/\.modal-view/, '.shout-panel'),
-            ' {',
-            parts[1],
-            '}'
-          ].join('')
-          onNewRule(newRule, true)
-        } else {
-          onNewRule(rule, true)
-        }
+        onNewRule(rule, true)
       })
       // const t1 = performance.now()
       // console.debug('Chunk ' + counter + ' took ' + (t1 - t0) + 'ms')
@@ -120,12 +89,15 @@ export const generateTheme = (inputRuleset, callbacks, debug) => {
   return { lazyProcessFunc: processChunk }
 }
 
-export const tryLoadCache = () => {
-  const json = localStorage.getItem('pleroma-fe-theme-cache')
-  if (!json) return null
+export const tryLoadCache = async () => {
+  console.info('Trying to load compiled theme data from cache')
+  const data = await localforage.getItem('pleromafe-theme-cache')
+  if (!data) return null
   let cache
   try {
-    cache = JSON.parse(json)
+    const decoded = new TextDecoder().decode(pako.inflate(data))
+    cache = JSON.parse(decoded)
+    console.info(`Loaded theme from cache, size=${cache}`)
   } catch (e) {
     console.error('Failed to decode theme cache:', e)
     return false
@@ -150,16 +122,28 @@ export const applyTheme = (input, onFinish = (data) => {}, debug) => {
   const eagerStyles = createStyleSheet(EAGER_STYLE_ID)
   const lazyStyles = createStyleSheet(LAZY_STYLE_ID)
 
+  const insertRule = (styles, rule) => {
+    if (rule.indexOf('webkit') >= 0) {
+      try {
+        styles.sheet.insertRule(rule, 'index-max')
+        styles.rules.push(rule)
+      } catch (e) {
+        console.warn('Can\'t insert rule due to lack of support', e)
+      }
+    } else {
+      styles.sheet.insertRule(rule, 'index-max')
+      styles.rules.push(rule)
+    }
+  }
+
   const { lazyProcessFunc } = generateTheme(
     input,
     {
       onNewRule (rule, isLazy) {
         if (isLazy) {
-          lazyStyles.sheet.insertRule(rule, 'index-max')
-          lazyStyles.rules.push(rule)
+          insertRule(lazyStyles, rule)
         } else {
-          eagerStyles.sheet.insertRule(rule, 'index-max')
-          eagerStyles.rules.push(rule)
+          insertRule(eagerStyles, rule)
         }
       },
       onEagerFinished () {
@@ -169,16 +153,10 @@ export const applyTheme = (input, onFinish = (data) => {}, debug) => {
         adoptStyleSheets([eagerStyles, lazyStyles])
         const cache = { engineChecksum: getEngineChecksum(), data: [eagerStyles.rules, lazyStyles.rules] }
         onFinish(cache)
-        try {
-          localStorage.setItem('pleroma-fe-theme-cache', JSON.stringify(cache))
-        } catch (e) {
-          localStorage.removeItem('pleroma-fe-theme-cache')
-          try {
-            localStorage.setItem('pleroma-fe-theme-cache', JSON.stringify(cache))
-          } catch (e) {
-            console.warn('cannot save cache!', e)
-          }
+        const compress = (js) => {
+          return pako.deflate(JSON.stringify(js))
         }
+        localforage.setItem('pleromafe-theme-cache', compress(cache))
       }
     },
     debug
@@ -252,64 +230,66 @@ export const applyConfig = (input, i18n) => {
   styleSheet.toString()
   styleSheet.insertRule(`:root { ${rules} }`, 'index-max')
 
+  // TODO find a way to make this not apply to theme previews
   if (Object.prototype.hasOwnProperty.call(config, 'forcedRoundness')) {
-    styleSheet.insertRule(` * {
+    styleSheet.insertRule(` *:not(.preview-block) {
         --roundness: var(--forcedRoundness) !important;
     }`, 'index-max')
   }
 }
 
-export const getThemes = () => {
+export const getResourcesIndex = async (url, parser = JSON.parse) => {
   const cache = 'no-store'
+  const customUrl = url.replace(/\.(\w+)$/, '.custom.$1')
+  let builtin
+  let custom
 
-  return window.fetch('/static/styles.json', { cache })
-    .then((data) => data.json())
-    .then((themes) => {
-      return Object.entries(themes).map(([k, v]) => {
-        let promise = null
+  const resourceTransform = (resources) => {
+    return Object
+      .entries(resources)
+      .map(([k, v]) => {
         if (typeof v === 'object') {
-          promise = Promise.resolve(v)
+          return [k, () => Promise.resolve(v)]
         } else if (typeof v === 'string') {
-          promise = window.fetch(v, { cache })
-            .then((data) => data.json())
-            .catch((e) => {
-              console.error(e)
-              return null
-            })
+          return [
+            k,
+            () => window
+              .fetch(v, { cache })
+              .then(data => data.text())
+              .then(text => parser(text))
+              .catch(e => {
+                console.error(e)
+                return null
+              })
+          ]
+        } else {
+          console.error(`Unknown resource format - ${k} is a ${typeof v}`)
+          return [k, null]
         }
-        return [k, promise]
       })
-    })
-    .then((promises) => {
-      return promises
-        .reduce((acc, [k, v]) => {
-          acc[k] = v
-          return acc
-        }, {})
-    })
-}
+  }
 
-export const getPreset = (val) => {
-  return getThemes()
-    .then((themes) => themes[val] ? themes[val] : themes['pleroma-dark'])
-    .then((theme) => {
-      const isV1 = Array.isArray(theme)
-      const data = isV1 ? {} : theme.theme
+  try {
+    const builtinData = await window.fetch(url, { cache })
+    const builtinResources = await builtinData.json()
+    builtin = resourceTransform(builtinResources)
+  } catch (e) {
+    builtin = []
+    console.warn(`Builtin resources at ${url} unavailable`)
+  }
 
-      if (isV1) {
-        const bg = hex2rgb(theme[1])
-        const fg = hex2rgb(theme[2])
-        const text = hex2rgb(theme[3])
-        const link = hex2rgb(theme[4])
+  try {
+    const customData = await window.fetch(customUrl, { cache })
+    const customResources = await customData.json()
+    custom = resourceTransform(customResources)
+  } catch (e) {
+    custom = []
+    console.warn(`Custom resources at ${customUrl} unavailable`)
+  }
 
-        const cRed = hex2rgb(theme[5] || '#FF0000')
-        const cGreen = hex2rgb(theme[6] || '#00FF00')
-        const cBlue = hex2rgb(theme[7] || '#0000FF')
-        const cOrange = hex2rgb(theme[8] || '#E3FF00')
-
-        data.colors = { bg, fg, text, link, cRed, cBlue, cGreen, cOrange }
-      }
-
-      return { theme: data, source: theme.source }
-    })
+  const total = [...custom, ...builtin]
+  if (total.length === 0) {
+    return Promise.reject(new Error(`Resource at ${url} and ${customUrl} completely unavailable. Panicking`))
+  }
+  return Promise.resolve(Object.fromEntries(total))
 }

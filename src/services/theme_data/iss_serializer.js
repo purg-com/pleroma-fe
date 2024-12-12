@@ -1,8 +1,13 @@
 import { unroll } from './iss_utils.js'
+import { deserializeShadow } from './iss_deserializer.js'
 
-const serializeShadow = s => {
+export const serializeShadow = (s, throwOnInvalid) => {
   if (typeof s === 'object') {
-    return `${s.inset ? 'inset ' : ''}${s.x} ${s.y} ${s.blur} ${s.spread} ${s.color} / ${s.alpha}`
+    const inset = s.inset ? 'inset ' : ''
+    const name = s.name ? ` #${s.name} ` : ''
+    const result = `${inset}${s.x} ${s.y} ${s.blur} ${s.spread} ${s.color} / ${s.alpha}${name}`
+    deserializeShadow(result) // Verify that output is valid and parseable
+    return result
   } else {
     return s
   }

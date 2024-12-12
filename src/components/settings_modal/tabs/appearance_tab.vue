@@ -1,44 +1,161 @@
 <template>
-  <div class="appearance-tab" :label="$t('settings.general')">
+  <div
+    class="appearance-tab"
+    :label="$t('settings.general')"
+  >
     <div class="setting-item">
       <h2>{{ $t('settings.theme') }}</h2>
       <ul
-        class="theme-list"
         ref="themeList"
+        class="theme-list"
       >
         <button
-          v-if="isCustomThemeUsed"
-          disabled
           class="button-default theme-preview"
-        >
-          <preview />
-          <h4 class="theme-name">{{ $t('settings.style.custom_theme_used') }}</h4>
-        </button>
-        <button
-          v-for="style in availableStyles"
-          :data-theme-key="style.key"
-          :key="style.key"
-          class="button-default theme-preview"
-          :class="{ toggled: isThemeActive(style.key) }"
-          @click="setTheme(style.key)"
+          data-theme-key="stock"
+          :class="{ toggled: isStyleActive('stock') }"
+          @click="resetTheming"
         >
           <!-- eslint-disable vue/no-v-text-v-html-on-component -->
           <component
             :is="'style'"
-            v-if="style.ready || noIntersectionObserver"
-            v-html="previewTheme(style.key, style.data)"
+            v-html="previewTheme('stock', 'v3')"
           />
           <!-- eslint-enable vue/no-v-text-v-html-on-component -->
-          <preview :class="{ placeholder: ready }" :id="'theme-preview-' + style.key"/>
-          <h4 class="theme-name">{{ style.name }}</h4>
+          <preview id="theme-preview-stock" />
+          <h4 class="theme-name">
+            {{ $t('settings.style.stock_theme_used') }}
+            <span class="alert neutral version">v3</span>
+          </h4>
+        </button>
+        <button
+          v-if="isCustomThemeUsed"
+          disabled
+          class="button-default theme-preview toggled"
+        >
+          <preview />
+          <h4 class="theme-name">
+            {{ $t('settings.style.custom_theme_used') }}
+            <span class="alert neutral version">v2</span>
+          </h4>
+        </button>
+        <button
+          v-if="isCustomStyleUsed"
+          disabled
+          class="button-default theme-preview toggled"
+        >
+          <preview />
+          <h4 class="theme-name">
+            {{ $t('settings.style.custom_style_used') }}
+            <span class="alert neutral version">v3</span>
+          </h4>
+        </button>
+        <button
+          v-for="style in availableStyles"
+          :key="style.key"
+          :data-theme-key="style.key"
+          class="button-default theme-preview"
+          :class="{ toggled: isStyleActive(style.key) }"
+          @click="style.version === 'v2' ? setTheme(style.key) : setStyle(style.key)"
+        >
+          <!-- eslint-disable vue/no-v-text-v-html-on-component -->
+          <div v-if="style.ready || noIntersectionObserver">
+            <component
+              :is="'style'"
+              v-html="previewTheme(style.key, style.version, style.data)"
+            />
+          </div>
+          <!-- eslint-enable vue/no-v-text-v-html-on-component -->
+          <preview :id="'theme-preview-' + style.key" />
+          <h4 class="theme-name">
+            {{ style.name }}
+            <span class="alert neutral version">{{ style.version }}</span>
+          </h4>
         </button>
       </ul>
-    </div>
-    <div class="alert neutral theme-notice">
-      {{ $t("settings.style.appearance_tab_note") }}
+      <div class="import-file-container">
+      <button
+        class="btn button-default"
+        @click="importFile"
+      >
+        <FAIcon icon="folder-open" />
+        {{ $t('settings.style.themes3.editor.load_style') }}
+      </button>
+      </div>
+      <div class="setting-item">
+        <h2>{{ $t('settings.style.themes3.palette.label') }}</h2>
+        <div class="palettes">
+          <template v-if="customThemeVersion === 'v3'">
+            <h4>{{ $t('settings.style.themes3.palette.bundled') }}</h4>
+            <button
+              v-for="p in bundledPalettes"
+              :key="p.name"
+              class="btn button-default palette-entry"
+              :class="{ toggled: isPaletteActive(p.key) }"
+              @click="() => setPalette(p.key, p)"
+            >
+              <div class="palette-label">
+                <label>
+                  {{ p.name }}
+                </label>
+              </div>
+              <div class="palette-preview">
+                <span
+                  v-for="c in palettesKeys"
+                  :key="c"
+                  class="palette-square"
+                  :style="{ backgroundColor: p[c], border: '1px solid ' + (p[c] ?? 'var(--text)') }"
+                />
+              </div>
+            </button>
+            <h4 v-if="stylePalettes?.length > 0">
+              {{ $t('settings.style.themes3.palette.style') }}
+            </h4>
+            <button
+              v-for="p in stylePalettes || []"
+              :key="p.name"
+              class="btn button-default palette-entry"
+              :class="{ toggled: isPaletteActive(p.key) }"
+              @click="() => setPalette(p.key, p)"
+            >
+              <div class="palette-label">
+                <label>
+                  {{ p.name ?? $t('settings.style.themes3.palette.user') }}
+                </label>
+              </div>
+              <div class="palette-preview">
+                <span
+                  v-for="c in palettesKeys"
+                  :key="c"
+                  class="palette-square"
+                  :style="{ backgroundColor: p[c], border: '1px solid ' + (p[c] ?? 'var(--text)') }"
+                />
+              </div>
+            </button>
+            <h4 v-if="expertLevel > 0">
+              {{ $t('settings.style.themes3.palette.user') }}
+            </h4>
+            <PaletteEditor
+              v-if="expertLevel > 0"
+              class="userPalette"
+              v-model="userPalette"
+              :compact="true"
+              :apply="true"
+              @applyPalette="data => setPaletteCustom(data)"
+            />
+          </template>
+          <template v-else-if="customThemeVersion === 'v2'">
+            <div class="alert neutral theme-notice unsupported-theme-v2">
+              {{ $t('settings.style.themes3.palette.v2_unsupported') }}
+            </div>
+          </template>
+        </div>
+      </div>
     </div>
     <div class="setting-item">
       <h2>{{ $t('settings.scale_and_layout') }}</h2>
+      <div class="alert neutral theme-notice">
+        {{ $t("settings.style.appearance_tab_note") }}
+      </div>
       <ul class="setting-list">
         <li>
           <UnitSetting
@@ -60,7 +177,7 @@
                 <code>px</code>
                 <code>rem</code>
               </i18n-t>
-              <br/>
+              <br>
               <i18n-t
                 scope="global"
                 keypath="settings.text_size_tip2"
@@ -256,58 +373,4 @@
 
 <script src="./appearance_tab.js"></script>
 
-<style lang="scss">
-.appearance-tab {
-  .theme-notice {
-    padding: 0.5em;
-    margin: 1em;
-  }
-
-  .column-settings {
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-  }
-
-  .column-settings .size-label {
-    display: block;
-    margin-bottom: 0.5em;
-    margin-top: 0.5em;
-  }
-
-  .theme-list {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    margin: -0.5em 0;
-    height: 25em;
-    overflow-x: hidden;
-    overflow-y: auto;
-    scrollbar-gutter: stable;
-    border-radius: var(--roundness);
-    border: 1px solid var(--border);
-    padding: 0;
-
-    .theme-preview {
-      font-size: 1rem; // fix for firefox
-      width: 19rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 0.5em;
-
-      &.placeholder {
-        opacity: 0.2;
-      }
-
-      .theme-preview-container {
-        pointer-events: none;
-        zoom: 0.5;
-        border: none;
-        border-radius: var(--roundness);
-        text-align: left;
-      }
-    }
-  }
-}
-</style>
+<style lang="scss" src="./appearance_tab.scss"></style>

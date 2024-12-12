@@ -8,7 +8,7 @@
       class="label"
       :class="{ faint: !present || disabled }"
     >
-      {{ $t('settings.style.common.opacity') }}
+      {{ label  }}
     </label>
     <Checkbox
       v-if="typeof fallback !== 'undefined'"
@@ -39,7 +39,7 @@ export default {
     Checkbox
   },
   props: [
-    'name', 'modelValue', 'fallback', 'disabled'
+    'name', 'label', 'modelValue', 'fallback', 'disabled'
   ],
   emits: ['update:modelValue'],
   computed: {

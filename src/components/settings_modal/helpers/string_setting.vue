@@ -5,6 +5,7 @@
   >
     <label
       :for="path"
+      class="setting-label"
       :class="{ 'faint': shouldBeDisabled }"
     >
       <template v-if="backendDescriptionLabel">
@@ -15,6 +16,7 @@
       </template>
       <slot v-else />
     </label>
+    {{ ' ' }}
     <input
       :id="path"
       class="input string-input"

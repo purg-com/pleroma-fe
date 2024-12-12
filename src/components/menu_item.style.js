@@ -24,21 +24,21 @@ export default {
     {
       state: ['hover'],
       directives: {
-        background: '$mod(--bg, 5)',
+        background: '$mod(--bg 5)',
         opacity: 1
       }
     },
     {
       state: ['active'],
       directives: {
-        background: '$mod(--bg, 10)',
+        background: '$mod(--bg 10)',
         opacity: 1
       }
     },
     {
       state: ['active', 'hover'],
       directives: {
-        background: '$mod(--bg, 15)',
+        background: '$mod(--bg 15)',
         opacity: 1
       }
     },

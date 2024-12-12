@@ -5,7 +5,7 @@ export default {
   defaultRules: [
     {
       directives: {
-        textColor: '$mod(--parent, 10)',
+        textColor: '$mod(--parent 10)',
         textAuto: 'no-auto'
       }
     }

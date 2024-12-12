@@ -1,6 +1,7 @@
 export default {
   name: 'RichContent',
   selector: '.RichContent',
+  notEditable: true,
   validInnerComponents: [
     'Text',
     'FunText',

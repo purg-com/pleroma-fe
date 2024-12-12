@@ -1,0 +1,120 @@
+.appearance-tab {
+  .palette,
+  .theme-notice {
+    padding: 0.5em;
+    margin: 1em;
+  }
+
+  .setting-item {
+    padding-bottom: 0;
+
+    &.heading {
+      display: grid;
+      align-items: baseline;
+      grid-template-columns: 1fr auto auto auto;
+      grid-gap: 0.5em;
+
+      h2 {
+        flex: 1 0 auto;
+      }
+    }
+  }
+
+  .palettes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.5em;
+
+    h4,
+    .unsupported-theme-v2,
+    .userPalette {
+      grid-column: 1 / span 2;
+    }
+  }
+
+  .palette-entry {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.5em;
+
+    .palette-label label {
+      text-align: center;
+    }
+
+    .palette-square {
+      flex: 0 0 auto;
+      display: inline-block;
+      min-width: 1em;
+      min-height: 1em;
+    }
+  }
+
+  .column-settings {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+
+  .column-settings .size-label {
+    display: block;
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+  }
+
+  .modal-view.-mobile & {
+    .palette-entry {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .palette-label {
+      line-height: 1.5em;
+      margin-top: 0.5em;
+      width: 100%;
+    }
+
+    .palette-preview {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: 1em 1em;
+      margin-bottom: 0.5em;
+    }
+  }
+
+  .theme-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    margin: -0.5em 0;
+    height: 25em;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+    border-radius: var(--roundness);
+    border: 1px solid var(--border);
+    padding: 0;
+    margin-bottom: 1em;
+
+    .theme-preview {
+      font-size: 1rem; // fix for firefox
+      width: 19rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0.5em;
+
+      &.placeholder {
+        opacity: 0.2;
+      }
+
+      .theme-preview-container {
+        pointer-events: none;
+        zoom: 0.5;
+        border: none;
+        border-radius: var(--roundness);
+        text-align: left;
+      }
+    }
+  }
+}

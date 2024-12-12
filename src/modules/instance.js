@@ -42,6 +42,9 @@ const defaultState = {
   registrationOpen: true,
   server: 'http://localhost:4040/',
   textlimit: 5000,
+  themesIndex: undefined,
+  stylesIndex: undefined,
+  palettesIndex: undefined,
   themeData: undefined, // used for theme editor v2
   vapidPublicKey: undefined,
 
@@ -96,6 +99,8 @@ const defaultState = {
   sidebarRight: false,
   subjectLineBehavior: 'email',
   theme: 'pleroma-dark',
+  palette: null,
+  style: null,
   emojiReactionsScale: 0.5,
   textSize: '14px',
   emojiSize: '2.2rem',

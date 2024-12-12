@@ -10,9 +10,13 @@ export default {
     ProfileSettingIndicator
   },
   props: {
+    modelValue: {
+      type: String,
+      default: null
+    },
     path: {
       type: [String, Array],
-      required: true
+      required: false
     },
     disabled: {
       type: Boolean,
@@ -68,7 +72,7 @@ export default {
     }
   },
   created () {
-    if (this.realDraftMode && this.realSource !== 'admin') {
+    if (this.realDraftMode && (this.realSource !== 'admin' || this.path == null)) {
       this.draft = this.state
     }
   },
@@ -76,14 +80,14 @@ export default {
     draft: {
       // TODO allow passing shared draft object?
       get () {
-        if (this.realSource === 'admin') {
+        if (this.realSource === 'admin' || this.path == null) {
           return get(this.$store.state.adminSettings.draft, this.canonPath)
         } else {
           return this.localDraft
         }
       },
       set (value) {
-        if (this.realSource === 'admin') {
+        if (this.realSource === 'admin' || this.path == null) {
           this.$store.commit('updateAdminDraft', { path: this.canonPath, value })
         } else {
           this.localDraft = value
@@ -91,6 +95,9 @@ export default {
       }
     },
     state () {
+      if (this.path == null) {
+        return this.modelValue
+      }
       const value = get(this.configSource, this.canonPath)
       if (value === undefined) {
         return this.defaultState
@@ -145,6 +152,9 @@ export default {
       return this.backendDescription?.suggestions
     },
     shouldBeDisabled () {
+      if (this.path == null) {
+        return this.disabled
+      }
       const parentValue = this.parentPath !== undefined ? get(this.configSource, this.parentPath) : null
       return this.disabled || (parentValue !== null ? (this.parentInvert ? parentValue : !parentValue) : false)
     },
@@ -159,6 +169,9 @@ export default {
       }
     },
     configSink () {
+      if (this.path == null) {
+        return (k, v) => this.$emit('update:modelValue', v)
+      }
       switch (this.realSource) {
         case 'profile':
           return (k, v) => this.$store.dispatch('setProfileOption', { name: k, value: v })
@@ -184,6 +197,7 @@ export default {
       return this.realSource === 'profile'
     },
     isChanged () {
+      if (this.path == null) return false
       switch (this.realSource) {
         case 'profile':
         case 'admin':
@@ -193,9 +207,11 @@ export default {
       }
     },
     canonPath () {
+      if (this.path == null) return null
       return Array.isArray(this.path) ? this.path : this.path.split('.')
     },
     isDirty () {
+      if (this.path == null) return false
       if (this.realSource === 'admin' && this.canonPath.length > 3) {
         return false // should not show draft buttons for "grouped" values
       } else {

@@ -47,6 +47,10 @@ export const defaultState = {
   customThemeSource: undefined, // "source", stores original theme data
 
   // V3
+  style: null,
+  styleCustomData: null,
+  palette: null,
+  paletteCustomData: null,
   themeDebug: false, // debug mode that uses computed backgrounds instead of real ones to debug contrast functions
   forceThemeRecompilation: false, //  flag that forces recompilation on boot even if cache exists
   theme3hacks: { // Hacks, user overrides that are independent of theme used

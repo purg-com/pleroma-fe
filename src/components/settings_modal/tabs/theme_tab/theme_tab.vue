@@ -187,14 +187,14 @@
               name="accentColor"
               :fallback="previewTheme.colors?.link"
               :label="$t('settings.accent')"
-              :show-optional-tickbox="typeof linkColorLocal !== 'undefined'"
+              :show-optional-checkbox="typeof linkColorLocal !== 'undefined'"
             />
             <ColorInput
               v-model="linkColorLocal"
               name="linkColor"
               :fallback="previewTheme.colors?.accent"
               :label="$t('settings.links')"
-              :show-optional-tickbox="typeof accentColorLocal !== 'undefined'"
+              :show-optional-checkbox="typeof accentColorLocal !== 'undefined'"
             />
             <ContrastRatio :contrast="previewContrast.bgLink" />
           </div>
@@ -957,6 +957,8 @@
             v-model="currentShadow"
             :separate-inset="shadowSelected === 'avatar' || shadowSelected === 'avatarStatus'"
             :fallback="currentShadowFallback"
+            :static-vars="previewTheme.colors"
+            :compact="true"
           />
         </div>
         <div

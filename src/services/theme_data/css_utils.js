@@ -2,25 +2,6 @@ import { convert } from 'chromatism'
 
 import { hex2rgb, rgba2css } from '../color_convert/color_convert.js'
 
-export const parseCssShadow = (text) => {
-  const dimensions = /(\d[a-z]*\s?){2,4}/.exec(text)?.[0]
-  const inset = /inset/.exec(text)?.[0]
-  const color = text.replace(dimensions, '').replace(inset, '')
-
-  const [x, y, blur = 0, spread = 0] = dimensions.split(/ /).filter(x => x).map(x => x.trim())
-  const isInset = inset?.trim() === 'inset'
-  const colorString = color.split(/ /).filter(x => x).map(x => x.trim())[0]
-
-  return {
-    x,
-    y,
-    blur,
-    spread,
-    inset: isInset,
-    color: colorString
-  }
-}
-
 export const getCssColorString = (color, alpha = 1) => rgba2css({ ...convert(color).rgb, a: alpha })
 
 export const getCssShadow = (input, usesDropShadow) => {
@@ -84,6 +65,9 @@ export const getCssRules = (rules, debug) => rules.map(rule => {
         ].join(';\n  ')
       }
       case 'shadow': {
+        if (!rule.dynamicVars.shadow) {
+          return ''
+        }
         return '  ' + [
           '--shadow: ' + getCssShadow(rule.dynamicVars.shadow),
           '--shadowFilter: ' + getCssShadowFilter(rule.dynamicVars.shadow),
@@ -98,7 +82,7 @@ export const getCssRules = (rules, debug) => rules.map(rule => {
           `
         }
         if (v === 'transparent') {
-          if (rule.component === 'Root') return []
+          if (rule.component === 'Root') return null
           return [
             rule.directives.backgroundNoCssColor !== 'yes' ? ('background-color: ' + v) : '',
             '  --background: ' + v
@@ -130,7 +114,7 @@ export const getCssRules = (rules, debug) => rules.map(rule => {
       }
       default:
         if (k.startsWith('--')) {
-          const [type, value] = v.split('|').map(x => x.trim()) // woah, Extreme!
+          const [type, value] = v.split('|').map(x => x.trim())
           switch (type) {
             case 'color': {
               const color = rule.dynamicVars[k]
@@ -143,21 +127,20 @@ export const getCssRules = (rules, debug) => rules.map(rule => {
             case 'generic':
               return k + ': ' + value
             default:
-              return ''
+              return null
           }
         }
-        return ''
+        return null
     }
-  }).filter(x => x).map(x => '  ' + x).join(';\n')
+  }).filter(x => x).map(x => '  ' + x + ';').join('\n')
 
   return [
     header,
-    directives + ';',
+    directives,
     (rule.component === 'Text' && rule.state.indexOf('faint') < 0 && rule.directives.textNoCssColor !== 'yes') ? '  color: var(--text);' : '',
-    '',
     virtualDirectives,
     footer
-  ].join('\n')
+  ].filter(x => x).join('\n')
 }).filter(x => x)
 
 export const getScopedVersion = (rules, newScope) => {

@@ -1,6 +1,7 @@
 export default {
   name: 'Attachment',
   selector: '.Attachment',
+  notEditable: true,
   validInnerComponents: [
     'Border',
     'ButtonUnstyled',

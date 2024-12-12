@@ -10,31 +10,33 @@
       <slot />
     </label>
     {{ ' ' }}
-    <input
-      :id="path"
-      class="input number-input"
-      type="number"
-      :step="step"
-      :disabled="disabled"
-      :min="min || 0"
-      :value="stateValue"
-      @change="updateValue"
-    >
-    <Select
-      :id="path"
-      :model-value="stateUnit"
-      :disabled="disabled"
-      class="unit-input unstyled"
-      @change="updateUnit"
-    >
-      <option
-        v-for="option in units"
-        :key="option"
-        :value="option"
+    <span class="no-break">
+      <input
+        :id="path"
+        class="input number-input"
+        type="number"
+        :step="step"
+        :disabled="disabled"
+        :min="min || 0"
+        :value="stateValue"
+        @change="updateValue"
       >
-        {{ getUnitString(option) }}
-      </option>
-    </Select>
+      <Select
+        :id="path"
+        :model-value="stateUnit"
+        :disabled="disabled"
+        class="unit-input unstyled"
+        @change="updateUnit"
+      >
+        <option
+          v-for="option in units"
+          :key="option"
+          :value="option"
+        >
+          {{ getUnitString(option) }}
+        </option>
+      </Select>
+    </span>
     {{ ' ' }}
     <ModifiedIndicator
       :changed="isChanged"
@@ -47,6 +49,10 @@
 
 <style lang="scss">
 .UnitSetting {
+  .no-break {
+    display: inline-block;
+  }
+
   .number-input {
     max-width: 6.5em;
     text-align: right;

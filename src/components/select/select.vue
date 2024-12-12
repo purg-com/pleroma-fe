@@ -49,6 +49,7 @@ label.Select {
       option {
         background-color: transparent;
 
+        &:checked,
         &.-active {
           color: var(--selectionText);
           background-color: var(--selectionBackground);

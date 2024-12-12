@@ -10,6 +10,7 @@ import GeneralTab from './tabs/general_tab.vue'
 import AppearanceTab from './tabs/appearance_tab.vue'
 import VersionTab from './tabs/version_tab.vue'
 import ThemeTab from './tabs/theme_tab/theme_tab.vue'
+import StyleTab from './tabs/style_tab/style_tab.vue'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
@@ -17,6 +18,7 @@ import {
   faUser,
   faFilter,
   faPaintBrush,
+  faPalette,
   faBell,
   faDownload,
   faEyeSlash,
@@ -29,6 +31,7 @@ library.add(
   faUser,
   faFilter,
   faPaintBrush,
+  faPalette,
   faBell,
   faDownload,
   faEyeSlash,
@@ -48,6 +51,7 @@ const SettingsModalContent = {
     ProfileTab,
     GeneralTab,
     AppearanceTab,
+    StyleTab,
     VersionTab,
     ThemeTab
   },
@@ -60,6 +64,12 @@ const SettingsModalContent = {
     },
     bodyLock () {
       return this.$store.state.interface.settingsModalState === 'visible'
+    },
+    expertLevel () {
+      return this.$store.state.config.expertLevel
+    },
+    isMobileLayout () {
+      return this.$store.state.interface.layoutType === 'mobile'
     }
   },
   methods: {

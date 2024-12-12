@@ -1,6 +1,7 @@
 export default {
   name: 'Root',
   selector: ':root',
+  notEditable: true,
   validInnerComponents: [
     'Underlay',
     'Modals',
@@ -42,7 +43,7 @@ export default {
 
         // Selection colors
         '--selectionBackground': 'color | --accent',
-        '--selectionText': 'color | $textColor(--accent, --text, no-preserve)'
+        '--selectionText': 'color | $textColor(--accent --text no-preserve)'
       }
     }
   ]

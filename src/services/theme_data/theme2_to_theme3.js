@@ -354,10 +354,6 @@ export const convertTheme2To3 = (data) => {
         newRules.push({ ...rule, state: ['toggled'] })
         newRules.push({ ...rule, state: ['toggled', 'focus'] })
         newRules.push({ ...rule, state: ['pressed', 'focus'] })
-      }
-      if (key === 'buttonHover') {
-        newRules.push({ ...rule, state: ['toggled', 'hover'] })
-        newRules.push({ ...rule, state: ['pressed', 'hover'] })
         newRules.push({ ...rule, state: ['toggled', 'focus', 'hover'] })
         newRules.push({ ...rule, state: ['pressed', 'focus', 'hover'] })
       }

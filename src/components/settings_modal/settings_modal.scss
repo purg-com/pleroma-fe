@@ -10,6 +10,10 @@
     list-style-type: none;
     padding-left: 2em;
 
+    .btn:not(.dropdown-button) {
+      padding: 0 2em;
+    }
+
     li {
       margin-bottom: 0.5em;
     }
@@ -54,10 +58,6 @@
       .btn {
         min-height: 2em;
       }
-
-      .btn:not(.dropdown-button) {
-        padding: 0 2em;
-      }
     }
   }
 
@@ -73,6 +73,23 @@
     .extra-content {
       display: flex;
       flex-grow: 1;
+    }
+  }
+
+  &.-mobile {
+    .setting-list,
+    .option-list {
+      padding-left: 0.25em;
+
+      > li {
+        margin: 1em 0;
+        line-height: 1.5em;
+        vertical-align: center;
+      }
+
+      &.two-column {
+        column-count: 1;
+      }
     }
   }
 

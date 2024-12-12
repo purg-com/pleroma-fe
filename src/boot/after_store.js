@@ -123,6 +123,8 @@ const setSettings = async ({ apiConfig, staticConfig, store }) => {
   }
 
   copyInstanceOption('theme')
+  copyInstanceOption('style')
+  copyInstanceOption('palette')
   copyInstanceOption('nsfwCensorImage')
   copyInstanceOption('background')
   copyInstanceOption('hidePostStats')
@@ -351,7 +353,7 @@ const afterStoreSetup = async ({ store, i18n }) => {
   await setConfig({ store })
   document.querySelector('#status').textContent = i18n.global.t('splash.theme')
   try {
-    await store.dispatch('setTheme').catch((e) => { console.error('Error setting theme', e) })
+    await store.dispatch('applyTheme').catch((e) => { console.error('Error setting theme', e) })
   } catch (e) {
     return Promise.reject(e)
   }
@@ -390,6 +392,13 @@ const afterStoreSetup = async ({ store, i18n }) => {
   app.use(router)
   app.use(store)
   app.use(i18n)
+
+  // Little thing to get out of invalid theme state
+  window.resetThemes = () => {
+    store.dispatch('resetThemeV3')
+    store.dispatch('resetThemeV3Palette')
+    store.dispatch('resetThemeV2')
+  }
 
   app.use(vClickOutside)
   app.use(VBodyScrollLock)

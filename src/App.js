@@ -67,6 +67,9 @@ export default {
     themeApplied () {
       return this.$store.state.interface.themeApplied
     },
+    layoutModalClass () {
+      return '-' + this.layoutType
+    },
     classes () {
       return [
         {

@@ -3,39 +3,44 @@
     v-if="contrast"
     class="contrast-ratio"
   >
-    <span
-      :title="hint"
+    <span v-if="showRatio">
+      {{ contrast.text }}
+    </span>
+    <Tooltip
+      :text="hint"
       class="rating"
     >
       <span v-if="contrast.aaa">
-        <FAIcon icon="thumbs-up" />
+        <FAIcon icon="thumbs-up" :size="showRatio ? 'lg' : ''" />
       </span>
       <span v-if="!contrast.aaa && contrast.aa">
-        <FAIcon icon="adjust" />
+        <FAIcon icon="adjust" :size="showRatio ? 'lg' : ''" />
       </span>
       <span v-if="!contrast.aaa && !contrast.aa">
-        <FAIcon icon="exclamation-triangle" />
+        <FAIcon icon="exclamation-triangle" :size="showRatio ? 'lg' : ''" />
       </span>
-    </span>
-    <span
+    </Tooltip>
+    <Tooltip
       v-if="contrast && large"
+      :text="hint_18pt"
       class="rating"
-      :title="hint_18pt"
     >
       <span v-if="contrast.laaa">
-        <FAIcon icon="thumbs-up" />
+        <FAIcon icon="thumbs-up" :size="showRatio ? 'large' : ''" />
       </span>
       <span v-if="!contrast.laaa && contrast.laa">
-        <FAIcon icon="adjust" />
+        <FAIcon icon="adjust" :size="showRatio ? 'lg' : ''" />
       </span>
       <span v-if="!contrast.laaa && !contrast.laa">
-        <FAIcon icon="exclamation-triangle" />
+        <FAIcon icon="exclamation-triangle" :size="showRatio ? 'lg' : ''" />
       </span>
-    </span>
+    </Tooltip>
   </span>
 </template>
 
 <script>
+import Tooltip from 'src/components/tooltip/tooltip.vue'
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faAdjust,
@@ -62,7 +67,15 @@ export default {
       required: false,
       type: Object,
       default: () => ({})
+    },
+    showRatio: {
+      required: false,
+      type: Boolean,
+      default: false
     }
+  },
+  components: {
+    Tooltip
   },
   computed: {
     hint () {
@@ -87,8 +100,7 @@ export default {
 .contrast-ratio {
   display: flex;
   justify-content: flex-end;
-  margin-top: -4px;
-  margin-bottom: 5px;
+  align-items: baseline;
 
   .label {
     margin-right: 1em;
@@ -96,7 +108,6 @@ export default {
 
   .rating {
     display: inline-block;
-    text-align: center;
     margin-left: 0.5em;
   }
 }

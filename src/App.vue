@@ -70,7 +70,7 @@
     <PostStatusModal />
     <EditStatusModal v-if="editingAvailable" />
     <StatusHistoryModal v-if="editingAvailable" />
-    <SettingsModal />
+    <SettingsModal :class="layoutModalClass"/>
     <UpdateNotification />
     <GlobalNoticeList />
   </div>

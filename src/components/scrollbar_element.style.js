@@ -31,6 +31,7 @@ const hoverGlow = {
 export default {
   name: 'ScrollbarElement',
   selector: '::-webkit-scrollbar-button',
+  notEditable: true, // for now
   states: {
     pressed: ':active',
     hover: ':hover:not(:disabled)',
@@ -82,7 +83,7 @@ export default {
     {
       state: ['disabled'],
       directives: {
-        background: '$blend(--inheritedBackground, 0.25, --parent)',
+        background: '$blend(--inheritedBackground 0.25 --parent)',
         shadow: [...buttonInsetFakeBorders]
       }
     },

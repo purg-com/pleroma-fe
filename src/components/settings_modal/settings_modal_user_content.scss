@@ -1,6 +1,21 @@
 .settings_tab-switcher {
   height: 100%;
 
+  h1 {
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+  }
+
+  h4 {
+    margin-bottom: 0;
+    margin-top: 0.25em;
+  }
+
+  h5 {
+    margin-bottom: 0;
+    margin-top: 0.25em;
+  }
+
   .setting-item {
     border-bottom: 2px solid var(--border);
     margin: 1em 1em 1.4em;
@@ -8,7 +23,6 @@
 
     > div,
     > label {
-      display: block;
       margin-bottom: 0.5em;
 
       &:last-child {
@@ -17,10 +31,13 @@
     }
 
     .select-multiple {
+      margin-top: 1em;
       display: flex;
+      flex-direction: column;
 
       .option-list {
         margin: 0;
+        margin-top: 0.5em;
         padding-left: 0.5em;
       }
     }

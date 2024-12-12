@@ -14,14 +14,14 @@ export default {
     {
       directives: {
         background: '--fg',
-        shadow: ['--defaultButtonShadow', '--defaultButtonBevel'],
+        shadow: ['--buttonDefaultShadow', '--buttonDefaultBevel'],
         roundness: 3
       }
     },
     {
       state: ['hover'],
       directives: {
-        shadow: ['--defaultButtonHoverGlow', '--defaultButtonBevel']
+        shadow: ['--buttonDefaultHoverGlow', '--buttonDefaultBevel']
       }
     },
     {
@@ -33,14 +33,14 @@ export default {
     {
       state: ['hover', 'active'],
       directives: {
-        shadow: ['--defaultButtonShadow', '--defaultButtonBevel']
+        shadow: ['--buttonDefaultShadow', '--buttonDefaultBevel']
       }
     },
     {
       state: ['disabled'],
       directives: {
-        background: '$blend(--inheritedBackground, 0.25, --parent)',
-        shadow: ['--defaultButtonBevel']
+        background: '$blend(--inheritedBackground 0.25 --parent)',
+        shadow: ['--buttonDefaultBevel']
       }
     },
     {

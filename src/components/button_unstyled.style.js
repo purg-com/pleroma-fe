@@ -1,6 +1,7 @@
 export default {
   name: 'ButtonUnstyled',
   selector: '.button-unstyled',
+  notEditable: true,
   states: {
     toggled: '.toggled',
     disabled: ':disabled',

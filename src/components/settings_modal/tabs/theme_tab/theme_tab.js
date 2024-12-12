@@ -5,9 +5,6 @@ import {
   relativeLuminance
 } from 'src/services/color_convert/color_convert.js'
 import {
-  getThemes
-} from 'src/services/style_setter/style_setter.js'
-import {
   newImporter,
   newExporter
 } from 'src/services/export_import/export_import.js'
@@ -123,31 +120,24 @@ export default {
     }
   },
   created () {
-    const self = this
+    const currentIndex = this.$store.state.instance.themesIndex
 
-    getThemes()
-      .then((promises) => {
-        return Promise.all(
-          Object.entries(promises)
-            .map(([k, v]) => v.then(res => [k, res]))
-        )
-      })
-      .then(themes => themes.reduce((acc, [k, v]) => {
-        if (v) {
-          return {
-            ...acc,
-            [k]: v
-          }
-        } else {
-          return acc
-        }
-      }, {}))
-      .then((themesComplete) => {
-        self.availableStyles = themesComplete
-      })
+    let promise
+    if (currentIndex) {
+      promise = Promise.resolve(currentIndex)
+    } else {
+      promise = this.$store.dispatch('fetchThemesIndex')
+    }
+
+    promise.then(themesIndex => {
+      Object
+        .values(themesIndex)
+        .forEach(themeFunc => {
+          themeFunc().then(themeData => this.availableStyles.push(themeData))
+        })
+    })
   },
   mounted () {
-    this.loadThemeFromLocalStorage()
     if (typeof this.shadowSelected === 'undefined') {
       this.shadowSelected = this.shadowsAvailable[0]
     }
@@ -305,6 +295,9 @@ export default {
         return {}
       }
     },
+    themeDataUsed () {
+      return this.$store.state.interface.themeDataUsed
+    },
     shadowsAvailable () {
       return Object.keys(DEFAULT_SHADOWS).sort()
     },
@@ -412,9 +405,6 @@ export default {
       forceUseSource = false
     ) {
       this.dismissWarning()
-      if (!source && !theme) {
-        throw new Error('Can\'t load theme: empty')
-      }
       const version = (origin === 'localStorage' && !theme.colors)
         ? 'l1'
         : fileVersion
@@ -490,22 +480,11 @@ export default {
       this.dismissWarning()
     },
     loadThemeFromLocalStorage (confirmLoadSource = false, forceSnapshot = false) {
-      const {
-        customTheme: theme,
-        customThemeSource: source
-      } = this.$store.getters.mergedConfig
-      if (!theme && !source) {
-        // Anon user or never touched themes
-        this.loadTheme(
-          this.$store.state.instance.themeData,
-          'defaults',
-          confirmLoadSource
-        )
-      } else {
+      const theme = this.themeDataUsed?.source
+      if (theme) {
         this.loadTheme(
           {
-            theme,
-            source: forceSnapshot ? theme : source
+            theme
           },
           'localStorage',
           confirmLoadSource
@@ -724,6 +703,9 @@ export default {
     }
   },
   watch: {
+    themeDataUsed () {
+      this.loadThemeFromLocalStorage()
+    },
     currentRadii () {
       try {
         this.previewTheme.radii = generateRadii({ radii: this.currentRadii }).theme.radii

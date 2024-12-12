@@ -14,6 +14,10 @@ export default {
     warning: '.warning',
     success: '.success'
   },
+  editor: {
+    border: 1,
+    aspect: '3 / 1'
+  },
   defaultRules: [
     {
       directives: {
