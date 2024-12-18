@@ -349,12 +349,11 @@ const afterStoreSetup = async ({ store, i18n }) => {
   const server = (typeof overrides.target !== 'undefined') ? overrides.target : window.location.origin
   store.dispatch('setInstanceOption', { name: 'server', value: server })
 
-  document.querySelector('#status').textContent = i18n.global.t('splash.settings')
   await setConfig({ store })
-  document.querySelector('#status').textContent = i18n.global.t('splash.theme')
   try {
     await store.dispatch('applyTheme').catch((e) => { console.error('Error setting theme', e) })
   } catch (e) {
+    window.splashError(e)
     return Promise.reject(e)
   }
 
@@ -362,7 +361,6 @@ const afterStoreSetup = async ({ store, i18n }) => {
 
   // Now we can try getting the server settings and logging in
   // Most of these are preloaded into the index.html so blocking is minimized
-  document.querySelector('#status').textContent = i18n.global.t('splash.instance')
   await Promise.all([
     checkOAuthToken({ store }),
     getInstancePanel({ store }),
@@ -409,7 +407,6 @@ const afterStoreSetup = async ({ store, i18n }) => {
 
   // remove after vue 3.3
   app.config.unwrapInjectedRef = true
-  document.querySelector('#status').textContent = i18n.global.t('splash.almost')
 
   app.mount('#app')
   return app

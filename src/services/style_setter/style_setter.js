@@ -118,7 +118,12 @@ export const tryLoadCache = async () => {
   }
 }
 
-export const applyTheme = (input, onFinish = (data) => {}, debug) => {
+export const applyTheme = (
+  input,
+  onEagerFinish = data => {},
+  onFinish = data => {},
+  debug
+) => {
   const eagerStyles = createStyleSheet(EAGER_STYLE_ID)
   const lazyStyles = createStyleSheet(LAZY_STYLE_ID)
 
@@ -148,6 +153,7 @@ export const applyTheme = (input, onFinish = (data) => {}, debug) => {
       },
       onEagerFinished () {
         adoptStyleSheets([eagerStyles])
+        onEagerFinish()
       },
       onLazyFinished () {
         adoptStyleSheets([eagerStyles, lazyStyles])

@@ -563,112 +563,118 @@ const interfaceMod = {
       if (!forceRecompile && !themeDebug && await tryLoadCache()) {
         return commit('setThemeApplied')
       }
+      window.splashUpdate('splash.theme')
       await dispatch('getThemeData')
 
-      const paletteIss = (() => {
-        if (!state.paletteDataUsed) return null
-        const result = {
-          component: 'Root',
-          directives: {}
-        }
+      try {
+        const paletteIss = (() => {
+          if (!state.paletteDataUsed) return null
+          const result = {
+            component: 'Root',
+            directives: {}
+          }
 
-        Object
-          .entries(state.paletteDataUsed)
-          .filter(([k]) => k !== 'name')
-          .forEach(([k, v]) => {
-            let issRootDirectiveName
-            switch (k) {
-              case 'background':
-                issRootDirectiveName = 'bg'
-                break
-              case 'foreground':
-                issRootDirectiveName = 'fg'
-                break
-              default:
-                issRootDirectiveName = k
-            }
-            result.directives['--' + issRootDirectiveName] = 'color | ' + v
-          })
-        return result
-      })()
-
-      const theme2ruleset = state.themeDataUsed && convertTheme2To3(normalizeThemeData(state.themeDataUsed))
-      const hacks = []
-
-      Object.entries(theme3hacks).forEach(([key, value]) => {
-        switch (key) {
-          case 'fonts': {
-            Object.entries(theme3hacks.fonts).forEach(([fontKey, font]) => {
-              if (!font?.family) return
-              switch (fontKey) {
-                case 'interface':
-                  hacks.push({
-                    component: 'Root',
-                    directives: {
-                      '--font': 'generic | ' + font.family
-                    }
-                  })
+          Object
+            .entries(state.paletteDataUsed)
+            .filter(([k]) => k !== 'name')
+            .forEach(([k, v]) => {
+              let issRootDirectiveName
+              switch (k) {
+                case 'background':
+                  issRootDirectiveName = 'bg'
                   break
-                case 'input':
-                  hacks.push({
-                    component: 'Input',
-                    directives: {
-                      '--font': 'generic | ' + font.family
-                    }
-                  })
+                case 'foreground':
+                  issRootDirectiveName = 'fg'
                   break
-                case 'post':
-                  hacks.push({
-                    component: 'RichContent',
-                    directives: {
-                      '--font': 'generic | ' + font.family
-                    }
-                  })
-                  break
-                case 'monospace':
-                  hacks.push({
-                    component: 'Root',
-                    directives: {
-                      '--monoFont': 'generic | ' + font.family
-                    }
-                  })
-                  break
+                default:
+                  issRootDirectiveName = k
               }
+              result.directives['--' + issRootDirectiveName] = 'color | ' + v
             })
-            break
-          }
-          case 'underlay': {
-            if (value !== 'none') {
-              const newRule = {
-                component: 'Underlay',
-                directives: {}
-              }
-              if (value === 'opaque') {
-                newRule.directives.opacity = 1
-                newRule.directives.background = '--wallpaper'
-              }
-              if (value === 'transparent') {
-                newRule.directives.opacity = 0
-              }
-              hacks.push(newRule)
+          return result
+        })()
+
+        const theme2ruleset = state.themeDataUsed && convertTheme2To3(normalizeThemeData(state.themeDataUsed))
+        const hacks = []
+
+        Object.entries(theme3hacks).forEach(([key, value]) => {
+          switch (key) {
+            case 'fonts': {
+              Object.entries(theme3hacks.fonts).forEach(([fontKey, font]) => {
+                if (!font?.family) return
+                switch (fontKey) {
+                  case 'interface':
+                    hacks.push({
+                      component: 'Root',
+                      directives: {
+                        '--font': 'generic | ' + font.family
+                      }
+                    })
+                    break
+                  case 'input':
+                    hacks.push({
+                      component: 'Input',
+                      directives: {
+                        '--font': 'generic | ' + font.family
+                      }
+                    })
+                    break
+                  case 'post':
+                    hacks.push({
+                      component: 'RichContent',
+                      directives: {
+                        '--font': 'generic | ' + font.family
+                      }
+                    })
+                    break
+                  case 'monospace':
+                    hacks.push({
+                      component: 'Root',
+                      directives: {
+                        '--monoFont': 'generic | ' + font.family
+                      }
+                    })
+                    break
+                }
+              })
+              break
             }
-            break
+            case 'underlay': {
+              if (value !== 'none') {
+                const newRule = {
+                  component: 'Underlay',
+                  directives: {}
+                }
+                if (value === 'opaque') {
+                  newRule.directives.opacity = 1
+                  newRule.directives.background = '--wallpaper'
+                }
+                if (value === 'transparent') {
+                  newRule.directives.opacity = 0
+                }
+                hacks.push(newRule)
+              }
+              break
+            }
           }
-        }
-      })
+        })
 
-      const rulesetArray = [
-        theme2ruleset,
-        state.styleDataUsed,
-        paletteIss,
-        hacks
-      ].filter(x => x)
+        const rulesetArray = [
+          theme2ruleset,
+          state.styleDataUsed,
+          paletteIss,
+          hacks
+        ].filter(x => x)
 
-      return applyTheme(
-        rulesetArray.flat(),
-        () => commit('setThemeApplied'),
-        themeDebug
-      )
+        return applyTheme(
+          rulesetArray.flat(),
+          () => commit('setThemeApplied'),
+          () => {},
+          themeDebug
+        )
+      } catch (e) {
+        window.splashError(e)
+      }
     }
   }
 }

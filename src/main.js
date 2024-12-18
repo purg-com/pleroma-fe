@@ -68,6 +68,17 @@ const persistedStateOptions = {
     throbber.classList.add('dead')
     document.querySelector('#status').textContent = i18n.global.t('splash.error')
     console.error('PleromaFE failed to initialize: ', e)
+    document.querySelector('#statusError').textContent = e
+    document.querySelector('#statusStack').textContent = e.stack
+    document.querySelector('#statusError').style = 'display: block'
+    document.querySelector('#statusStack').style = 'display: block'
+  }
+
+  window.splashError = e => splashError(i18n, e)
+  window.splashUpdate = key => {
+    if (document.querySelector('#status')) {
+      document.querySelector('#status').textContent = i18n.global.t(key)
+    }
   }
 
   try {

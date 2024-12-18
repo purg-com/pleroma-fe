@@ -70,6 +70,8 @@
                             "P P . . ."
                             "P P . E E"
                             "P P . E E";
+
+       --logoChunkSize: calc(2em * 0.5 * var(--scale))
      }
 
      .chunk {
@@ -97,6 +99,27 @@
        line-height: 2;
        width: 100%;
        text-align: center;
+     }
+
+     #statusError {
+       display: none;
+       margin-top: 1em;
+       font-size: calc(1vw + 1vh + 1vmin);
+       line-height: 2;
+       width: 100%;
+       text-align: center;
+     }
+
+     #statusStack {
+       display: none;
+       margin-top: 1em;
+       font-size: calc((1vw + 1vh + 1vmin) / 2.5);
+       width: calc(100vw - 5em);
+       padding: 1em;
+       text-overflow: ellipsis;
+       overflow-x: hidden;
+       text-align: left;
+       line-height: 2;
      }
 
      @media (prefers-reduced-motion) {
@@ -133,6 +156,8 @@
           <!-- it's a pseudographic, don't want screenreader read out nonsense -->
           <span aria-hidden="true" class="initial-text">(｡&gt;﹏&lt;)</span>
         </div>
+        <code id="statusError"></code>
+        <pre id="statusStack"></pre>
       </div>
     </div>
     <div id="app" class="hidden"></div>
