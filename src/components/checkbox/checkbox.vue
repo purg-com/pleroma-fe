@@ -70,21 +70,26 @@ export default {
   display: inline-block;
   min-height: 1.2em;
 
+  &-indicator,
+  & .label {
+    vertical-align: middle;
+  }
+
   & > &-indicator {
     /* Reset .input stuff */
     padding: 0;
     margin: 0;
     position: relative;
     line-height: inherit;
-    display: inline;
-    padding-left: 1.2em;
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
     box-shadow: none;
   }
 
   &-indicator::before {
     position: absolute;
-    right: 0;
-    top: 0;
+    inset: 0;
     display: block;
     content: "✓";
     transition: color 200ms;

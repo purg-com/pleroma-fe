@@ -34,8 +34,9 @@
         id="announcement-all-day"
         v-model="announcement.allDay"
         :disabled="disabled"
-      />
-      <label for="announcement-all-day">{{ $t('announcements.all_day_prompt') }}</label>
+      >
+        {{ $t('announcements.all_day_prompt') }}
+      </Checkbox>
     </span>
   </div>
 </template>
