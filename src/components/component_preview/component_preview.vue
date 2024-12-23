@@ -32,8 +32,8 @@
       >
     </label>
     <label
-      class="y-shift-number"
       v-show="shadowControl && !hideControls"
+      class="y-shift-number"
     >
       {{ $t('settings.style.shadows.offset-y') }}
       <input
@@ -78,7 +78,10 @@
       >
         {{ $t('settings.style.themes3.editor.test_string') }}
       </div>
-      <div v-if="invalid" class="invalid-container">
+      <div
+        v-if="invalid"
+        class="invalid-container"
+      >
         <div class="alert error invalid-label">
           {{ $t('settings.style.themes3.editor.invalid') }}
         </div>
@@ -104,8 +107,8 @@
       </div>
       <ColorInput
         v-if="!noColorControl"
-        class="input-color-input"
         v-model="colorOverride"
+        class="input-color-input"
         fallback="#606060"
         :label="$t('settings.style.shadows.color_override')"
       />

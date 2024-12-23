@@ -113,7 +113,7 @@
     align-items: top;
     flex-direction: row;
 
-    --emoji-size: 16px;
+    --emoji-size: calc(var(--emojiSize, 32px) / 2);
 
     & .body,
     & .attachments {

@@ -226,8 +226,8 @@
           </BooleanSetting>
         </li>
         <ul
-          class="setting-list suboptions"
           v-if="mergedConfig.useAbsoluteTimeFormat"
+          class="setting-list suboptions"
         >
           <li>
             <UnitSetting

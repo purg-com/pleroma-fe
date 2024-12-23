@@ -53,7 +53,9 @@ const MentionLink = {
       this.$router.push(link)
     },
     handleSelection () {
-      this.hasSelection = document.getSelection().containsNode(this.$refs.full, true)
+      if (this.$refs.full) {
+        this.hasSelection = document.getSelection().containsNode(this.$refs.full, true)
+      }
     }
   },
   mounted () {

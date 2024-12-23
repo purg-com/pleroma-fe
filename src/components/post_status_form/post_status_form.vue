@@ -103,6 +103,36 @@
               icon="circle-notch"
             />
           </div>
+          <div
+            v-if="quotable"
+            role="radiogroup"
+            class="btn-group reply-or-quote-selector"
+          >
+            <button
+              :id="`reply-or-quote-option-${randomSeed}-reply`"
+              class="btn button-default reply-or-quote-option"
+              :class="{ toggled: !newStatus.quoting }"
+              tabindex="0"
+              role="radio"
+              :aria-labelledby="`reply-or-quote-option-${randomSeed}-reply`"
+              :aria-checked="!newStatus.quoting"
+              @click="newStatus.quoting = false"
+            >
+              {{ $t('post_status.reply_option') }}
+            </button>
+            <button
+              :id="`reply-or-quote-option-${randomSeed}-quote`"
+              class="btn button-default reply-or-quote-option"
+              :class="{ toggled: newStatus.quoting }"
+              tabindex="0"
+              role="radio"
+              :aria-labelledby="`reply-or-quote-option-${randomSeed}-quote`"
+              :aria-checked="newStatus.quoting"
+              @click="newStatus.quoting = true"
+            >
+              {{ $t('post_status.quote_option') }}
+            </button>
+          </div>
         </div>
         <div
           v-if="showPreview"
@@ -125,36 +155,6 @@
             :status="preview"
             class="preview-status"
           />
-        </div>
-        <div
-          v-if="quotable"
-          role="radiogroup"
-          class="btn-group reply-or-quote-selector"
-        >
-          <button
-            :id="`reply-or-quote-option-${randomSeed}-reply`"
-            class="btn button-default reply-or-quote-option"
-            :class="{ toggled: !newStatus.quoting }"
-            tabindex="0"
-            role="radio"
-            :aria-labelledby="`reply-or-quote-option-${randomSeed}-reply`"
-            :aria-checked="!newStatus.quoting"
-            @click="newStatus.quoting = false"
-          >
-            {{ $t('post_status.reply_option') }}
-          </button>
-          <button
-            :id="`reply-or-quote-option-${randomSeed}-quote`"
-            class="btn button-default reply-or-quote-option"
-            :class="{ toggled: newStatus.quoting }"
-            tabindex="0"
-            role="radio"
-            :aria-labelledby="`reply-or-quote-option-${randomSeed}-quote`"
-            :aria-checked="newStatus.quoting"
-            @click="newStatus.quoting = true"
-          >
-            {{ $t('post_status.quote_option') }}
-          </button>
         </div>
         <EmojiInput
           v-if="!disableSubject && (newStatus.spoilerText || alwaysShowSubject)"
@@ -181,10 +181,10 @@
           :suggest="emojiUserSuggestor"
           :placement="emojiPickerPlacement"
           class="input form-control main-input"
+          enable-sticker-picker
           enable-emoji-picker
           hide-emoji-button
           :newline-on-ctrl-enter="submitOnEnter"
-          enable-sticker-picker
           @input="onEmojiInputInput"
           @sticker-uploaded="addMediaFile"
           @sticker-upload-failed="uploadFailed"
@@ -235,7 +235,6 @@
             class="text-format"
           >
             <Select
-              id="post-content-type"
               v-model="newStatus.contentType"
               class="input form-control"
               :attrs="{ 'aria-label': $t('post_status.content_type_selection') }"
@@ -409,13 +408,14 @@
 
   .preview-heading {
     display: flex;
-    padding-left: 0.5em;
+    flex-wrap: wrap;
   }
 
   .preview-toggle {
-    flex: 1;
+    flex: 10 0 auto;
     cursor: pointer;
     user-select: none;
+    padding-left: 0.5em;
 
     &:hover {
       text-decoration: underline;
@@ -446,7 +446,10 @@
   }
 
   .reply-or-quote-selector {
+    flex: 1 0 auto;
     margin-bottom: 0.5em;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
   }
 
   .text-format {

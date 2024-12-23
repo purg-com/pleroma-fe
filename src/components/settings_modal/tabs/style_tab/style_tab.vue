@@ -7,10 +7,12 @@
       <h2> {{ $t('settings.style.themes3.editor.title') }} </h2>
       <div class="meta-preview">
         <!-- eslint-disable vue/no-v-text-v-html-on-component -->
+        <!-- eslint-disable vue/no-v-html -->
         <component
           :is="'style'"
           v-html="overallPreviewCssRules"
         />
+        <!-- eslint-enable vue/no-v-html -->
         <!-- eslint-enable vue/no-v-text-v-html-on-component -->
         <Preview id="edited-style-preview" />
         <teleport
@@ -52,22 +54,34 @@
         </teleport>
         <ul class="setting-list style-metadata">
           <li>
-            <StringSetting class="meta-field" v-model="name">
+            <StringSetting
+              v-model="name"
+              class="meta-field"
+            >
               {{ $t('settings.style.themes3.editor.style_name') }}
             </StringSetting>
           </li>
           <li>
-            <StringSetting class="meta-field" v-model="author">
+            <StringSetting
+              v-model="author"
+              class="meta-field"
+            >
               {{ $t('settings.style.themes3.editor.style_author') }}
             </StringSetting>
           </li>
           <li>
-            <StringSetting class="meta-field" v-model="license">
+            <StringSetting
+              v-model="license"
+              class="meta-field"
+            >
               {{ $t('settings.style.themes3.editor.style_license') }}
             </StringSetting>
           </li>
           <li>
-            <StringSetting class="meta-field" v-model="website">
+            <StringSetting
+              v-model="website"
+              class="meta-field"
+            >
               {{ $t('settings.style.themes3.editor.style_website') }}
             </StringSetting>
           </li>
@@ -172,6 +186,7 @@
           >
             <ColorInput
               v-model="editedBackgroundColor"
+              name="component-background-color"
               :fallback="computeColor(editedBackgroundColor) ?? previewColors.background"
               :disabled="!isBackgroundColorPresent"
               :label="$t('settings.style.themes3.editor.background')"
@@ -183,6 +198,7 @@
             <ColorInput
               v-if="componentHas('Text')"
               v-model="editedTextColor"
+              name="component-text-color"
               :fallback="computeColor(editedTextColor) ?? previewColors.text"
               :label="$t('settings.style.themes3.editor.text_color')"
               :disabled="!isTextColorPresent"
@@ -228,22 +244,22 @@
               <Checkbox v-model="isTextAutoPresent" />
             </Tooltip>
             <div
-              class="style-control suboption"
               v-if="componentHas('Text')"
+              class="style-control suboption"
             >
               <label class="label">
-                {{$t('settings.style.themes3.editor.contrast') }}
+                {{ $t('settings.style.themes3.editor.contrast') }}
               </label>
               <ContrastRatio
                 :show-ratio="true"
                 :contrast="contrast"
               />
             </div>
-            <div v-if="componentHas('Text')">
-            </div>
+            <div v-if="componentHas('Text')" />
             <ColorInput
               v-if="componentHas('Link')"
               v-model="editedLinkColor"
+              name="component-link-color"
               :fallback="computeColor(editedLinkColor) ?? previewColors.link"
               :label="$t('settings.style.themes3.editor.link_color')"
               :disabled="!isLinkColorPresent"
@@ -258,6 +274,7 @@
             <ColorInput
               v-if="componentHas('Icon')"
               v-model="editedIconColor"
+              name="component-icon-color"
               :fallback="computeColor(editedIconColor) ?? previewColors.icon"
               :label="$t('settings.style.themes3.editor.icon_color')"
               :disabled="!isIconColorPresent"
@@ -272,6 +289,7 @@
             <ColorInput
               v-if="componentHas('Border')"
               v-model="editedBorderColor"
+              name="component-border-color"
               :fallback="computeColor(editedBorderColor) ?? previewColors.border"
               :label="$t('settings.style.themes3.editor.border_color')"
               :disabled="!isBorderColorPresent"
@@ -285,6 +303,7 @@
             </Tooltip>
             <OpacityInput
               v-model="editedOpacity"
+              name="component-opacity"
               :disabled="!isOpacityPresent"
               :label="$t('settings.style.themes3.editor.opacity')"
             />
@@ -293,6 +312,7 @@
             </Tooltip>
             <RoundnessInput
               v-model="editedRoundness"
+              name="component-roundness"
               :disabled="!isRoundnessPresent"
               :label="$t('settings.style.themes3.editor.roundness')"
             />
@@ -350,22 +370,22 @@
         </Select>
         <SelectMotion
           class="list-select-movement"
-          :modelValue="palettes"
-          @update:modelValue="onPalettesUpdate"
+          :model-value="palettes"
           :selected-id="selectedPaletteId"
           :get-add-value="getNewPalette"
+          @update:modelValue="onPalettesUpdate"
           @update:selectedId="e => selectedPaletteId = e"
         />
         <div class="list-edit-area">
           <StringSetting
-            class="palette-name-input"
             v-model="selectedPalette.name"
+            class="palette-name-input"
           >
             {{ $t('settings.style.themes3.palette.name_label') }}
           </StringSetting>
           <PaletteEditor
-            class="palette-editor-single"
             v-model="selectedPalette"
+            class="palette-editor-single"
           />
         </div>
       </div>
@@ -374,7 +394,6 @@
         :label="$t('settings.style.themes3.editor.variables_tab')"
         :model-value="virtualDirectives"
         @update:modelValue="updateVirtualDirectives"
-        :normalize-shadows="normalizeShadows"
       />
     </tab-switcher>
   </div>

@@ -1,11 +1,8 @@
 <template>
-  <div
-    class="font-control"
-    :class="{ custom: isCustom }"
-  >
+  <div class="font-control">
     <label
       :id="name + '-label'"
-      :for="preset === 'custom' ? name : name + '-font-switcher'"
+      :for="manualEntry ? name : name + '-font-switcher'"
       class="label"
     >
       {{ label }}
@@ -14,7 +11,7 @@
     <Checkbox
       v-if="typeof fallback !== 'undefined'"
       :id="name + '-o'"
-      :modelValue="present"
+      :model-value="present"
       @change="$emit('update:modelValue', typeof modelValue === 'undefined' ? fallback : undefined)"
     >
       {{ $t('settings.style.themes3.define') }}
@@ -23,12 +20,13 @@
       <label
         v-if="manualEntry"
         :id="name + '-label'"
-        :for="preset === 'custom' ? name : name + '-font-switcher'"
+        :for="manualEntry ? name : name + '-font-switcher'"
         class="label"
       >
         <i18n-t
           keypath="settings.style.themes3.font.entry"
           tag="span"
+          scope="global"
         >
           <template #fontFamily>
             <code>font-family</code>
@@ -38,7 +36,7 @@
       <label
         v-else
         :id="name + '-label'"
-        :for="preset === 'custom' ? name : name + '-font-switcher'"
+        :for="manualEntry ? name : name + '-font-switcher'"
         class="label"
       >
         {{ $t('settings.style.themes3.font.select') }}
@@ -50,8 +48,8 @@
       >
         <button
           class="btn button-default"
-          @click="toggleManualEntry"
           :title="$t('settings.style.themes3.font.lookup_local_fonts')"
+          @click="toggleManualEntry"
         >
           <FAIcon
             fixed-width
@@ -72,8 +70,8 @@
       >
         <button
           class="btn button-default"
-          @click="toggleManualEntry"
           :title="$t('settings.style.themes3.font.enter_manually')"
+          @click="toggleManualEntry"
         >
           <FAIcon
             fixed-width

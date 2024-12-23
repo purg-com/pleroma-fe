@@ -1,11 +1,16 @@
+// routes that take :username property
 export const USERNAME_ROUTES = new Set([
-  'bookmarks',
   'dms',
   'interactions',
   'notifications',
   'chat',
-  'chats',
-  'user-profile'
+  'chats'
+])
+
+// routes that take :name property
+export const NAME_ROUTES = new Set([
+  'user-profile',
+  'legacy-user-profile'
 ])
 
 export const TIMELINES = {
@@ -94,7 +99,9 @@ export function routeTo (item, currentUser) {
   }
 
   if (USERNAME_ROUTES.has(route.name)) {
-    route.params = { username: currentUser.screen_name, name: currentUser.screen_name }
+    route.params = { username: currentUser.screen_name }
+  } else if (NAME_ROUTES.has(route.name)) {
+    route.params = { name: currentUser.screen_name }
   }
 
   return route

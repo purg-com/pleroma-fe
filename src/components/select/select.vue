@@ -84,7 +84,7 @@ label.Select {
     width: 0.875em;
     font-family: var(--font);
     line-height: 2;
-    z-index: 0;
+    z-index: 1;
     pointer-events: none;
   }
 }

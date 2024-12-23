@@ -125,7 +125,7 @@
         <NavigationEntry
           v-if="!forceEditMode && currentUser"
           :show-pin="false"
-          :item="{ label: editMode ? $t('nav.edit_finish') : $t('nav.edit_pinned'), icon: editMode ? 'check' : 'wrench' }"
+          :item="{ labelRaw: editMode ? $t('nav.edit_finish') : $t('nav.edit_pinned'), icon: editMode ? 'check' : 'wrench' }"
           @click="toggleEditMode"
         />
       </ul>

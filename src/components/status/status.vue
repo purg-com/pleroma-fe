@@ -386,6 +386,7 @@
               class="heading-edited-row"
             >
               <i18n-t
+                scope="global"
                 keypath="status.edited_at"
                 tag="span"
               >
@@ -443,7 +444,10 @@
             v-else-if="hasInvisibleQuote"
             class="quoted-status -unavailable-prompt"
           >
-            <i18n-t keypath="status.invisible_quote">
+            <i18n-t
+              scope="global"
+              keypath="status.invisible_quote"
+            >
               <template #link>
                 <bdi>
                   <a

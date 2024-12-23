@@ -49,11 +49,13 @@
             <span v-if="adminDraft && adminDraft[':pleroma'][':frontends'][':primary']?.name === frontend.name">
               <i18n-t
                 v-if="adminDraft && adminDraft[':pleroma'][':frontends'][':primary']?.ref === frontend.refs[0]"
+                scope="global"
                 keypath="admin_dash.frontend.is_default"
               />
               <i18n-t
                 v-else
                 keypath="admin_dash.frontend.is_default_custom"
+                scope="global"
               >
                 <template #version>
                   <code>{{ adminDraft && adminDraft[':pleroma'][':frontends'][':primary'].ref }}</code>
@@ -120,7 +122,10 @@
                         @click.prevent="update(frontend, ref)"
                         @click="close"
                       >
-                        <i18n-t keypath="admin_dash.frontend.install_version">
+                        <i18n-t
+                          keypath="admin_dash.frontend.install_version"
+                          scope="global"
+                        >
                           <template #version>
                             <code>{{ ref }}</code>
                           </template>
@@ -177,7 +182,10 @@
                         @click.prevent="setDefault(frontend, ref)"
                         @click="close"
                       >
-                        <i18n-t keypath="admin_dash.frontend.set_default_version">
+                        <i18n-t
+                          keypath="admin_dash.frontend.set_default_version"
+                          scope="global"
+                        >
                           <template #version>
                             <code>{{ ref }}</code>
                           </template>

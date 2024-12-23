@@ -47,7 +47,6 @@
         >
           <UserAvatar
             class="post-avatar"
-            :bot="botIndicator"
             :compact="true"
             :better-shadow="betterShadow"
             :user="notification.from_profile"

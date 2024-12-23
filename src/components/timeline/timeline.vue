@@ -1,12 +1,15 @@
 <template>
   <div :class="['Timeline', classes.root]">
-    <div :class="classes.header">
+    <div
+      v-if="!embedded"
+      :class="classes.header"
+    >
       <TimelineMenu
         v-if="!embedded"
         :timeline-name="timelineName"
       />
       <div
-        v-if="showScrollTop && !embedded"
+        v-if="showScrollTop"
         class="rightside-button"
       >
         <button
@@ -24,7 +27,7 @@
           </FALayers>
         </button>
       </div>
-      <template v-if="mobileLayout && !embedded">
+      <template v-if="mobileLayout">
         <div
           v-if="showLoadButton"
           class="rightside-button"
@@ -44,7 +47,7 @@
           </button>
         </div>
         <div
-          v-else-if="!embedded"
+          v-else
           class="loadmore-text faint veryfaint rightside-icon"
           :title="$t('timeline.up_to_date')"
           :aria-disabled="true"
@@ -65,7 +68,7 @@
           {{ loadButtonString }}
         </button>
         <div
-          v-else-if="!embedded"
+          v-else
           class="loadmore-text faint"
           @click.prevent
         >
@@ -73,11 +76,9 @@
         </div>
       </template>
       <QuickFilterSettings
-        v-if="!embedded"
         class="rightside-button"
       />
       <QuickViewSettings
-        v-if="!embedded"
         class="rightside-button"
       />
     </div>
@@ -148,6 +149,8 @@
           />
         </div>
       </teleport>
+      <!-- spacer to avoid having empty shrug -->
+      <span v-if="embedded && footerSlipgate" />
     </div>
   </div>
 </template>

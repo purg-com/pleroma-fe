@@ -6,6 +6,7 @@
     <ColorInput
       v-for="key in paletteKeys"
       :key="key"
+      :name="key"
       :model-value="props.modelValue[key]"
       :fallback="fallback(key)"
       :label="$t('settings.style.themes3.palette.' + key)"

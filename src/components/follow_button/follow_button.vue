@@ -17,6 +17,7 @@
         @cancelled="hideConfirmUnfollow"
       >
         <i18n-t
+          scope="global"
           keypath="user_card.unfollow_confirm"
           tag="span"
         >

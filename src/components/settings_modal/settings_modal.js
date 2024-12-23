@@ -167,7 +167,6 @@ const SettingsModal = {
   },
   computed: {
     currentSaveStateNotice () {
-      console.log(this.$store.state.interface.settings.currentSaveStateNotice)
       return this.$store.state.interface.settings.currentSaveStateNotice
     },
     modalActivated () {

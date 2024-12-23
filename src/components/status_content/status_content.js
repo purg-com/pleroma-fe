@@ -90,6 +90,9 @@ const StatusContent = {
       }
       return true
     },
+    localCollapseSubjectDefault () {
+      return this.mergedConfig.collapseMessageWithSubject
+    },
     attachmentSize () {
       if (this.compact) {
         return 'small'

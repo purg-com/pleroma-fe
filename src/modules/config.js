@@ -307,7 +307,7 @@ const config = {
           applyConfig(state)
         }
         if (name.startsWith('theme3hacks')) {
-          dispatch('setTheme', { recompile: true })
+          dispatch('applyTheme', { recompile: true })
         }
         switch (name) {
           case 'theme':

@@ -17,7 +17,10 @@
       <div :label="$t('admin_dash.tabs.nodb')">
         <div class="setting-item">
           <h2>{{ $t('admin_dash.nodb.heading') }}</h2>
-          <i18n-t keypath="admin_dash.nodb.text">
+          <i18n-t
+            scope="global"
+            keypath="admin_dash.nodb.text"
+          >
             <template #documentation>
               <a
                 href="https://docs-develop.pleroma.social/backend/configuration/howto_database_config/"

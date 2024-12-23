@@ -17,6 +17,7 @@
         @cancelled="hideConfirmRemoveUserFromFollowers"
       >
         <i18n-t
+          scope="global"
           keypath="user_card.remove_follower_confirm"
           tag="span"
         >

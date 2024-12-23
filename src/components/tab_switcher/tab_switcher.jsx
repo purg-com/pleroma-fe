@@ -145,7 +145,12 @@ export default {
       if (props.fullHeight) {
         classes.push('full-height')
       }
-      const renderSlot = (!this.renderOnlyFocused || active)
+      let delayRender = slot.props['delay-render']
+      if (delayRender && active) {
+        slot.props['delay-render'] = false
+        delayRender = false
+      }
+      const renderSlot = (!delayRender && (!this.renderOnlyFocused || active))
         ? slot
         : ''
 

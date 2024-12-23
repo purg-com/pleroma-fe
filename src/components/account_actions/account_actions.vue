@@ -86,6 +86,7 @@
         <i18n-t
           keypath="user_card.block_confirm"
           tag="span"
+          scope="global"
         >
           <template #user>
             <span
@@ -107,6 +108,7 @@
         <i18n-t
           keypath="user_card.remove_follower_confirm"
           tag="span"
+          scope="global"
         >
           <template #user>
             <span

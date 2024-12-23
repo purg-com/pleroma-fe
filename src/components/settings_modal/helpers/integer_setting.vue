@@ -1,7 +1,7 @@
 <template>
   <NumberSetting
     v-bind="$attrs"
-    truncate="1"
+    :truncate="1"
   >
     <slot />
   </NumberSetting>

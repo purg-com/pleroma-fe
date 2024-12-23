@@ -110,7 +110,10 @@
           {{ $t("settings.expert_mode") }}
         </Checkbox>
         <span v-if="modalMode === 'admin'">
-          <i18n-t keypath="admin_dash.wip_notice">
+          <i18n-t
+            scope="global"
+            keypath="admin_dash.wip_notice"
+          >
             <template #adminFeLink>
               <a
                 href="/pleroma/admin/#/login-pleroma"

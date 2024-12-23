@@ -2,7 +2,7 @@
   <span class="ReactButton">
     <EmojiPicker
       ref="picker"
-      :enable-sticker-picker="enableStickerPicker"
+      :enable-sticker-picker="false"
       :hide-custom-emoji="hideCustomEmoji"
       class="emoji-picker-panel"
       @emoji="addReaction"

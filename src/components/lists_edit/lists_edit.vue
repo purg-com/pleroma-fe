@@ -17,6 +17,7 @@
         <i18n-t
           v-if="id"
           keypath="lists.editing_list"
+          scope="global"
         >
           <template #listTitle>
             {{ title }}
@@ -25,6 +26,7 @@
         <i18n-t
           v-else
           keypath="lists.creating_list"
+          scope="global"
         />
       </div>
     </div>

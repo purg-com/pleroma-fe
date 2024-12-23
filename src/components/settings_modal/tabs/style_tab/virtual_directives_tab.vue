@@ -14,22 +14,22 @@
       v-model="selectedVirtualDirectiveId"
       class="list-select"
       size="20"
-      >
+    >
       <option
         v-for="(p, index) in modelValue"
         :key="p.name"
         :value="index"
-        >
+      >
         {{ p.name }}
       </option>
     </Select>
     <SelectMotion
       class="list-select-movement"
       :model-value="modelValue"
-      @update:modelValue="e => emit('update:modelValue', e)"
       :selected-id="selectedVirtualDirectiveId"
-      @update:selectedId="e => selectedVirtualDirectiveId = e"
       :get-add-value="getNewVirtualDirective"
+      @update:modelValue="e => emit('update:modelValue', e)"
+      @update:selectedId="e => selectedVirtualDirectiveId = e"
     />
     <div class="list-edit-area">
       <div class="variable-selector">
@@ -41,26 +41,26 @@
           {{ ' ' }}
         </label>
         <input
-          class="input"
           v-model="selectedVirtualDirective.name"
+          class="input"
         >
         <label
           class="variable-type-label"
           for="variables-selector"
-          >
+        >
           {{ $t('settings.style.themes3.editor.variables.type_label') }}
           {{ ' ' }}
         </label>
         <Select
           v-model="selectedVirtualDirectiveValType"
         >
-          <option value='shadow'>
+          <option value="shadow">
             {{ $t('settings.style.themes3.editor.variables.type_shadow') }}
           </option>
-          <option value='color'>
+          <option value="color">
             {{ $t('settings.style.themes3.editor.variables.type_color') }}
           </option>
-          <option value='generic'>
+          <option value="generic">
             {{ $t('settings.style.themes3.editor.variables.type_generic') }}
           </option>
         </Select>
@@ -72,6 +72,7 @@
         :compact="true"
       />
       <ColorInput
+        name="virtual-directive-color"
         v-if="selectedVirtualDirectiveValType === 'color'"
         v-model="draftVirtualDirective"
         :fallback="computeColor(draftVirtualDirective)"

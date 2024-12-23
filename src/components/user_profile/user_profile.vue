@@ -166,7 +166,7 @@
   flex-basis: 500px;
 
   // No sticky header on user profile
-  --currentPanelStack: 1;
+  --currentPanelStack: 0;
 
   .user-birthday {
     margin: 0 0.75em 0.5em;

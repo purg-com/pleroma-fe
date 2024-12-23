@@ -4,6 +4,21 @@ export default {
   ...Setting,
   props: {
     ...Setting.props,
+    min: {
+      type: Number,
+      required: false,
+      default: 1
+    },
+    max: {
+      type: Number,
+      required: false,
+      default: 1
+    },
+    step: {
+      type: Number,
+      required: false,
+      default: 1
+    },
     truncate: {
       type: Number,
       required: false,

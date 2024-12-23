@@ -56,6 +56,7 @@
       tag="span"
       class="notification tip extra-notification"
       keypath="notifications.configuration_tip"
+      scope="global"
     >
       <template #theSettings>
         <button

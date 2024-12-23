@@ -32,7 +32,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 
-  --emoji-size: 14px;
+  --emoji-size: 1em;
 
   .username {
     max-width: 100%;

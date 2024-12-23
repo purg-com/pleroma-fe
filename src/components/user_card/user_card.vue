@@ -8,7 +8,7 @@
       :style="style"
       class="background-image"
     />
-    <div :class="onClose ? '' : panel-heading -flexible-height">
+    <div :class="onClose ? '' : 'panel-heading -flexible-height'">
       <div class="user-info">
         <div class="container">
           <a

@@ -11,13 +11,22 @@
       class="rating"
     >
       <span v-if="contrast.aaa">
-        <FAIcon icon="thumbs-up" :size="showRatio ? 'lg' : ''" />
+        <FAIcon
+          icon="thumbs-up"
+          :size="showRatio ? 'lg' : ''"
+        />
       </span>
       <span v-if="!contrast.aaa && contrast.aa">
-        <FAIcon icon="adjust" :size="showRatio ? 'lg' : ''" />
+        <FAIcon
+          icon="adjust"
+          :size="showRatio ? 'lg' : ''"
+        />
       </span>
       <span v-if="!contrast.aaa && !contrast.aa">
-        <FAIcon icon="exclamation-triangle" :size="showRatio ? 'lg' : ''" />
+        <FAIcon
+          icon="exclamation-triangle"
+          :size="showRatio ? 'lg' : ''"
+        />
       </span>
     </Tooltip>
     <Tooltip
@@ -26,13 +35,22 @@
       class="rating"
     >
       <span v-if="contrast.laaa">
-        <FAIcon icon="thumbs-up" :size="showRatio ? 'large' : ''" />
+        <FAIcon
+          icon="thumbs-up"
+          :size="showRatio ? 'large' : ''"
+        />
       </span>
       <span v-if="!contrast.laaa && contrast.laa">
-        <FAIcon icon="adjust" :size="showRatio ? 'lg' : ''" />
+        <FAIcon
+          icon="adjust"
+          :size="showRatio ? 'lg' : ''"
+        />
       </span>
       <span v-if="!contrast.laaa && !contrast.laa">
-        <FAIcon icon="exclamation-triangle" :size="showRatio ? 'lg' : ''" />
+        <FAIcon
+          icon="exclamation-triangle"
+          :size="showRatio ? 'lg' : ''"
+        />
       </span>
     </Tooltip>
   </span>
@@ -55,6 +73,9 @@ library.add(
 )
 
 export default {
+  components: {
+    Tooltip
+  },
   props: {
     large: {
       required: false,
@@ -73,9 +94,6 @@ export default {
       type: Boolean,
       default: false
     }
-  },
-  components: {
-    Tooltip
   },
   computed: {
     hint () {

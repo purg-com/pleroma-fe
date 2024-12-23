@@ -14,7 +14,6 @@ library.add(
 )
 
 const LimitsTab = {
-  data () {},
   components: {
     BooleanSetting,
     ChoiceSetting,

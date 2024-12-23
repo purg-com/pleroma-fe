@@ -112,7 +112,10 @@ export default {
   components: { Popover, ConfirmModal, StillImage },
   inject: ['emojiAddr'],
   props: {
-    placement: String,
+    placement: {
+      type: String,
+      required: true
+    },
     disabled: {
       type: Boolean,
       default: false
@@ -120,8 +123,14 @@ export default {
 
     newUpload: Boolean,
 
-    title: String,
-    packName: String,
+    title: {
+      type: String,
+      required: true
+    },
+    packName: {
+      type: String,
+      required: true
+    },
     shortcode: {
       type: String,
       // Only exists when this is not a new upload

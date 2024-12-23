@@ -119,7 +119,15 @@ const AppearanceTab = {
 
     updateIndex('theme').then(themes => {
       themes.forEach(([key, themePromise]) => themePromise.then(data => {
-        this.availableThemesV2.push({ key, data, name: data.name, version: 'v2' })
+        if (!data) {
+          console.warn(`Theme with key ${key} is empty or malformed`)
+        } else if (Array.isArray(data)) {
+          console.warn(`Theme with key ${key} is a v1 theme and should be moved to static/palettes/index.json`)
+        } else if (!data.source && !data.theme) {
+          console.warn(`Theme with key ${key} is malformed`)
+        } else {
+          this.availableThemesV2.push({ key, data, name: data.name, version: 'v2' })
+        }
       }))
     })
 
@@ -251,12 +259,10 @@ const AppearanceTab = {
         return ['sidebar', 'content', ...notif]
       }
     },
-    instanceSpecificPanelPresent () { return this.$store.state.instance.showInstanceSpecificPanel },
     instanceWallpaperUsed () {
       return this.$store.state.instance.background &&
         !this.$store.state.users.currentUser.background_image
     },
-    instanceShoutboxPresent () { return this.$store.state.instance.shoutAvailable },
     language: {
       get: function () { return this.$store.getters.mergedConfig.interfaceLanguage },
       set: function (val) {

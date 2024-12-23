@@ -149,6 +149,7 @@
       </div>
       <div>
         <i18n-t
+          scope="global"
           keypath="settings.new_alias_target"
           tag="p"
         >
@@ -184,6 +185,7 @@
         <i18n-t
           keypath="settings.move_account_target"
           tag="p"
+          scope="global"
         >
           <template #example>
             <code>

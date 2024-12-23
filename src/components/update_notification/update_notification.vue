@@ -34,6 +34,7 @@
               class="extra-info-group"
             >
               <i18n-t
+                scope="global"
                 keypath="update.update_bugs"
                 tag="p"
               >
@@ -45,6 +46,7 @@
                 </template>
               </i18n-t>
               <i18n-t
+                scope="global"
                 keypath="update.update_changelog"
                 tag="p"
               >
@@ -57,6 +59,7 @@
               </i18n-t>
               <p class="art-credit">
                 <i18n-t
+                  scope="global"
                   keypath="update.art_by"
                   tag="small"
                 >

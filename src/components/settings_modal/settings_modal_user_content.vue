@@ -17,6 +17,7 @@
       :label="$t('settings.appearance')"
       icon="window-restore"
       data-tab-name="appearance"
+      :delay-render="true"
     >
       <AppearanceTab />
     </div>
@@ -25,6 +26,7 @@
       :label="$t('settings.style.themes3.editor.title')"
       icon="palette"
       data-tab-name="style"
+      :delay-render="true"
     >
       <StyleTab />
     </div>
@@ -33,6 +35,7 @@
       :label="$t('settings.theme_old')"
       icon="paint-brush"
       data-tab-name="theme"
+      :delay-render="true"
     >
       <ThemeTab />
     </div>

@@ -17,6 +17,7 @@
         <i18n-t
           v-if="id"
           keypath="bookmark_folders.editing_folder"
+          scope="global"
         >
           <template #folderName>
             {{ name }}
@@ -25,6 +26,7 @@
         <i18n-t
           v-else
           keypath="bookmark_folders.creating_folder"
+          scope="global"
         />
       </h1>
     </div>

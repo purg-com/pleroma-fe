@@ -16,10 +16,12 @@
           @click="resetTheming"
         >
           <!-- eslint-disable vue/no-v-text-v-html-on-component -->
+          <!-- eslint-disable vue/no-v-html -->
           <component
             :is="'style'"
             v-html="previewTheme('stock', 'v3')"
           />
+          <!-- eslint-enable vue/no-v-html -->
           <!-- eslint-enable vue/no-v-text-v-html-on-component -->
           <preview id="theme-preview-stock" />
           <h4 class="theme-name">
@@ -58,12 +60,14 @@
           @click="style.version === 'v2' ? setTheme(style.key) : setStyle(style.key)"
         >
           <!-- eslint-disable vue/no-v-text-v-html-on-component -->
+          <!-- eslint-disable vue/no-v-html -->
           <div v-if="style.ready || noIntersectionObserver">
             <component
               :is="'style'"
               v-html="previewTheme(style.key, style.version, style.data)"
             />
           </div>
+          <!-- eslint-enable vue/no-v-html -->
           <!-- eslint-enable vue/no-v-text-v-html-on-component -->
           <preview :id="'theme-preview-' + style.key" />
           <h4 class="theme-name">
@@ -73,13 +77,13 @@
         </button>
       </ul>
       <div class="import-file-container">
-      <button
-        class="btn button-default"
-        @click="importFile"
-      >
-        <FAIcon icon="folder-open" />
-        {{ $t('settings.style.themes3.editor.load_style') }}
-      </button>
+        <button
+          class="btn button-default"
+          @click="importFile"
+        >
+          <FAIcon icon="folder-open" />
+          {{ $t('settings.style.themes3.editor.load_style') }}
+        </button>
       </div>
       <div class="setting-item">
         <h2>{{ $t('settings.style.themes3.palette.label') }}</h2>
@@ -136,8 +140,8 @@
             </h4>
             <PaletteEditor
               v-if="expertLevel > 0"
-              class="userPalette"
               v-model="userPalette"
+              class="userPalette"
               :compact="true"
               :apply="true"
               @applyPalette="data => setPaletteCustom(data)"
@@ -160,7 +164,7 @@
         <li>
           <UnitSetting
             path="textSize"
-            step="0.1"
+            :step="0.1"
             :units="['px', 'rem']"
             :reset-default="{ 'px': 14, 'rem': 1 }"
             timed-apply-mode
@@ -236,7 +240,7 @@
         <li>
           <UnitSetting
             path="emojiSize"
-            step="0.1"
+            :step="0.1"
             :units="['px', 'rem']"
             :reset-default="{ 'px': 32, 'rem': 2.2 }"
           >
@@ -259,7 +263,7 @@
         <li>
           <UnitSetting
             path="navbarSize"
-            step="0.1"
+            :step="0.1"
             :units="['px', 'rem']"
             :reset-default="{ 'px': 55, 'rem': 3.5 }"
           >
@@ -270,7 +274,7 @@
         <li>
           <UnitSetting
             path="panelHeaderSize"
-            step="0.1"
+            :step="0.1"
             :units="['px', 'rem']"
             :reset-default="{ 'px': 52, 'rem': 3.2 }"
             timed-apply-mode

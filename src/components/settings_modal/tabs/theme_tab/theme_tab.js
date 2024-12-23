@@ -133,7 +133,7 @@ export default {
       Object
         .values(themesIndex)
         .forEach(themeFunc => {
-          themeFunc().then(themeData => this.availableStyles.push(themeData))
+          themeFunc().then(themeData => themeData && this.availableStyles.push(themeData))
         })
     })
   },

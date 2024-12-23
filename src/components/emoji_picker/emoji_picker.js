@@ -97,7 +97,7 @@ const EmojiPicker = {
     enableStickerPicker: {
       required: false,
       type: Boolean,
-      default: false
+      default: true
     },
     hideCustomEmoji: {
       required: false,
@@ -105,7 +105,11 @@ const EmojiPicker = {
       default: false
     }
   },
-  inject: ['popoversZLayer'],
+  inject: {
+    popoversZLayer: {
+      default: ''
+    }
+  },
   data () {
     return {
       keyword: '',

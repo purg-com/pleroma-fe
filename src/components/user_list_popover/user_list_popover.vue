@@ -51,7 +51,7 @@
 .user-list-popover {
   padding: 0.5em;
 
-  --emoji-size: 16px;
+  --emoji-size: calc(var(--emojiSize, 32px) / 2);
 
   .user-list-row {
     padding: 0.25em;

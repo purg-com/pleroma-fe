@@ -8,7 +8,7 @@
       class="label"
       :class="{ faint: !present || disabled }"
     >
-      {{ label  }}
+      {{ label }}
     </label>
     <Checkbox
       v-if="typeof fallback !== 'undefined'"

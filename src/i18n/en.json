@@ -1449,6 +1449,9 @@
     "error_sending_message": "Something went wrong when sending the message.",
     "empty_chat_list_placeholder": "You don't have any chats yet. Start a new chat!"
   },
+  "bookmarks": {
+    "manage_bookmark_folders": "Manage bookmark folders"
+  },
   "lists": {
     "lists": "Lists",
     "new": "New List",
