@@ -53,15 +53,6 @@ const c2linear = (bit) => {
 }
 
 /**
- * Converts sRGB into linear RGB
- * @param {Object} srgb - sRGB color
- * @returns {Object} linear rgb color
- */
-const srgbToLinear = (srgb) => {
-  return 'rgb'.split('').reduce((acc, c) => { acc[c] = c2linear(srgb[c]); return acc }, {})
-}
-
-/**
  * Calculates relative luminance for given color
  * https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
  * https://www.w3.org/TR/2008/REC-WCAG20-20081211/relative-luminance.xml
@@ -70,7 +61,10 @@ const srgbToLinear = (srgb) => {
  * @returns {Number} relative luminance
  */
 export const relativeLuminance = (srgb) => {
-  const { r, g, b } = srgbToLinear(srgb)
+  const r = c2linear(srgb.r)
+  const g = c2linear(srgb.g)
+  const b = c2linear(srgb.b)
+
   return 0.2126 * r + 0.7152 * g + 0.0722 * b
 }
 
@@ -110,13 +104,17 @@ export const getContrastRatioLayers = (text, layers, bedrock) => {
  * @returns {Object} sRGB of resulting color
  */
 export const alphaBlend = (fg, fga, bg) => {
-  if (fga === 1 || typeof fga === 'undefined') return fg
-  return 'rgb'.split('').reduce((acc, c) => {
-    // Simplified https://en.wikipedia.org/wiki/Alpha_compositing#Alpha_blending
-    // for opaque bg and transparent fg
-    acc[c] = (fg[c] * fga + bg[c] * (1 - fga))
-    return acc
-  }, {})
+  if (fga === 1 || typeof fga === 'undefined') {
+    return fg
+  }
+
+  // Simplified https://en.wikipedia.org/wiki/Alpha_compositing#Alpha_blending
+  // for opaque bg and transparent fg
+  return {
+    r: (fg.r * fga + bg.r * (1 - fga)),
+    g: (fg.g * fga + bg.g * (1 - fga)),
+    b: (fg.b * fga + bg.b * (1 - fga))
+  }
 }
 
 /**
@@ -130,10 +128,11 @@ export const alphaBlendLayers = (bedrock, layers) => layers.reduce((acc, [color,
 }, bedrock)
 
 export const invert = (rgb) => {
-  return 'rgb'.split('').reduce((acc, c) => {
-    acc[c] = 255 - rgb[c]
-    return acc
-  }, {})
+  return {
+    r: 255 - rgb.r,
+    g: 255 - rgb.g,
+    b: 255 - rgb.b
+  }
 }
 
 /**
@@ -144,6 +143,7 @@ export const invert = (rgb) => {
  */
 export const hex2rgb = (hex) => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+
   return result
     ? {
         r: parseInt(result[1], 16),
@@ -161,11 +161,13 @@ export const hex2rgb = (hex) => {
  * @returns {Object} result
  */
 export const mixrgb = (a, b) => {
-  return 'rgb'.split('').reduce((acc, k) => {
-    acc[k] = (a[k] + b[k]) / 2
-    return acc
-  }, {})
+  return {
+    r: (a.r + b.r) / 2,
+    g: (a.g + b.g) / 2,
+    b: (a.b + b.b) / 2
+  }
 }
+
 /**
  * Converts rgb object into a CSS rgba() color
  *
@@ -173,7 +175,33 @@ export const mixrgb = (a, b) => {
  * @returns {String} CSS rgba() color
  */
 export const rgba2css = function (rgba) {
-  return `rgba(${Math.floor(rgba.r)}, ${Math.floor(rgba.g)}, ${Math.floor(rgba.b)}, ${rgba.a ?? 1})`
+  const base = {
+    r: 0,
+    g: 0,
+    b: 0,
+    a: 1
+  }
+
+  if (rgba !== null) {
+    if (rgba.r !== undefined && !isNaN(rgba.r)) {
+      base.r = rgba.r
+    }
+    if (rgba.g !== undefined && !isNaN(rgba.g)) {
+      base.g = rgba.g
+    }
+    if (rgba.b !== undefined && !isNaN(rgba.b)) {
+      base.b = rgba.b
+    }
+    if (rgba.a !== undefined && !isNaN(rgba.a)) {
+      base.a = rgba.a
+    }
+  } else {
+    base.r = 255
+    base.g = 255
+    base.b = 255
+  }
+
+  return `rgba(${Math.floor(base.r)}, ${Math.floor(base.g)}, ${Math.floor(base.b)}, ${base.a})`
 }
 
 /**
