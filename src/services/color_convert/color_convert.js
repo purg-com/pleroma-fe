@@ -53,19 +53,6 @@ const c2linear = (bit) => {
 }
 
 /**
- * Converts sRGB into linear RGB
- * @param {Object} srgb - sRGB color
- * @returns {Object} linear rgb color
- */
-const srgbToLinear = (srgb) => {
-  return {
-    r: c2linear(srgb.r),
-    g: c2linear(srgb.g),
-    b: c2linear(srgb.b)
-  }
-}
-
-/**
  * Calculates relative luminance for given color
  * https://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
  * https://www.w3.org/TR/2008/REC-WCAG20-20081211/relative-luminance.xml
@@ -74,7 +61,10 @@ const srgbToLinear = (srgb) => {
  * @returns {Number} relative luminance
  */
 export const relativeLuminance = (srgb) => {
-  const { r, g, b } = srgbToLinear(srgb)
+  const r = c2linear(srgb.r)
+  const g = c2linear(srgb.g)
+  const b = c2linear(srgb.b)
+
   return 0.2126 * r + 0.7152 * g + 0.0722 * b
 }
 
