@@ -1484,17 +1484,18 @@ const deleteAnnouncement = ({ id, credentials }) => {
   })
 }
 
-export const getMastodonSocketURI = ({ credentials, stream, args = {} }) => {
-  return Object.entries({
-    ...(credentials
-      ? { access_token: credentials }
-      : {}
-    ),
-    stream,
-    ...args
-  }).reduce((acc, [key, val]) => {
-    return acc + `${key}=${val}&`
-  }, MASTODON_STREAMING + '?')
+export const getMastodonSocketURI = ({ credentials, stream, args = {} }, base) => {
+  const url = new URL(MASTODON_STREAMING, base)
+  if (credentials) {
+    url.searchParams.append('access_token', credentials)
+  }
+  if (stream) {
+    url.searchParams.append('stream', stream)
+  }
+  Object.entries(args).forEach(([key, val]) => {
+    url.searchParams.append(key, val)
+  })
+  return url
 }
 
 const MASTODON_STREAMING_EVENTS = new Set([
@@ -1506,7 +1507,8 @@ const MASTODON_STREAMING_EVENTS = new Set([
 ])
 
 const PLEROMA_STREAMING_EVENTS = new Set([
-  'pleroma:chat_update'
+  'pleroma:chat_update',
+  'pleroma:respond'
 ])
 
 // A thin wrapper around WebSocket API that allows adding a pre-processor to it
@@ -1514,7 +1516,8 @@ const PLEROMA_STREAMING_EVENTS = new Set([
 export const ProcessedWS = ({
   url,
   preprocessor = handleMastoWS,
-  id = 'Unknown'
+  id = 'Unknown',
+  credentials
 }) => {
   const eventTarget = new EventTarget()
   const socket = new WebSocket(url)
@@ -1529,6 +1532,12 @@ export const ProcessedWS = ({
   }
   socket.addEventListener('open', (wsEvent) => {
     console.debug(`[WS][${id}] Socket connected`, wsEvent)
+    if (credentials) {
+      socket.send(JSON.stringify({
+        type: 'pleroma:authenticate',
+        token: credentials
+      }))
+    }
   })
   socket.addEventListener('error', (wsEvent) => {
     console.debug(`[WS][${id}] Socket errored`, wsEvent)
@@ -1549,19 +1558,47 @@ export const ProcessedWS = ({
   })
   /**/
 
+  const onAuthenticated = () => {
+    eventTarget.dispatchEvent(new CustomEvent('pleroma:authenticated'))
+  }
+
   proxy(socket, 'open')
   proxy(socket, 'close')
-  proxy(socket, 'message', preprocessor)
+  proxy(socket, 'message', (event) => preprocessor(event, { onAuthenticated }))
   proxy(socket, 'error')
 
   // 1000 = Normal Closure
   eventTarget.close = () => { socket.close(1000, 'Shutting down socket') }
   eventTarget.getState = () => socket.readyState
+  eventTarget.subscribe = (stream, args = {}) => {
+    console.debug(
+      `[WS][${id}] Subscribing to stream ${stream} with args`,
+      args
+    )
+    socket.send(JSON.stringify({
+      type: 'subscribe',
+      stream,
+      ...args
+    }))
+  }
+  eventTarget.unsubscribe = (stream, args = {}) => {
+    console.debug(
+      `[WS][${id}] Unsubscribing from stream ${stream} with args`,
+      args
+    )
+    socket.send(JSON.stringify({
+      type: 'unsubscribe',
+      stream,
+      ...args
+    }))
+  }
 
   return eventTarget
 }
 
-export const handleMastoWS = (wsEvent) => {
+export const handleMastoWS = (wsEvent, {
+  onAuthenticated = () => {}
+} = {}) => {
   const { data } = wsEvent
   if (!data) return
   const parsedEvent = JSON.parse(data)
@@ -1572,7 +1609,18 @@ export const handleMastoWS = (wsEvent) => {
       return { event, id: payload }
     }
     const data = payload ? JSON.parse(payload) : null
-    if (event === 'update') {
+    if (event === 'pleroma:respond') {
+      if (data.type === 'pleroma:authenticate') {
+        if (data.result === 'success') {
+          console.debug('[WS] Successfully authenticated')
+          onAuthenticated()
+        } else {
+          console.error('[WS] Unable to authenticate:', data.error)
+          wsEvent.target.close()
+        }
+      }
+      return null
+    } else if (event === 'update') {
       return { event, status: parseStatus(data) }
     } else if (event === 'status.update') {
       return { event, status: parseStatus(data) }

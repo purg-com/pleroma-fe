@@ -36,8 +36,8 @@ const backendInteractorService = credentials => ({
 
   startUserSocket ({ store }) {
     const serv = store.rootState.instance.server.replace('http', 'ws')
-    const url = serv + getMastodonSocketURI({ credentials, stream: 'user' })
-    return ProcessedWS({ url, id: 'User' })
+    const url = getMastodonSocketURI({}, serv)
+    return ProcessedWS({ url, id: 'Unified', credentials })
   },
 
   ...Object.entries(apiService).reduce((acc, [key, func]) => {

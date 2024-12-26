@@ -87,6 +87,9 @@ const api = {
           const { state, commit, dispatch, rootState } = store
           const timelineData = rootState.statuses.timelines.friends
           state.mastoUserSocket = state.backendInteractor.startUserSocket({ store })
+          state.mastoUserSocket.addEventListener('pleroma:authenticated', () => {
+            state.mastoUserSocket.subscribe('user')
+          })
           state.mastoUserSocket.addEventListener(
             'message',
             ({ detail: message }) => {
