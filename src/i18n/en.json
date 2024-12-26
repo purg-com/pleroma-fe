@@ -1218,6 +1218,8 @@
     "delete_confirm_accept_button": "Delete",
     "delete_confirm_cancel_button": "Keep",
     "reply_to": "Reply to",
+    "reply_to_with_icon": "{icon} {replyTo}",
+    "reply_to_with_arg": "{replyToWithIcon} {user}",
     "mentions": "Mentions",
     "replies_list": "Replies:",
     "replies_list_with_others": "Replies (+{numReplies} other): | Replies (+{numReplies} others):",
