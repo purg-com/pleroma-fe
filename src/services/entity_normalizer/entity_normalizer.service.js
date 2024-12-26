@@ -442,7 +442,9 @@ export const parseNotification = (data) => {
   if (masto) {
     output.type = mastoDict[data.type] || data.type
     output.seen = data.pleroma.is_seen
-    output.status = isStatusNotification(output.type) ? parseStatus(data.status) : null
+    // TODO: null check should be a temporary fix, I guess.
+    // Investigate why backend does this.
+    output.status = isStatusNotification(output.type) && data.status !== null ? parseStatus(data.status) : null
     output.target = output.type !== 'move'
       ? null
       : parseUser(data.target)
