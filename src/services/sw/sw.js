@@ -146,3 +146,11 @@ export function unregisterPushNotifications (token) {
     ]).catch((e) => console.warn(`Failed to disable Web Push Notifications: ${e.message}`))
   }
 }
+
+export const shouldCache = process.env.NODE_ENV === 'production'
+export const cacheKey = 'pleroma-fe'
+export const emojiCacheKey = 'pleroma-fe-emoji'
+
+export const clearCache = (key) => caches.delete(key)
+
+export { getOrCreateServiceWorker }
