@@ -18,7 +18,7 @@
             <label for="username">{{ $t('login.username') }}</label>
             <input
               id="username"
-              v-model="user.username"
+              ref="usernameInput"
               :disabled="loggingIn"
               class="input form-control"
               :placeholder="$t('login.placeholder')"
@@ -29,7 +29,6 @@
             <input
               id="password"
               ref="passwordInput"
-              v-model="user.password"
               :disabled="loggingIn"
               class="input form-control"
               type="password"

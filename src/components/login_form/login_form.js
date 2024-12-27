@@ -11,7 +11,6 @@ library.add(
 
 const LoginForm = {
   data: () => ({
-    user: {},
     error: false
   }),
   computed: {
@@ -55,13 +54,16 @@ const LoginForm = {
       }
       this.error = false
 
+      const username = this.$refs.usernameInput.value
+      const password = this.$refs.passwordInput.value
+
       oauthApi.getOrCreateApp(data).then((app) => {
         oauthApi.getTokenWithCredentials(
           {
             ...app,
             instance: data.instance,
-            username: this.user.username,
-            password: this.user.password
+            username,
+            password
           }
         ).then((result) => {
           if (result.error) {
