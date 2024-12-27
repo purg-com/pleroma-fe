@@ -135,21 +135,38 @@ const EmojiPicker = {
     Popover
   },
   methods: {
+    groupScroll (e) {
+      e.currentTarget.scrollLeft += e.deltaY + e.deltaX
+    },
     updateEmojiSize () {
       const css = window.getComputedStyle(this.$refs.popover.$el)
+      const fontSize = css.getPropertyValue('font-size')
       const emojiSize = css.getPropertyValue('--emojiSize')
+
+      const fontSizeUnit = fontSize.replace(/[0-9,.]+/, '')
+      const fontSizeValue = Number(fontSize.replace(/[^0-9,.]+/, ''))
+
       const emojiSizeUnit = emojiSize.replace(/[0-9,.]+/, '')
       const emojiSizeValue = Number(emojiSize.replace(/[^0-9,.]+/, ''))
-      const fontSize = css.getPropertyValue('font-size').replace(/[^0-9,.]+/, '')
+
+      let fontSizeMultiplier
+      if (fontSizeUnit.endsWith('em')) {
+        fontSizeMultiplier = fontSizeValue
+      } else {
+        fontSizeMultiplier = fontSizeValue / 14
+      }
+      console.log('Multiplier', fontSizeMultiplier)
+      console.log('Result', fontSizeMultiplier * 14)
 
       let emojiSizeReal
       if (emojiSizeUnit.endsWith('em')) {
-        emojiSizeReal = emojiSizeValue * fontSize
+        emojiSizeReal = emojiSizeValue * fontSizeMultiplier * 14
       } else {
         emojiSizeReal = emojiSizeValue
       }
+      console.log(emojiSizeReal)
 
-      const fullEmojiSize = emojiSizeReal + (2 * 0.2 * fontSize)
+      const fullEmojiSize = emojiSizeReal + (2 * 0.2 * fontSizeMultiplier * 14)
       this.emojiSize = fullEmojiSize
     },
     showPicker () {
@@ -304,6 +321,7 @@ const EmojiPicker = {
       return this.emojiSize
     },
     itemPerRow () {
+      console.log('CALC', this.emojiSize, this.width)
       return this.width ? Math.floor(this.width / this.emojiSize) : 6
     },
     activeGroupView () {

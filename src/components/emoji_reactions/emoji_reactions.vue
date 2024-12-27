@@ -18,12 +18,11 @@
         <span
           class="reaction-emoji"
         >
-          <img
+          <StillImage
             v-if="reaction.url"
             :src="reaction.url"
             class="reaction-emoji-content"
-            width="1em"
-          >
+          />
           <span
             v-else
             class="reaction-emoji reaction-emoji-content"
@@ -127,17 +126,23 @@
       display: flex;
       justify-content: center;
       align-items: center;
+
+      --_still_image-label-scale: 0.3;
     }
 
     .reaction-emoji-content {
       max-width: 100%;
       max-height: 100%;
-      width: auto;
-      height: auto;
+      width: var(--emoji-size);
+      height: var(--emoji-size);
       line-height: inherit;
       overflow: hidden;
       font-size: calc(var(--emoji-size) * 0.8);
       margin: 0;
+
+      img {
+        object-fit: contain;
+      }
     }
 
     &:focus {

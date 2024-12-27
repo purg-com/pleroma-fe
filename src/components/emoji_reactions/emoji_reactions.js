@@ -1,5 +1,6 @@
 import UserAvatar from '../user_avatar/user_avatar.vue'
 import UserListPopover from '../user_list_popover/user_list_popover.vue'
+import StillImage from 'src/components/still-image/still-image.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faPlus,
@@ -19,7 +20,8 @@ const EmojiReactions = {
   name: 'EmojiReactions',
   components: {
     UserAvatar,
-    UserListPopover
+    UserListPopover,
+    StillImage
   },
   props: ['status'],
   data: () => ({
