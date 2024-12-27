@@ -192,7 +192,8 @@
     "mobile_notifications_close": "Close notifications",
     "mobile_notifications_mark_as_seen": "Mark all as seen",
     "announcements": "Announcements",
-    "quotes": "Quotes"
+    "quotes": "Quotes",
+    "drafts": "Drafts"
   },
   "notifications": {
     "broken_favorite": "Unknown status, searching for it…",
@@ -311,7 +312,16 @@
       "private": "Followers-only - post to followers only",
       "public": "Public - post to public timelines",
       "unlisted": "Unlisted - do not post to public timelines"
-    }
+    },
+    "close_confirm_title": "Closing post form",
+    "close_confirm": "What do you want to do with your current writing?",
+    "close_confirm_save_button": "Save",
+    "close_confirm_discard_button": "Discard",
+    "close_confirm_continue_composing_button": "Continue composing",
+    "auto_save_nothing_new": "Nothing new to save.",
+    "auto_save_saved": "Saved.",
+    "auto_save_saving": "Saving...",
+    "save_to_drafts_button": "Save to drafts"
   },
   "registration": {
     "bio_optional": "Bio (optional)",
@@ -508,6 +518,11 @@
     "avatar_size_instruction": "The recommended minimum size for avatar images is 150x150 pixels.",
     "pad_emoji": "Pad emoji with spaces when adding from picker",
     "autocomplete_select_first": "Automatically select the first candidate when autocomplete results are available",
+    "unsaved_post_action": "When you try to close an unsaved posting form",
+    "unsaved_post_action_save": "Save it to drafts",
+    "unsaved_post_action_discard": "Discard it",
+    "unsaved_post_action_confirm": "Ask every time",
+    "auto_save_draft": "Save drafts as you compose",
     "emoji_reactions_on_timeline": "Show emoji reactions on timeline",
     "emoji_reactions_scale": "Reactions scale factor",
     "absolute_time_format": "Use absolute time format",
@@ -1495,6 +1510,18 @@
   },
   "unicode_domain_indicator": {
     "tooltip": "This domain contains non-ascii characters."
+  },
+  "drafts": {
+    "drafts": "Drafts",
+    "continue": "Continue composing",
+    "abandon": "Abandon draft",
+    "abandon_confirm_title": "Abandon confirmation",
+    "abandon_confirm": "Do you really want to abandon this draft?",
+    "abandon_confirm_accept_button": "Abandon",
+    "abandon_confirm_cancel_button": "Keep",
+    "replying": "Replying to {statusLink}",
+    "editing": "Editing {statusLink}",
+    "unavailable": "(unavailable)"
   },
   "splash": {
     "loading": "Loading...",

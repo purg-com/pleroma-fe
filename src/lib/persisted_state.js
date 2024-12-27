@@ -1,6 +1,6 @@
 import merge from 'lodash.merge'
-import localforage from 'localforage'
 import { each, get, set, cloneDeep } from 'lodash'
+import { storage } from './storage.js'
 
 let loaded = false
 
@@ -26,7 +26,7 @@ const saveImmedeatelyActions = [
 ]
 
 const defaultStorage = (() => {
-  return localforage
+  return storage
 })()
 
 export default function createPersistedState ({

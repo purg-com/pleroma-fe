@@ -48,7 +48,8 @@
       <slot />
       <div
         v-if="item.badgeGetter && getters[item.badgeGetter]"
-        class="badge -notification"
+        class="badge"
+        :class="[`-${item.badgeStyle}`]"
       >
         {{ getters[item.badgeGetter] }}
       </div>

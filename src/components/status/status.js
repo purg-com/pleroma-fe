@@ -473,6 +473,13 @@ const Status = {
     },
     toggleReplying () {
       this.$emit('interacted')
+      if (this.replying) {
+        this.$refs.postStatusForm.requestClose()
+      } else {
+        this.doToggleReplying()
+      }
+    },
+    doToggleReplying () {
       controlledOrUncontrolledToggle(this, 'replying')
     },
     gotoOriginal (id) {

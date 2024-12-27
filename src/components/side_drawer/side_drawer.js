@@ -17,7 +17,8 @@ import {
   faCog,
   faInfoCircle,
   faCompass,
-  faList
+  faList,
+  faFilePen
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -33,7 +34,8 @@ library.add(
   faCog,
   faInfoCircle,
   faCompass,
-  faList
+  faList,
+  faFilePen
 )
 
 const SideDrawer = {
@@ -98,7 +100,7 @@ const SideDrawer = {
       pleromaChatMessagesAvailable: state => state.instance.pleromaChatMessagesAvailable,
       supportsAnnouncements: state => state.announcements.supportsAnnouncements
     }),
-    ...mapGetters(['unreadChatCount', 'unreadAnnouncementCount'])
+    ...mapGetters(['unreadChatCount', 'unreadAnnouncementCount', 'draftCount'])
   },
   methods: {
     toggleDrawer () {

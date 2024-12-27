@@ -748,6 +748,12 @@ option {
     margin-left: 0.7em;
     margin-top: -1em;
   }
+
+  &.-neutral {
+    background-color: var(--badgeNeutral);
+    color: white;
+    color: var(--badgeNeutralText, white);
+  }
 }
 
 .alert {

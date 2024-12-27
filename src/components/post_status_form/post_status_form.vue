@@ -262,7 +262,7 @@
         v-if="pollsAvailable"
         ref="pollForm"
         :visible="pollFormVisible"
-        @update-poll="setPoll"
+        :params="newStatus.poll"
       />
       <div
         ref="bottom"
@@ -296,6 +296,19 @@
             <FAIcon icon="poll-h" />
           </button>
         </div>
+        <span
+          v-if="!disableDraft && shouldAutoSaveDraft"
+          class="auto-save-status"
+        >
+          {{ autoSaveState }}
+        </span>
+        <button
+          v-else-if="!disableDraft"
+          class="btn button-default"
+          @click="saveDraft"
+        >
+          {{ $t('post_status.save_to_drafts_button') }}
+        </button>
         <button
           v-if="posting"
           disabled
@@ -368,6 +381,11 @@
         </Checkbox>
       </div>
     </form>
+    <DraftCloser
+      ref="draftCloser"
+      @save="saveAndCloseDraft"
+      @discard="discardAndCloseDraft"
+    />
   </div>
 </template>
 
@@ -609,6 +627,10 @@
     background-color: var(--bg);
     border-radius: var(--roundness);
     border: 2px dashed var(--text);
+  }
+
+  .auto-save-status {
+    align-self: center;
   }
 }
 </style>

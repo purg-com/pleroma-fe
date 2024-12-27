@@ -24,6 +24,7 @@ import pollsModule from './modules/polls.js'
 import postStatusModule from './modules/postStatus.js'
 import editStatusModule from './modules/editStatus.js'
 import statusHistoryModule from './modules/statusHistory.js'
+import draftsModule from './modules/drafts.js'
 import chatsModule from './modules/chats.js'
 import announcementsModule from './modules/announcements.js'
 import bookmarkFoldersModule from './modules/bookmark_folders.js'
@@ -124,6 +125,7 @@ const persistedStateOptions = {
         postStatus: postStatusModule,
         editStatus: editStatusModule,
         statusHistory: statusHistoryModule,
+        drafts: draftsModule,
         chats: chatsModule,
         announcements: announcementsModule,
         bookmarkFolders: bookmarkFoldersModule

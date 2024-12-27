@@ -124,6 +124,8 @@ const defaultState = {
   closingDrawerMarksAsSeen: true,
   unseenAtTop: false,
   ignoreInactionableSeen: false,
+  unsavedPostAction: 'confirm',
+  autoSaveDraft: false,
   useAbsoluteTimeFormat: false,
   absoluteTimeFormatMinAge: '0d',
 

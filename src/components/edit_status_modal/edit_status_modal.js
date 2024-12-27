@@ -1,11 +1,10 @@
-import PostStatusForm from '../post_status_form/post_status_form.vue'
+import EditStatusForm from '../edit_status_form/edit_status_form.vue'
 import Modal from '../modal/modal.vue'
-import statusPosterService from '../../services/status_poster/status_poster.service.js'
 import get from 'lodash/get'
 
 const EditStatusModal = {
   components: {
-    PostStatusForm,
+    EditStatusForm,
     Modal
   },
   data () {
@@ -43,30 +42,10 @@ const EditStatusModal = {
     }
   },
   methods: {
-    doEditStatus ({ status, spoilerText, sensitive, media, contentType, poll }) {
-      const params = {
-        store: this.$store,
-        statusId: this.$store.state.editStatus.params.statusId,
-        status,
-        spoilerText,
-        sensitive,
-        poll,
-        media,
-        contentType
-      }
-
-      return statusPosterService.editStatus(params)
-        .then((data) => {
-          return data
-        })
-        .catch((err) => {
-          console.error('Error editing status', err)
-          return {
-            error: err.message
-          }
-        })
-    },
     closeModal () {
+      this.$refs.editStatusForm.requestClose()
+    },
+    doCloseModal () {
       this.$store.dispatch('closeEditStatusModal')
     }
   }

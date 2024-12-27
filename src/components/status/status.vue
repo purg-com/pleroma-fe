@@ -319,7 +319,7 @@
                       v-if="!isPreview"
                       :status-id="status.parent_visible && status.in_reply_to_status_id"
                       class="reply-to-popover"
-                      style="min-width: 0"
+                      style="min-width: 0;"
                       :class="{ '-strikethrough': !status.parent_visible }"
                     >
                       <button
@@ -622,13 +622,15 @@
         class="status-container reply-form"
       >
         <PostStatusForm
+          ref="postStatusForm"
           class="reply-body"
           :reply-to="status.id"
           :attentions="status.attentions"
           :replied-user="status.user"
           :copy-message-scope="status.visibility"
           :subject="replySubject"
-          @posted="toggleReplying"
+          @posted="doToggleReplying"
+          @can-close="doToggleReplying"
         />
       </div>
     </template>

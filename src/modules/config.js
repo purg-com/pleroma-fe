@@ -30,7 +30,8 @@ export const multiChoiceProperties = [
   'conversationDisplay', // tree | linear
   'conversationOtherRepliesButton', // below | inside
   'mentionLinkDisplay', // short | full_for_remote | full
-  'userPopoverAvatarAction' // close | zoom | open
+  'userPopoverAvatarAction', // close | zoom | open
+  'unsavedPostAction' // save | discard | confirm
 ]
 
 export const defaultState = {
@@ -185,6 +186,8 @@ export const defaultState = {
   closingDrawerMarksAsSeen: undefined, // instance default
   unseenAtTop: undefined, // instance default
   ignoreInactionableSeen: undefined, // instance default
+  unsavedPostAction: undefined, // instance default
+  autoSaveDraft: undefined, // instance default
   useAbsoluteTimeFormat: undefined, // instance default
   absoluteTimeFormatMinAge: undefined // instance default
 }

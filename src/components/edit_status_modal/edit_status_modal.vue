@@ -10,13 +10,12 @@
           {{ $t('post_status.edit_status') }}
         </h1>
       </div>
-      <PostStatusForm
+      <EditStatusForm
+        ref="editStatusForm"
         class="panel-body"
-        v-bind="params"
-        :post-handler="doEditStatus"
-        :disable-polls="true"
-        :disable-visibility-selector="true"
-        @posted="closeModal"
+        :params="params"
+        @posted="doCloseModal"
+        @can-close="doCloseModal"
       />
     </div>
   </Modal>

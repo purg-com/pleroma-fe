@@ -26,6 +26,7 @@ import ListsEdit from 'components/lists_edit/lists_edit.vue'
 import NavPanel from 'src/components/nav_panel/nav_panel.vue'
 import AnnouncementsPage from 'components/announcements_page/announcements_page.vue'
 import QuotesTimeline from '../components/quotes_timeline/quotes_timeline.vue'
+import Drafts from 'components/drafts/drafts.vue'
 import BookmarkFolders from '../components/bookmark_folders/bookmark_folders.vue'
 import BookmarkFolderEdit from '../components/bookmark_folder_edit/bookmark_folder_edit.vue'
 
@@ -82,6 +83,7 @@ export default (store) => {
     { name: 'who-to-follow', path: '/who-to-follow', component: WhoToFollow, beforeEnter: validateAuthenticatedRoute },
     { name: 'about', path: '/about', component: About },
     { name: 'announcements', path: '/announcements', component: AnnouncementsPage },
+    { name: 'drafts', path: '/drafts', component: Drafts },
     { name: 'user-profile', path: '/users/:name', component: UserProfile },
     { name: 'legacy-user-profile', path: '/:name', component: UserProfile },
     { name: 'lists', path: '/lists', component: Lists },

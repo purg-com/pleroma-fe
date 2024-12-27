@@ -72,9 +72,9 @@
         :compact="true"
       />
       <ColorInput
-        name="virtual-directive-color"
         v-if="selectedVirtualDirectiveValType === 'color'"
         v-model="draftVirtualDirective"
+        name="virtual-directive-color"
         :fallback="computeColor(draftVirtualDirective)"
         :label="$t('settings.style.themes3.editor.variables.virtual_color')"
         :hide-optional-checkbox="true"

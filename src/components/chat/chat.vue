@@ -76,6 +76,7 @@
             :disable-sensitivity-checkbox="true"
             :disable-submit="errorLoadingChat || !currentChat"
             :disable-preview="true"
+            :disable-draft="true"
             :optimistic-posting="true"
             :post-handler="sendMessage"
             :submit-on-enter="!mobileLayout"

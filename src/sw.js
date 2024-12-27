@@ -1,6 +1,6 @@
 /* eslint-env serviceworker */
 
-import localForage from 'localforage'
+import { storage } from 'src/lib/storage.js'
 import { parseNotification } from './services/entity_normalizer/entity_normalizer.service.js'
 import { prepareNotificationObject } from './services/notification_utils/notification_utils.js'
 import { createI18n } from 'vue-i18n'
@@ -25,7 +25,7 @@ function getWindowClients () {
 }
 
 const setSettings = async () => {
-  const vuexState = await localForage.getItem('vuex-lz')
+  const vuexState = await storage.getItem('vuex-lz')
   const locale = vuexState.config.interfaceLanguage || 'en'
   i18n.locale = locale
   const notificationsNativeArray = Object.entries(vuexState.config.notificationNative)

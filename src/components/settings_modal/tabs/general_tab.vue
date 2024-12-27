@@ -476,6 +476,22 @@
             {{ $t('settings.autocomplete_select_first') }}
           </BooleanSetting>
         </li>
+        <li>
+          <BooleanSetting
+            path="autoSaveDraft"
+          >
+            {{ $t('settings.auto_save_draft') }}
+          </BooleanSetting>
+        </li>
+        <li v-if="!autoSaveDraft">
+          <ChoiceSetting
+            id="unsavedPostAction"
+            path="unsavedPostAction"
+            :options="unsavedPostActionOptions"
+          >
+            {{ $t('settings.unsaved_post_action') }}
+          </ChoiceSetting>
+        </li>
       </ul>
     </div>
   </div>

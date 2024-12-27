@@ -1,5 +1,5 @@
 import * as DateUtils from 'src/services/date_utils/date_utils.js'
-import { uniq } from 'lodash'
+import { pollFallback } from 'src/services/poll/poll.service.js'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import Select from '../select/select.vue'
 import {
@@ -17,14 +17,33 @@ export default {
     Select
   },
   name: 'PollForm',
-  props: ['visible'],
-  data: () => ({
-    pollType: 'single',
-    options: ['', ''],
-    expiryAmount: 10,
-    expiryUnit: 'minutes'
-  }),
+  props: {
+    visible: {},
+    params: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
+    pollType: {
+      get () { return pollFallback(this.params, 'pollType') },
+      set (newVal) { this.params.pollType = newVal }
+    },
+    options () {
+      const hasOptions = !!this.params.options
+      if (!hasOptions) {
+        this.params.options = pollFallback(this.params, 'options')
+      }
+      return this.params.options
+    },
+    expiryAmount: {
+      get () { return pollFallback(this.params, 'expiryAmount') },
+      set (newVal) { this.params.expiryAmount = newVal }
+    },
+    expiryUnit: {
+      get () { return pollFallback(this.params, 'expiryUnit') },
+      set (newVal) { this.params.expiryUnit = newVal }
+    },
     pollLimits () {
       return this.$store.state.instance.pollLimits
     },
@@ -89,7 +108,6 @@ export default {
     deleteOption (index, event) {
       if (this.options.length > 2) {
         this.options.splice(index, 1)
-        this.updatePollToParent()
       }
     },
     convertExpiryToUnit (unit, amount) {
@@ -104,24 +122,6 @@ export default {
         Math.max(this.minExpirationInCurrentUnit, this.expiryAmount)
       this.expiryAmount =
         Math.min(this.maxExpirationInCurrentUnit, this.expiryAmount)
-      this.updatePollToParent()
-    },
-    updatePollToParent () {
-      const expiresIn = this.convertExpiryFromUnit(
-        this.expiryUnit,
-        this.expiryAmount
-      )
-
-      const options = uniq(this.options.filter(option => option !== ''))
-      if (options.length < 2) {
-        this.$emit('update-poll', { error: this.$t('polls.not_enough_options') })
-        return
-      }
-      this.$emit('update-poll', {
-        options,
-        multiple: this.pollType === 'multiple',
-        expiresIn
-      })
     }
   }
 }
